@@ -1,0 +1,74 @@
+<html>
+<head>
+</head>
+<body text="#000000">
+
+<style>
+	.highlight {
+		    background-color: #ddf0ff;
+    color: #0060aa;
+    text-shadow: none;
+	}
+	.bold {
+	font-weight: bold;
+	}
+.blue {
+color: blue;
+	}
+</style>
+<script>
+	$(document).ready(function(){
+		try {
+
+			var k = $(".search-query").val().trim();
+
+			if (k == '') {k = $("#search-inputsearch").val().trim();}
+			} catch(e){
+			//IE8
+			var k = $.trim($(".search-query").val());
+			if (k == '') {k = $(".search-query").val().trim();}
+			}
+ 		var element = k.split(" ");
+
+		for (var i = 0; i < k.length; i++) {
+			if (	element[i] != undefined) {					
+				//console.log(i+" - " + element[i]);
+				var word = element[i].replace('"','');
+				var regexp=/\*/g;
+				var match = regexp.exec(word);
+
+
+				word = element[i].replace('*','')
+
+	       		$(".search-results").highlight(word,{ wordsOnly: !match });
+				$("#wr.search-results").highlight(word,{ wordsOnly: !match });
+				$("#trf.search-results").highlight(word,{ wordsOnly: !match });
+				} 
+	       	}
+	});
+		</script>
+
+<input id="nbres" type="hidden"  value="1">
+<ul class="search-results lined-list">
+<li>
+
+<a class="showmore" id="160" href="#">Show all publications &raquo;</a><a href="/publication/160">IEC 60050-102:2007&nbsp;&nbsp;</a>
+
+<br>International Electrotechnical Vocabulary - Part 102: Mathematics - General concepts and linear algebra<ul class="morethesame 160">
+
+<li>
+
+<a href="/publication/61315">IEC 60050-102:2007/AMD1:2017</a>
+
+<br>Amendment 1 - International electrotechnical vocabulary - Part 102: Mathematics - General concepts and linear algebra </li>
+
+</ul>
+
+</li>
+
+</ul>
+<div class="pagination pagination-centered">
+				<ul><li class="active"><a href="#" Title="Current page">1</a></li></ul>
+		   </div>
+</body>
+</html>
