@@ -78,7 +78,7 @@ NFDIS:
   stage: '50.98'
 PCC:
   status: Preparation of CC
-  stage: # ?
+  stage: '30.92'
 PNW:
   status: New work item proposal
   stage: '10.00'
