@@ -15,7 +15,7 @@ module Iecbib
   # Scrapper.
   # rubocop:disable Metrics/ModuleLength
   module Scrapper
-    DOMAIN = 'https://www.iso.org'
+    DOMAIN = 'https://webstore.iec.ch'
 
     TYPES = {
       'ISO'   => 'international-standard',
@@ -35,15 +35,15 @@ module Iecbib
     class << self
       # @param text [String]
       # @return [Array<Hash>]
-      def get(text)
-        iso_workers = WorkersPool.new 4
-        iso_workers.worker { |hit| iso_worker(hit, iso_workers) }
-        algolia_workers = start_algolia_search(text, iso_workers)
-        iso_docs = iso_workers.result
-        algolia_workers.end
-        algolia_workers.result
-        iso_docs
-      end
+      # def get(text)
+      #   iso_workers = WorkersPool.new 4
+      #   iso_workers.worker { |hit| iso_worker(hit, iso_workers) }
+      #   algolia_workers = start_algolia_search(text, iso_workers)
+      #   iso_docs = iso_workers.result
+      #   algolia_workers.end
+      #   algolia_workers.result
+      #   iso_docs
+      # end
 
       # Parse page.
       # @param hit [Hash]
@@ -55,7 +55,7 @@ module Iecbib
         # Fetch edition.
         edition = doc.at("//th[contains(., 'Edition')]/following-sibling::td/span").text
 
-        # titles, abstract = fetch_titles_abstract(doc)
+        status, relations = fetch_status_relations hit_data[:url]
 
         IsoBibItem::IsoBibliographicItem.new(
           docid:        fetch_docid(doc),
@@ -64,43 +64,43 @@ module Iecbib
           script:       ['Latn'],
           titles:       fetch_titles(hit_data),
           type:         fetch_type(doc),
-          docstatus:    fetch_status(doc, hit_data['status']),
+          docstatus:    status,
           ics:          fetch_ics(doc),
           dates:        fetch_dates(doc),
           contributors: fetch_contributors(hit_data[:code]),
           workgroup:    fetch_workgroup(doc),
-          abstract:     abstract,
-          copyright:    fetch_copyright(hit_data['title'], doc),
-          link:         fetch_link(doc, page_data[:url]),
-          relations:    fetch_relations(doc)
+          abstract:     fetch_abstract(doc),
+          copyright:    fetch_copyright(hit_data[:code], doc),
+          link:         fetch_link(doc, hit_data[:url]),
+          relations:    relations
         )
       end
       # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
       private
 
-      # Start algolia search workers.
+      # Start search workers.
       # @param text[String]
-      # @param iso_workers [Isobib::WorkersPool]
+      # @param iec_workers [Isobib::WorkersPool]
       # @reaturn [Isobib::WorkersPool]
-      def start_algolia_search(text, iso_workers)
-        index = Algolia::Index.new 'all_en'
-        algolia_workers = WorkersPool.new
-        algolia_workers.worker do |page|
-          algolia_worker(index, text, page, algolia_workers, iso_workers)
-        end
+      # def start_algolia_search(text, iec_workers)
+      #   index = Algolia::Index.new 'all_en'
+      #   workers = WorkersPool.new
+      #   workers.worker do |page|
+      #     algolia_worker(index, text, page, workers, iec_workers)
+      #   end
 
-        # Add first page so algolia worker will start.
-        algolia_workers << 0
-      end
+      #   # Add first page so search worker will start.
+      #   workers << 0
+      # end
 
       # Fetch ISO documents.
       # @param hit [Hash]
       # @param isiso_workers [Isobib::WorkersPool]
-      def iso_worker(hit, iso_workers)
-        print "Parse #{iso_workers.size} of #{iso_workers.nb_hits}  \r"
-        parse_page hit
-      end
+      # def iso_worker(hit, iso_workers)
+      #   print "Parse #{iso_workers.size} of #{iso_workers.nb_hits}  \r"
+      #   parse_page hit
+      # end
 
       # Fetch hits from algolia search service.
       # @param index[Algolia::Index]
@@ -108,44 +108,28 @@ module Iecbib
       # @param page [Integer]
       # @param algolia_workers [Isobib::WorkersPool]
       # @param isiso_workers [Isobib::WorkersPool]
-      def algolia_worker(index, text, page, algolia_workers, iso_workers)
-        res = index.search text, facetFilters: ['category:standard'], page: page
-        next_page = res['page'] + 1
-        algolia_workers << next_page if next_page < res['nbPages']
-        res['hits'].each do |hit|
-          iso_workers.nb_hits = res['nbHits']
-          iso_workers << hit
-        end
-        iso_workers.end unless next_page < res['nbPages']
-      end
+      # def algolia_worker(index, text, page, algolia_workers, iso_workers)
+      #   res = index.search text, facetFilters: ['category:standard'], page: page
+      #   next_page = res['page'] + 1
+      #   algolia_workers << next_page if next_page < res['nbPages']
+      #   res['hits'].each do |hit|
+      #     iso_workers.nb_hits = res['nbHits']
+      #     iso_workers << hit
+      #   end
+      #   iso_workers.end unless next_page < res['nbPages']
+      # end
 
-      # Fetch titles and abstracts.
+      # Fetch abstracts.
       # @param doc [Nokigiri::HTML::Document]
       # @return [Array<Array>]
-      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-      def fetch_titles_abstract(doc)
-        titles   = []
-        abstract = []
-        langs(doc).each do |lang|
-          # Don't need to get page for en. We already have it.
-          d = lang[:path] ? get_page(lang[:path])[0] : doc
-
-          # Check if unavailable for the lang.
-          next if d.css('h5.help-block').any?
-          titles << fetch_title(d, lang[:lang])
-
-          # Fetch abstracts.
-          abstract_content = d.css("div[itemprop='description'] p").text
-          next if abstract_content.empty?
-          abstract << {
-            content:  abstract_content,
-            language: lang[:lang],
-            script:   script(lang[:lang])
-          }
-        end
-        [titles, abstract]
+      def fetch_abstract(doc)
+        abstract_content = doc.at('//div[@itemprop="description"]').text
+        [{
+          content:  abstract_content,
+          language: 'en',
+          script:   'Latn'
+        }]
       end
-      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
       # Get langs.
       # @param doc [Nokogiri::HTML::Document]
@@ -173,11 +157,11 @@ module Iecbib
           uri = URI url
           resp = Net::HTTP.get_response(uri)#.encode("UTF-8")
         end
-        n = 0
-        while resp.body !~ /<strong/ && n < 10
-          resp = Net::HTTP.get_response(uri)#.encode("UTF-8")
-          n += 1
-        end
+        # n = 0
+        # while resp.body !~ /<strong/ && n < 10
+        #   resp = Net::HTTP.get_response(uri)#.encode("UTF-8")
+        #   n += 1
+        # end
         Nokogiri::HTML(resp.body)
       end
       # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
@@ -186,13 +170,18 @@ module Iecbib
       # @param doc [Nokogiri::HTML::Document]
       # @return [Hash]
       def fetch_docid(doc)
-        item_ref = doc.at("//span[@itemprop='productID']").text
-                      .match(/(?<=\s)(?<project>\d+)-?(?<part>(?<=-)\d+|)-?(?<subpart>(?<=-)\d+|)/)
+        item_ref = doc.at("//span[@itemprop='productID']")
+        unless item_ref
+          return { project_number: '?', part_number: '', prefix: nil, id: '?' }
+        end
+        m = item_ref.text.match(/(?<=\s)(?<project>\d+)-?(?<part>(?<=-)\d+|)-?(?<subpart>(?<=-)\d+|)/)
         {
-          project_number: item_ref[:project],
-          part_number: item_ref[:part],
-          subpart_number: item_ref[:subpart],
-          prefix: nil
+          project_number: m[:project],
+          part_number: m[:part],
+          subpart_number: m[:subpart],
+          prefix: nil,
+          type: 'IEC',
+          id: item_ref.text
         }
       end
 
@@ -200,9 +189,18 @@ module Iecbib
       # @param doc [Nokogiri::HTML::Document]
       # @param status [String]
       # @return [Hash]
-      def fetch_status(doc, status)
-        stage, substage = doc.css('li.dropdown.active span.stage-code > strong')
-                             .text.split '.'
+      def fetch_status(doc)
+        wip = doc.at('//ROW[STATUS[.="PREPARING"]]')
+        if wip
+          statuses = YAML.load_file 'lib/iecbib/statuses.yml'
+          s = wip.at('STAGE').text
+          stage, substage = statuses[s]['stage'].split '.'
+          status = statuses[s]['status']
+        else
+          status   = 'Published'
+          stage    = '60'
+          substage = '60'
+        end
         { status: status, stage: stage, substage: substage }
       end
 
@@ -210,16 +208,14 @@ module Iecbib
       # @param doc [Nokogiri::HTML::Document]
       # @return [Hash]
       def fetch_workgroup(doc)
-        wg_link = doc.css('div.entry-name.entry-block a')[0]
-        # wg_url = DOMAIN + wg_link['href']
-        workgroup = wg_link.text.split '/'
-        { name:                'International Organization for Standardization',
-          abbreviation:        'ISO',
-          url:                 'www.iso.org',
+        wg = doc.at('//th/abbr[.="TC"]/../following-sibling::td/a').text
+        { name:                'International Electrotechnical Commission',
+          abbreviation:        'IEC',
+          url:                 'webstore.iec.ch',
           technical_committee: {
-            name:   wg_link.text + doc.css('div.entry-title')[0].text,
+            name:   wg,
             type:   'technicalCommittee',
-            number: workgroup[1]&.match(/\d+/)&.to_s&.to_i
+            number: wg.match(/\d+/)&.to_s&.to_i
           } }
       end
 
@@ -228,22 +224,45 @@ module Iecbib
       # @return [Array<Hash>]
       # rubocop:disable Metrics/MethodLength
       def fetch_relations(doc)
-        doc.css('ul.steps li').inject([]) do |a, r|
-          r_type = r.css('strong').text
+        doc.xpath('//ROW[STATUS[.!="PREPARING"]][STATUS[.!="PUBLISHED"]]').map do |r|
+          r_type = r.at('STATUS').text.downcase
           type = case r_type
-                 when 'Previously', 'Will be replaced by' then 'obsoletes'
-                 when 'Corrigenda/Amendments', 'Revised by', 'Now confirmed'
-                   'updates'
+                #  when 'published' then 'obsoletes' # Valid
+                 when 'revised', 'replaced' then 'updates'
+                 when 'withdrawn' then 'obsoletes'
                  else r_type
                  end
-          if ['Now', 'Now under review'].include? type
-            a
-          else
-            a + r.css('a').map do |id|
-              { type: type, identifier: id.text, url: id['href'] }
-            end
-          end
+          url = DOMAIN + '/publication/' + r.at('PUB_ID').text
+          { type: type, identifier: r.at('FULL_NAME').text, url: url }
         end
+      end
+
+      def fetch_status_relations(url)
+        pubid = url.match(/\d+$/).to_s
+        uri = URI DOMAIN + '/webstore/webstore.nsf/AjaxRequestXML?'\
+        'Openagent&url=http://www.iec.ch/dyn/www/f?'\
+        'p=103:390:::::P390_PUBLICATION_ID:' + pubid
+        resp = Net::HTTP.get_response uri
+        doc = Nokogiri::XML resp.body
+        status = fetch_status doc
+        relations = fetch_relations doc
+        [status, relations]
+        # doc.css('ul.steps li').inject([]) do |a, r|
+        #   r_type = r.css('strong').text
+        #   type = case r_type
+        #          when 'Previously', 'Will be replaced by' then 'obsoletes'
+        #          when 'Corrigenda/Amendments', 'Revised by', 'Now confirmed'
+        #            'updates'
+        #          else r_type
+        #          end
+        #   if ['Now', 'Now under review'].include? type
+        #     a
+        #   else
+        #     a + r.css('a').map do |id|
+        #       { type: type, identifier: id.text, url: id['href'] }
+        #     end
+        #   end
+        # end
       end
       # rubocop:enable Metrics/MethodLength
 
@@ -319,7 +338,6 @@ module Iecbib
         dates
       end
 
-      # rubocop:disable Metrics/MethodLength
       def fetch_contributors(code)
         code.sub(/\s.*/, '').split('/').map do |abbrev|
           case abbrev
@@ -334,7 +352,6 @@ module Iecbib
             roles: ['publisher'] }
         end
       end
-      # rubocop:enable Metrics/MethodLength
 
       # Fetch ICS.
       # @param doc [Nokogiri::HTML::Document]
@@ -351,23 +368,18 @@ module Iecbib
       # @param url [String]
       # @return [Array<Hash>]
       def fetch_link(doc, url)
-        obp_elms = doc.xpath("//a[contains(@href, '/obp/ui/')]")
-        obp = obp_elms.attr('href').value if obp_elms.any?
-        rss = DOMAIN + doc.xpath("//a[contains(@href, 'rss')]").attr('href')
-          .value
-        [
-          { type: 'src', content: url },
-          { type: 'obp', content: obp },
-          { type: 'rss', content: rss }
-        ]
+        links = [{ type: 'src', content: url }]
+        obp_elms = doc.at_css('p.btn-preview a')
+        links << { type: 'obp', content: obp_elms[:href] } if obp_elms
+        links
       end
 
       # Fetch copyright.
       # @param title [String]
       # @return [Hash]
-      def fetch_copyright(title, doc)
-        owner_name = title.match(/.*?(?=\s)/).to_s
-        from = title.match(/(?<=:)\d{4}/).to_s
+      def fetch_copyright(code, doc)
+        owner_name = code.match(/.*?(?=\s)/).to_s
+        from = code.match(/(?<=:)\d{4}/).to_s
         if from.empty?
           from = doc.xpath("//span[@itemprop='releaseDate']").text
             .match(/\d{4}/).to_s

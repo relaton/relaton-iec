@@ -16,8 +16,8 @@ module Iecbib
 
       # @param text [String]
       # @return [Array<IsoBibliographicItem>]
-      def search_and_fetch(text)
-        Scrapper.get(text)
+      def search_and_fetch(text, year = nil)
+        Scrapper.get(text, year)
       end
 
       # @param code [String] the ISO standard Code to look up (e..g "ISO 9000")
@@ -27,7 +27,7 @@ module Iecbib
       def get(code, year, opts)
         return iev if code.casecmp('IEV') == 0
         code += '-1' if opts[:all_parts]
-        ret = isobib_get1(code, year, opts)
+        ret = iecbib_get1(code, year, opts)
         return nil if ret.nil?
         ret.to_most_recent_reference unless year
         ret.to_all_parts if opts[:all_parts]
@@ -66,26 +66,20 @@ module Iecbib
         corrigrx = %r{^(ISO|IEC)[^0-9]*\s[0-9-]+:[0-9]+/}
         warn "fetching #{code}..."
         result = search(code)
-        result.each do |page|
-          ret = page.select do |i|
-            i.hit["title"] &&
-              i.hit["title"].match(docidrx).to_s == code &&
-              !(corrigrx =~ i.hit["title"])
-          end
-          return ret unless ret.empty?
+        result.select do |i|
+          i.hit[:code] &&
+            i.hit[:code].match(docidrx).to_s == code &&
+            corrigrx !~ i.hit[:code]
         end
-        []
       end
 
-
-      def iev
+      def iev(code = "IEC 60050")
         IsoBibItem.from_xml(<<~"END")
           <bibitem type="international-standard" id="IEV">
-  <title format="text/plain" language="en" script="Latn">Electropedia: 
-  The World's Online Electrotechnical Vocabulary</title>
+  <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
   <link type="src">http://www.electropedia.org</link>
-  <docidentifier>IEV</docidentifier>
-  <date type="published"> <on>#{Date.today.year}</on> </date>
+  <docidentifier>#{code}:2011</docidentifier>
+  <date type="published"><on>2011</on></date>
   <contributor>
     <role type="publisher"/>
     <organization>
@@ -98,7 +92,7 @@ module Iecbib
   <script>Latn</script>
   <status> <stage>60</stage> </status>
   <copyright>
-    <from>#{Date.today.year}</from>
+    <from>2018</from>
     <owner>
       <organization>
       <name>International Electrotechnical Commission</name>
@@ -107,15 +101,9 @@ module Iecbib
       </organization>
     </owner>
   </copyright>
-  <relation type="updates">
-    <bibitem>
-      <formattedref>IEC 60050</formattedref>
-    </bibitem>
-  </relation>
 </bibitem>
         END
       end
-
 
       # Sort through the results from Isobib, fetching them three at a time,
       # and return the first result that matches the code,
@@ -137,7 +125,7 @@ module Iecbib
         { years: missed_years }
       end
 
-      def isobib_get1(code, year, opts)
+      def iecbib_get1(code, year, opts)
         return iev if code.casecmp("IEV") == 0
         result = isobib_search_filter(code) or return nil
         ret = isobib_results_filter(result, year)

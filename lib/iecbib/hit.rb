@@ -29,15 +29,11 @@ module Iecbib
 
     # @return [String]
     def inspect
-      matched_words = @hit['_highlightResult']
-                      .inject([]) { |a, (_k, v)| a + v['matchedWords'] }.uniq
-
       "<#{self.class}:#{format('%#.14x', object_id << 1)} "\
-      "@text=\"#{@hit_collection&.hit_pages&.text}\" "\
-      "@fullIdentifier=\"#{@fetch&.shortref}\" "\
-      "@matchedWords=#{matched_words} "\
-      "@category=\"#{@hit['category']}\" "\
-      "@title=\"#{@hit['title']}\">"
+      "@text=\"#{@hit_collection&.text}\" "\
+      "@fetched=\"#{!@fetch.nil?}\" "\
+      "@fullIdentifier=\"#{@fetch&.shortref(nil)}\" "\
+      "@title=\"#{@hit[:code]}\">"
     end
 
     # @return [String]
