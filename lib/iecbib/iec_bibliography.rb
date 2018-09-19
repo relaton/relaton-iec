@@ -29,9 +29,9 @@ module Iecbib
         code += '-1' if opts[:all_parts]
         ret = iecbib_get1(code, year, opts)
         return nil if ret.nil?
-        ret.to_most_recent_reference unless year
+        ret.to_most_recent_reference unless year || opts[:keep_year]
         ret.to_all_parts if opts[:all_parts]
-        ret # .to_xml
+        ret
       end
 
       private
