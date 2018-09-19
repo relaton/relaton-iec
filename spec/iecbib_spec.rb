@@ -60,4 +60,10 @@ RSpec.describe Iecbib do
         .to output(/The provided document part may not exist, or the document may no longer be published in parts/).to_stderr 
     end
   end
+
+  it "gets a frozen reference for IEV" do
+    results = Iecbib::IecBibliography.get('IEV', nil, {})
+    expect(results.to_xml).to include %(<bibitem type="international-standard" id="IEC60050-2011">)
+  end
+
 end
