@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'iecbib/hit'
-require "addressable"
+require "addressable/uri"
 
 module Iecbib
   # Page of hit collection.
