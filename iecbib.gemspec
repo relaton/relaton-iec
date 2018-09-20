@@ -33,4 +33,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'webmock'
 
   spec.add_dependency 'iso-bib-item', '~> 0.3.0'
+  spec.add_dependency 'addressable'
 end
