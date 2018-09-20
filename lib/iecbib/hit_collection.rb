@@ -28,7 +28,7 @@ module Iecbib
         to   = from.next_year.prev_day
       end
       url  = "#{DOMAIN}/searchkey&RefNbr=#{ref_nbr}&From=#{from}&To=#{to}&start=1"
-      doc  = Nokogiri::HTML OpenURI.open_uri(Addressable::URI.parse(url).normalize)
+      doc  = Nokogiri::HTML OpenURI.open_uri(::Addressable::URI.parse(url).normalize)
       hits = doc.css('ul.search-results > li').map do |h|
         link  = h.at('a[@href!="#"]')
         code  = link.text.tr [194, 160].pack('c*').force_encoding('UTF-8'), ''
