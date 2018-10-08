@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    iecbib (0.1.1)
+    iecbib (0.1.2)
       addressable
       iso-bib-item (~> 0.3.0)
 
