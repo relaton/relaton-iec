@@ -44,8 +44,8 @@ This gem retrieves bibliographic descriptions of ISO documents by doing searches
 
 == Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/iecbib.
+Bug reports and pull requests are welcome on GitHub at https://github.com/riboseinc/iecbib.
 
 == License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+The gem is available as open source under the terms of the https://opensource.org/licenses/MIT[MIT License].
