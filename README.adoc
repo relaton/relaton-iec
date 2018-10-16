@@ -1,8 +1,12 @@
-= Iecbib
+= Iecbib: retrieve IEC Standards for bibliographic use using the BibliographicItem model
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/iecbib`. To experiment with that code, run `bin/console` for an interactive prompt.
+image:https://img.shields.io/gem/v/iecbib.svg["Gem Version", link="https://rubygems.org/gems/iecbib"]
+image:https://img.shields.io/travis/riboseinc/iecbib/master.svg["Build Status", link="https://travis-ci.org/riboseinc/iecbib"]
+image:https://codeclimate.com/github/riboseinc/iecbib/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/riboseinc/iecbib"]
 
-TODO: Delete this and the text above, and describe your gem
+Iecbib is a Ruby gem that implements the https://github.com/riboseinc/isodoc-models#iso-bibliographic-item[IsoBibliographicItem model].
+
+You can use it to retrieve metadata of IEC Standards from https://www.iec.ch, and access such metadata through the `IsoBibliographicItem` object.
 
 == Installation
 
@@ -23,13 +27,20 @@ Or install it yourself as:
 
 == Usage
 
-TODO: Write usage instructions here
+Refer to https://github.com/riboseinc/isobib/blob/master/README.adoc: the usage interface is identical.
 
 == Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+
+
+== Exceptional Citations
+
+This gem retrieves bibliographic descriptions of ISO documents by doing searches on the ISO website, http://www.iso.org, and screenscraping the document that matches the queried document identifier. The following documents are not returned as search results from the ISO website, and the gem returns manually generated references to them.
+
+* `IEV`: used in the metanorma-iso gem to reference Electropedia entries generically. Is resolved to an "all parts" reference to IEC 60050, which in turn is resolved into the specific documents cited by their top-level clause.
 
 == Contributing
 
