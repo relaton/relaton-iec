@@ -3,6 +3,7 @@
 # require 'isobib/iso_bibliographic_item'
 require 'iecbib/scrapper'
 require 'iecbib/hit_collection'
+require "date"
 
 module Iecbib
   # Class methods for search ISO standards.
@@ -74,8 +75,10 @@ module Iecbib
       end
 
       def iev(code = "IEC 60050")
-        IsoBibItem::XMLParser.from_xml(<<~"END")
+        #IsoBibItem::XMLParser.from_xml(<<~"END")
+        <<~"END"
           <bibitem type="international-standard" id="IEV">
+          <fetched>#{Date.today.to_s}</fetched>
   <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
   <link type="src">http://www.electropedia.org</link>
   <docidentifier>#{code}:2011</docidentifier>
