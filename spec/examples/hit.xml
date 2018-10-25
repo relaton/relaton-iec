@@ -35,7 +35,9 @@ addition to this publication.                                   &#13;
     <from>1995</from>
     <owner>
       <organization>
-        <name>IEC</name>
+        <name>International Electrotechnical Commission</name>
+        <abbreviation>IEC</abbreviation>
+        <uri>www.iec.ch</uri>
       </organization>
     </owner>
   </copyright>

@@ -378,13 +378,18 @@ module Iecbib
       # @param title [String]
       # @return [Hash]
       def fetch_copyright(code, doc)
-        owner_name = code.match(/.*?(?=\s)/).to_s
+        abbreviation = code.match(/.*?(?=\s)/).to_s
+        case abbreviation
+        when 'IEC'
+          name = 'International Electrotechnical Commission'
+          url = 'www.iec.ch'
+        end
         from = code.match(/(?<=:)\d{4}/).to_s
         if from.empty?
           from = doc.xpath("//span[@itemprop='releaseDate']").text
             .match(/\d{4}/).to_s
         end
-        { owner: { name: owner_name }, from: from }
+        { owner: { name: name, abbreviation: abbreviation, url: url }, from: from }
       end
     end
   end
