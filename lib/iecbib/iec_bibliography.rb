@@ -75,8 +75,7 @@ module Iecbib
       end
 
       def iev(code = "IEC 60050")
-        #IsoBibItem::XMLParser.from_xml(<<~"END")
-        <<~"END"
+        IsoBibItem::XMLParser.from_xml(<<~"END")
           <bibitem type="international-standard" id="IEV">
           <fetched>#{Date.today.to_s}</fetched>
   <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
