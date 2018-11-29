@@ -12,7 +12,12 @@ module Iecbib
       # @param text [String]
       # @return [Iecbib::HitCollection]
       def search(text, year = nil)
-        HitCollection.new text, year
+        begin
+          HitCollection.new text, year
+        rescue
+          warn "Could not access http://www.iec.ch"
+          []
+        end
       end
 
       # @param text [String]
