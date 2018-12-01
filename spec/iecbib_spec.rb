@@ -22,7 +22,7 @@ RSpec.describe Iecbib do
       hits = Iecbib::IecBibliography.search('61058-2-4', '2003')
       file_path = 'spec/examples/hit.xml'
       File.write file_path, hits.first.to_xml unless File.exist? file_path
-      expect(hits.first.to_xml).to be_equivalent_to File.read file_path
+      expect(hits.first.to_xml).to be_equivalent_to File.read(file_path).sub(/2018-10-26/, Date.today.to_s)
     end
   end
 
