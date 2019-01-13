@@ -1,7 +1,7 @@
 = Iecbib: retrieve IEC Standards for bibliographic use using the BibliographicItem model
 
 image:https://img.shields.io/gem/v/iecbib.svg["Gem Version", link="https://rubygems.org/gems/iecbib"]
-image:https://img.shields.io/travis/riboseinc/iecbib/master.svg["Build Status", link="https://travis-ci.org/riboseinc/iecbib"]
+image:https://img.shields.io/travis/riboseinc/iecbib/master.svg["Build Status", link="https://travis-ci.com/riboseinc/iecbib"]
 image:https://codeclimate.com/github/riboseinc/iecbib/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/riboseinc/iecbib"]
 
 Iecbib is a Ruby gem that implements the https://github.com/riboseinc/isodoc-models#iso-bibliographic-item[IsoBibliographicItem model].
