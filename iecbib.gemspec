@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
                        "using the BibliographicItem model"
   spec.description   = "IsoBib: retrieve ISO Standards for bibliographic use "\
                        "using the BibliographicItem model"
-  spec.homepage      = "https://github.com/riboseinc/isobib"
+  spec.homepage      = "https://github.com/metanorma/isobib"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|

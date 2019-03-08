@@ -1,10 +1,10 @@
 = Iecbib: retrieve IEC Standards for bibliographic use using the BibliographicItem model
 
 image:https://img.shields.io/gem/v/iecbib.svg["Gem Version", link="https://rubygems.org/gems/iecbib"]
-image:https://img.shields.io/travis/riboseinc/iecbib/master.svg["Build Status", link="https://travis-ci.com/riboseinc/iecbib"]
-image:https://codeclimate.com/github/riboseinc/iecbib/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/riboseinc/iecbib"]
+image:https://img.shields.io/travis/metanorma/iecbib/master.svg["Build Status", link="https://travis-ci.com/metanorma/iecbib"]
+image:https://codeclimate.com/github/metanorma/iecbib/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/metanorma/iecbib"]
 
-Iecbib is a Ruby gem that implements the https://github.com/riboseinc/isodoc-models#iso-bibliographic-item[IsoBibliographicItem model].
+Iecbib is a Ruby gem that implements the https://github.com/metanorma/metanorma-model-iso#iso-bibliographic-item[IsoBibliographicItem model].
 
 You can use it to retrieve metadata of IEC Standards from https://www.iec.ch, and access such metadata through the `IsoBibliographicItem` object.
 
@@ -27,7 +27,7 @@ Or install it yourself as:
 
 == Usage
 
-Refer to https://github.com/riboseinc/isobib/blob/master/README.adoc: the usage interface is identical.
+Refer to https://github.com/metanorma/isobib/blob/master/README.adoc: the usage interface is identical.
 
 == Development
 
@@ -44,7 +44,7 @@ This gem retrieves bibliographic descriptions of ISO documents by doing searches
 
 == Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/riboseinc/iecbib.
+Bug reports and pull requests are welcome on GitHub at https://github.com/metanorma/iecbib.
 
 == License
 
