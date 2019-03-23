@@ -2,6 +2,7 @@
 
 image:https://img.shields.io/gem/v/iecbib.svg["Gem Version", link="https://rubygems.org/gems/iecbib"]
 image:https://img.shields.io/travis/metanorma/iecbib/master.svg["Build Status", link="https://travis-ci.com/metanorma/iecbib"]
+image:https://ci.appveyor.com/api/projects/status/ewepoefhla5h76p7?svg=true["Appveyor Build Status", link="https://ci.appveyor.com/project/ribose/iecbib"]
 image:https://codeclimate.com/github/metanorma/iecbib/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/metanorma/iecbib"]
 
 Iecbib is a Ruby gem that implements the https://github.com/metanorma/metanorma-model-iso#iso-bibliographic-item[IsoBibliographicItem model].
