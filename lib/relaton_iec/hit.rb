@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Iecbib
+module RelatonIec
   # Hit.
   class Hit
     # @return [Isobib::HitCollection]

@@ -1,30 +1,28 @@
 # frozen_string_literal: true
 
 # require 'isobib/iso_bibliographic_item'
-require 'iecbib/scrapper'
-require 'iecbib/hit_collection'
+require "relaton_iec/scrapper"
+require "relaton_iec/hit_collection"
 require "date"
 
-module Iecbib
+module RelatonIec
   # Class methods for search ISO standards.
   class IecBibliography
     class << self
       # @param text [String]
-      # @return [Iecbib::HitCollection]
+      # @return [RelatonIec::HitCollection]
       def search(text, year = nil)
-        begin
-          HitCollection.new text, year
-        rescue
-          warn "Could not access http://www.iec.ch"
-          []
-        end
+        HitCollection.new text, year
+      rescue SocketError, OpenURI::HTTPError
+        warn "Could not access http://www.iec.ch"
+        []
       end
 
       # @param text [String]
       # @return [Array<IsoBibliographicItem>]
-      def search_and_fetch(text, year = nil)
-        Scrapper.get(text, year)
-      end
+      # def search_and_fetch(text, year = nil)
+      #   Scrapper.get(text, year)
+      # end
 
       # @param code [String] the ISO standard Code to look up (e..g "ISO 9000")
       # @param year [String] the year the standard was published (optional)
@@ -39,10 +37,12 @@ module Iecbib
           end
         end
 
-        return iev if code.casecmp('IEV') == 0
-        code += '-1' if opts[:all_parts]
+        return iev if code.casecmp("IEV").zero?
+
+        code += "-1" if opts[:all_parts]
         ret = iecbib_get1(code, year, opts)
         return nil if ret.nil?
+
         ret.to_most_recent_reference unless year || opts[:keep_year]
         ret.to_all_parts if opts[:all_parts]
         ret
@@ -68,7 +68,7 @@ module Iecbib
       end
 
       def fetch_pages(s, n)
-        workers = WorkersPool.new n
+        workers = RelatonBib::WorkersPool.new n
         workers.worker { |w| { i: w[:i], hit: w[:hit].fetch } }
         s.each_with_index { |hit, i| workers << { i: i, hit: hit } }
         workers.end
@@ -88,9 +88,9 @@ module Iecbib
       end
 
       def iev(code = "IEC 60050")
-        IsoBibItem::XMLParser.from_xml(<<~"END")
-          <bibitem type="international-standard" id="IEV">
-          <fetched>#{Date.today.to_s}</fetched>
+        RelatonIsoBib::XMLParser.from_xml(<<~"END")
+<bibitem>
+  <fetched>#{Date.today}</fetched>
   <title format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary</title>
   <link type="src">http://www.electropedia.org</link>
   <docidentifier>#{code}:2011</docidentifier>
@@ -129,10 +129,12 @@ module Iecbib
       def isobib_results_filter(result, year)
         missed_years = []
         result.each_slice(3) do |s| # ISO website only allows 3 connections
-          fetch_pages(s, 3).each_with_index do |r, i|
+          fetch_pages(s, 3).each_with_index do |r, _i|
             return { ret: r } if !year
+
             r.dates.select { |d| d.type == "published" }.each do |d|
               return { ret: r } if year.to_i == d.on.year
+
               missed_years << d.on.year
             end
           end
@@ -140,11 +142,13 @@ module Iecbib
         { years: missed_years }
       end
 
-      def iecbib_get1(code, year, opts)
-        return iev if code.casecmp("IEV") == 0
-        result = isobib_search_filter(code) or return nil
+      def iecbib_get1(code, year, _opts)
+        return iev if code.casecmp("IEV").zero?
+
+        result = isobib_search_filter(code) || return
         ret = isobib_results_filter(result, year)
         return ret[:ret] if ret[:ret]
+
         fetch_ref_err(code, year, ret[:years])
       end
     end

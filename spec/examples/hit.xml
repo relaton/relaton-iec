@@ -1,6 +1,7 @@
-<bibitem type="international-standard" id="IEC61058-2-4-1995+AMD1-2003CSV">
-  <fetched>2018-10-26</fetched>
-  <title format="text/plain" language="en" script="Latn">Switches for appliances -- Part 2-4: Particular requirements for independently mounted switches</title>
+<bibdata>
+  <title type="title-main" format="text/plain" language="en" script="Latn">Part 2-4: Particular requirements for independently mounted switches</title>
+  <title type="title-intro" format="text/plain" language="en" script="Latn">Switches for appliances</title>
+  <title type="main" format="text/plain" language="en" script="Latn">Part 2-4: Particular requirements for independently mounted switches - Switches for appliances</title>
   <uri type="src">https://webstore.iec.ch/publication/4385</uri>
   <uri type="obp">/preview/info_iec61058-2-4%7Bed1.1%7Db.pdf</uri>
   <docidentifier type="IEC">IEC 61058-2-4:1995+AMD1:2003 CSV</docidentifier>
@@ -18,7 +19,7 @@
   <edition>1.1</edition>
   <language>en</language>
   <script>Latn</script>
-  <abstract format="plain" language="en" script="Latn">Applies to independently mounted switches for appliances actuated&#13;
+  <abstract format="text/plain" language="en" script="Latn">Applies to independently mounted switches for appliances actuated&#13;
 by hand, by foot or by other human activity for use with&#13;
 appliances and other equipment for household and similar purposes,&#13;
 with a rated voltage not exceeding 440 V and a rated current not&#13;
@@ -42,11 +43,17 @@ addition to this publication.                                   &#13;
       </organization>
     </owner>
   </copyright>
-  <editorialgroup>
-    <technical_committee number="23" type="technicalCommittee">TC 23/SC 23J - Switches for appliances</technical_committee>
-  </editorialgroup>
-  <ics>
-    <code>29.120.40</code>
-    <text>Switches</text>
-  </ics>
-</bibitem>
+  <ext>
+    <doctype>international-standard</doctype>
+    <editorialgroup>
+      <technical_committee number="23" type="technicalCommittee">TC 23/SC 23J - Switches for appliances</technical_committee>
+    </editorialgroup>
+    <ics>
+      <code>29.120.40</code>
+      <text>Switches</text>
+    </ics>
+    <structuredidentifier type="IEC">
+      <project-number>61058</project-number>
+    </structuredidentifier>
+  </ext>
+</bibdata>

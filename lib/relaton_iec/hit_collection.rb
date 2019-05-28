@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require 'iecbib/hit'
+require "relaton_iec/hit"
 require "addressable/uri"
 
-module Iecbib
+module RelatonIec
   # Page of hit collection.
   class HitCollection < Array
 
-    DOMAIN = 'https://webstore.iec.ch'
+    DOMAIN = "https://webstore.iec.ch"
 
     # @return [TrueClass, FalseClass]
     attr_reader :fetched
@@ -25,15 +25,15 @@ module Iecbib
       @year = year
       from, to = nil
       if year
-        from = Date.strptime year, '%Y'
+        from = Date.strptime year, "%Y"
         to   = from.next_year.prev_day
       end
       url  = "#{DOMAIN}/searchkey&RefNbr=#{ref_nbr}&From=#{from}&To=#{to}&start=1"
       doc  = Nokogiri::HTML OpenURI.open_uri(::Addressable::URI.parse(url).normalize)
-      hits = doc.css('ul.search-results > li').map do |h|
+      hits = doc.css("ul.search-results > li").map do |h|
         link  = h.at('a[@href!="#"]')
-        code  = link.text.tr [194, 160].pack('c*').force_encoding('UTF-8'), ''
-        title = h.xpath('text()').text.gsub(/[\r\n]/, '')
+        code  = link.text.tr [194, 160].pack("c*").force_encoding("UTF-8"), ""
+        title = h.xpath("text()").text.gsub(/[\r\n]/, "")
         url   = DOMAIN + link[:href]
         Hit.new({ code: code, title: title, url: url }, self)
       end
@@ -43,9 +43,9 @@ module Iecbib
       # @hit_pages = hit_pages
     end
 
-    # @return [Iecbib::HitCollection]
+    # @return [RelatonIec::HitCollection]
     def fetch
-      workers = WorkersPool.new 4
+      workers = RelatonBib::WorkersPool.new 4
       workers.worker(&:fetch)
       each do |hit|
         workers << hit

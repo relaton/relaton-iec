@@ -1,11 +1,11 @@
-= Iecbib: retrieve IEC Standards for bibliographic use using the BibliographicItem model
+= RelatonIec: retrieve IEC Standards for bibliographic use using the BibliographicItem model
 
-image:https://img.shields.io/gem/v/iecbib.svg["Gem Version", link="https://rubygems.org/gems/iecbib"]
-image:https://img.shields.io/travis/metanorma/iecbib/master.svg["Build Status", link="https://travis-ci.com/metanorma/iecbib"]
-image:https://ci.appveyor.com/api/projects/status/ewepoefhla5h76p7?svg=true["Appveyor Build Status", link="https://ci.appveyor.com/project/ribose/iecbib"]
-image:https://codeclimate.com/github/metanorma/iecbib/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/metanorma/iecbib"]
+image:https://img.shields.io/gem/v/relaton_iec.svg["Gem Version", link="https://rubygems.org/gems/relaton_iec"]
+image:https://img.shields.io/travis/metanorma/relaton_iec/master.svg["Build Status", link="https://travis-ci.com/metanorma/relaton_iec"]
+image:https://ci.appveyor.com/api/projects/status/ewepoefhla5h76p7?svg=true["Appveyor Build Status", link="https://ci.appveyor.com/project/ribose/relaton_iec"]
+image:https://codeclimate.com/github/metanorma/relaton_iec/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/metanorma/relaton_iec"]
 
-Iecbib is a Ruby gem that implements the https://github.com/metanorma/metanorma-model-iso#iso-bibliographic-item[IsoBibliographicItem model].
+RelatonIec is a Ruby gem that implements the https://github.com/metanorma/metanorma-model-iso#iso-bibliographic-item[IsoBibliographicItem model].
 
 You can use it to retrieve metadata of IEC Standards from https://www.iec.ch, and access such metadata through the `IsoBibliographicItem` object.
 
@@ -15,7 +15,7 @@ Add this line to your application's Gemfile:
 
 [source,ruby]
 ----
-gem 'iecbib'
+gem 'relaton_iec'
 ----
 
 And then execute:
@@ -24,11 +24,11 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install iecbib
+    $ gem install relaton_iec
 
 == Usage
 
-Refer to https://github.com/metanorma/isobib/blob/master/README.adoc: the usage interface is identical.
+Refer to https://github.com/metanorma/relaton-iso/blob/master/README.adoc: the usage interface is identical.
 
 == Development
 
@@ -45,7 +45,7 @@ This gem retrieves bibliographic descriptions of ISO documents by doing searches
 
 == Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/metanorma/iecbib.
+Bug reports and pull requests are welcome on GitHub at https://github.com/metanorma/relaton-iec.
 
 == License
 
