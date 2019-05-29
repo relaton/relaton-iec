@@ -1,3 +1,5 @@
+# Auto-generated !!! Do not edit it manually
+# use ci-master https://github.com/metanorma/metanorma-build-scripts
 language: ruby
 cache: bundler
 os:
@@ -13,4 +15,5 @@ before_install:
 - bundle update
 matrix:
   allow_failures:
+    - rvm: 2.3
     - rvm: ruby-head
