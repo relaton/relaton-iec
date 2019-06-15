@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    relaton-iec (0.2.0)
+    relaton-iec (0.3.0)
       addressable
       relaton-iso-bib (~> 0.2.0)
 
