@@ -38,9 +38,7 @@ module RelatonIec
         Hit.new({ code: code, title: title, url: url }, self)
       end
       concat hits
-      # concat(hits.map { |h| Hit.new(h, self) })
       @fetched = false
-      # @hit_pages = hit_pages
     end
 
     # @return [RelatonIec::HitCollection]

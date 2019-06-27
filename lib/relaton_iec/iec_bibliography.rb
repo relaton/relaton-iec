@@ -14,8 +14,7 @@ module RelatonIec
       def search(text, year = nil)
         HitCollection.new text, year
       rescue SocketError, OpenURI::HTTPError
-        warn "Could not access http://www.iec.ch"
-        []
+        raise RelatonBib::RequestError, "Could not access http://www.iec.ch"
       end
 
       # @param text [String]

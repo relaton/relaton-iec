@@ -11,7 +11,7 @@ RSpec.describe RelatonIec do
     exception_io = double("io")
     expect(OpenURI).to receive(:open_uri).and_raise(OpenURI::HTTPError.new("", exception_io))
     expect { RelatonIec::IecBibliography.search "60050-102", "2007" }.
-      to output(/Could not access/).to_stderr
+      to raise_error RelatonBib::RequestError
   end
 
   it "fetch hits of page" do
@@ -52,7 +52,7 @@ RSpec.describe RelatonIec do
     it "gets a code" do
       VCR.use_cassette "get_a_code" do
         results = RelatonIec::IecBibliography.get("IEC 60050-102", nil, {}).to_xml
-        expect(results).to include %(<bibitem id="IEC60050-102-2007">)
+        expect(results).to include %(<bibitem id="IEC60050-102">)
         expect(results).to include %(<on>2007</on>)
         expect(results.gsub(/<relation.*<\/relation>/m, "")).not_to include %(<on>2007</on>)
         expect(results).to include %(<docidentifier type="IEC">IEC 60050-102:2007</docidentifier>)

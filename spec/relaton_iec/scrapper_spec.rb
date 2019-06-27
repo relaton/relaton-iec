@@ -41,6 +41,12 @@ RSpec.describe RelatonIec::Scrapper do
   end
 
   context "returns title" do
+    it "with no parts" do
+      hit_data = { title: "" }
+      title = RelatonIec::Scrapper.send :fetch_titles, hit_data
+      expect(title.first[:title_main]).to eq ""
+    end
+
     it "with main part" do
       hit_data = { title: "Main" }
       title = RelatonIec::Scrapper.send :fetch_titles, hit_data
@@ -64,5 +70,23 @@ RSpec.describe RelatonIec::Scrapper do
     expect(doc).to receive(:xpath).and_return double(text: "2018")
     result = RelatonIec::Scrapper.send :fetch_copyright, "IEC 123", doc
     expect(result[:from]).to eq "2018"
+  end
+
+  context "raises error" do
+    it "could not access" do
+      expect(Net::HTTP).to receive(:get_response).and_raise SocketError
+      expect do
+        RelatonIec::Scrapper.parse_page url: "https://webstore.iec.ch/searchkey&RefNbr=1234"
+      end.to raise_error RelatonBib::RequestError
+    end
+
+    it "page not found" do
+      resp = double
+      expect(resp).to receive(:code).and_return "404"
+      expect(Net::HTTP).to receive(:get_response).and_return resp
+      expect do
+        RelatonIec::Scrapper.parse_page url: "https://webstore.iec.ch/searchkey&RefNbr=1234"
+      end.to raise_error RelatonBib::RequestError
+    end
   end
 end
