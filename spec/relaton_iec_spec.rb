@@ -52,7 +52,7 @@ RSpec.describe RelatonIec do
     it "gets a code" do
       VCR.use_cassette "get_a_code" do
         results = RelatonIec::IecBibliography.get("IEC 60050-102", nil, {}).to_xml
-        expect(results).to include %(<bibitem id="IEC60050-102">)
+        expect(results).to include %(<bibitem id="IEC60050-102" type="standard">)
         expect(results).to include %(<on>2007</on>)
         expect(results.gsub(/<relation.*<\/relation>/m, "")).not_to include %(<on>2007</on>)
         expect(results).to include %(<docidentifier type="IEC">IEC 60050-102:2007</docidentifier>)
@@ -70,7 +70,7 @@ RSpec.describe RelatonIec do
 
   it "gets a frozen reference for IEV" do
     results = RelatonIec::IecBibliography.get("IEV", nil, {})
-    expect(results.to_xml).to include %(<bibitem id="IEC60050-2011">)
+    expect(results.to_xml).to include %(<bibitem id="IEC60050-2011" type="standard">)
   end
 
   it "warns when resource with part number not found on IEC website" do
@@ -84,6 +84,6 @@ RSpec.describe RelatonIec do
 
   it "gets a frozen reference for IEV" do
     results = RelatonIec::IecBibliography.get("IEV", nil, {})
-    expect(results.to_xml).to include %(<bibitem id="IEC60050-2011">)
+    expect(results.to_xml).to include %(<bibitem id="IEC60050-2011" type="standard">)
   end
 end

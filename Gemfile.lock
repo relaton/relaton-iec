@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    relaton-iec (0.3.0)
+    relaton-iec (0.3.1)
       addressable
       relaton-iso-bib (~> 0.2.0)
 
@@ -39,7 +39,7 @@ GEM
     relaton-bib (0.2.3)
       addressable
       nokogiri (~> 1.8.4)
-    relaton-iso-bib (0.2.0)
+    relaton-iso-bib (0.2.3)
       isoics (~> 0.1.6)
       nokogiri (~> 1.8.4)
       relaton-bib (~> 0.2.0)
