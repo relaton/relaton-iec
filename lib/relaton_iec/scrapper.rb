@@ -62,17 +62,17 @@ module RelatonIec
           edition: edition,
           language: ["en"],
           script: ["Latn"],
-          titles: fetch_titles(hit_data),
+          title: fetch_titles(hit_data),
           type: fetch_type(doc),
           docstatus: status,
           ics: fetch_ics(doc),
-          dates: fetch_dates(doc),
-          contributors: fetch_contributors(hit_data[:code]),
+          date: fetch_dates(doc),
+          contributor: fetch_contributors(hit_data[:code]),
           editorialgroup: fetch_workgroup(doc),
           abstract: fetch_abstract(doc),
           copyright: fetch_copyright(hit_data[:code], doc),
           link: fetch_link(doc, hit_data[:url]),
-          relations: relations,
+          relation: relations,
         )
       end
       # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
@@ -371,7 +371,7 @@ module RelatonIec
             url  = "www.iec.ch"
           end
           { entity: { name: name, url: url, abbreviation: abbrev },
-            roles: ["publisher"] }
+            role: ["publisher"] }
         end
       end
 
