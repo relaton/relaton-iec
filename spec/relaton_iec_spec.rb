@@ -64,26 +64,29 @@ RSpec.describe RelatonIec do
       VCR.use_cassette "get_a_code_with_year" do
         results = RelatonIec::IecBibliography.get("IEC 60050-102:2007").to_xml
         expect(results).to include %(<on>2007</on>)
+        expect(results).to include(
+          '<title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics - General concepts and linear algebra</title>',
+        )
       end
     end
-  end
 
-  it "gets a frozen reference for IEV" do
-    results = RelatonIec::IecBibliography.get("IEV", nil, {})
-    expect(results.to_xml).to include %(<bibitem id="IEC60050-2011" type="standard">)
-  end
-
-  it "warns when resource with part number not found on IEC website" do
-    VCR.use_cassette "varn_part_num_not_found" do
-      expect { RelatonIec::IecBibliography.get("IEC 60050-103", "207", {}) }.
-        to output(
-          /The provided document part may not exist, or the document may no longer be published in parts/,
-        ).to_stderr
+    it "gets a frozen reference for IEV" do
+      results = RelatonIec::IecBibliography.get("IEV", nil, {})
+      expect(results.to_xml).to include %(<bibitem id="IEC60050-2011" type="standard">)
     end
-  end
 
-  it "gets a frozen reference for IEV" do
-    results = RelatonIec::IecBibliography.get("IEV", nil, {})
-    expect(results.to_xml).to include %(<bibitem id="IEC60050-2011" type="standard">)
+    it "warns when resource with part number not found on IEC website" do
+      VCR.use_cassette "varn_part_num_not_found" do
+        expect { RelatonIec::IecBibliography.get("IEC 60050-103", "207", {}) }.
+          to output(
+            /The provided document part may not exist, or the document may no longer be published in parts/,
+          ).to_stderr
+      end
+    end
+
+    it "gets a frozen reference for IEV" do
+      results = RelatonIec::IecBibliography.get("IEV", nil, {})
+      expect(results.to_xml).to include %(<bibitem id="IEC60050-2011" type="standard">)
+    end
   end
 end

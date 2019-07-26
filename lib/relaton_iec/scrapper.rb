@@ -326,7 +326,11 @@ module RelatonIec
             intro, main, part = titles[0], titles[1], nil
           end
         when 3
-          intro, main, part = titles[0], titles[1], titles[2]
+          if /^(Part|Partie) \d+:/ =~ titles[1]
+            intro, main, part = nil, titles[0], titles[1..2].join(" - ")
+          else
+            intro, main, part = titles[0], titles[1], titles[2]
+          end
         else
           intro, main, part = titles[0], titles[1], titles[2..-1]&.join(" -- ")
         end
