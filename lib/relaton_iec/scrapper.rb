@@ -375,7 +375,7 @@ module RelatonIec
             url  = "www.iec.ch"
           end
           { entity: { name: name, url: url, abbreviation: abbrev },
-            role: ["publisher"] }
+            role: [type: "publisher"] }
         end
       end
 
