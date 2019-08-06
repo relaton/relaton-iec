@@ -13,7 +13,7 @@ module RelatonIec
       # @return [RelatonIec::HitCollection]
       def search(text, year = nil)
         HitCollection.new text, year
-      rescue SocketError, OpenURI::HTTPError
+      rescue SocketError, OpenURI::HTTPError, OpenSSL::SSL::SSLError
         raise RelatonBib::RequestError, "Could not access http://www.iec.ch"
       end
 
