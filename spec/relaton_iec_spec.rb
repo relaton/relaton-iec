@@ -32,8 +32,12 @@ RSpec.describe RelatonIec do
       hits = RelatonIec::IecBibliography.search("61058-2-4", "2003")
       result = hits.first.to_xml(bibdata: true)
       file_path = "spec/examples/hit.xml"
-      File.write file_path, result unless File.exist? file_path
-      expect(result).to be_equivalent_to File.read(file_path).
+      unless File.exist? file_path
+        File.open(file_path, "w:UTF-8") do |f|
+          f.write result
+        end
+      end
+      expect(result).to be_equivalent_to File.read(file_path, encoding: "utf-8").
         sub(/2018-10-26/, Date.today.to_s)
     end
   end
@@ -80,7 +84,7 @@ RSpec.describe RelatonIec do
         expect { RelatonIec::IecBibliography.get("IEC 60050-103", "207", {}) }.
           to output(
             /The provided document part may not exist, or the document may no longer be published in parts/,
-          ).to_stderr
+        ).to_stderr
       end
     end
 
