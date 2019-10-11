@@ -57,6 +57,7 @@ module RelatonIec
         status, relations = fetch_status_relations hit_data[:url]
 
         RelatonIsoBib::IsoBibliographicItem.new(
+          fetched: Date.today.to_s,
           docid: [RelatonBib::DocumentIdentifier.new(id: hit_data[:code], type: "IEC")],
           structuredidentifier: fetch_structuredidentifier(doc),
           edition: edition,
