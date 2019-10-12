@@ -38,7 +38,7 @@ RSpec.describe RelatonIec do
         end
       end
       expect(result).to be_equivalent_to File.read(file_path, encoding: "utf-8").
-        sub(/2018-10-26/, Date.today.to_s)
+        sub(/(?<=<fetched>)\d{4}-\d{2}-\d{2}/, Date.today.to_s)
     end
   end
 
