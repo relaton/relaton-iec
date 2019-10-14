@@ -64,7 +64,7 @@ module RelatonIec
           language: ["en"],
           script: ["Latn"],
           title: fetch_titles(hit_data),
-          type: fetch_type(doc),
+          doctype: fetch_type(doc),
           docstatus: status,
           ics: fetch_ics(doc),
           date: fetch_dates(doc),
@@ -294,8 +294,8 @@ module RelatonIec
       # @param doc [Nokogiri::HTML::Document]
       # @return [String]
       def fetch_type(doc)
-        doc.at('//th[contains(., "Publication type")]/following-sibling::td/span')
-           .text.downcase.tr " ", "-"
+        doc.at('//th[contains(., "Publication type")]/following-sibling::td/span').
+          text.downcase.tr " ", "-"
         # type_match = title.match(%r{^(ISO|IWA|IEC)(?:(/IEC|/IEEE|/PRF|
         #   /NP)*\s|/)(TS|TR|PAS|AWI|CD|FDIS|NP|DIS|WD|R|Guide|(?=\d+))}x)
         # #return "international-standard" if type_match.nil?
