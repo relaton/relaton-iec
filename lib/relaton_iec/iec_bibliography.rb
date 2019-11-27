@@ -29,7 +29,7 @@ module RelatonIec
       # @return [String] Relaton XML serialisation of reference
       def get(code, year = nil, opts = {})
         if year.nil?
-          /^(?<code1>[^:]+):(?<year1>[^:]+)$/ =~ code
+          /^(?<code1>[^:]+):(?<year1>[^:]+)/ =~ code
           unless code1.nil?
             code = code1
             year = year1
@@ -38,7 +38,8 @@ module RelatonIec
 
         return iev if code.casecmp("IEV").zero?
 
-        code += "-1" if opts[:all_parts]
+        opts[:all_parts] ||= !(code = code.sub(" (all parts)", "")).nil?
+        # code += "-1" if opts[:all_parts]
         ret = iecbib_get1(code, year, opts)
         return nil if ret.nil?
 
@@ -81,7 +82,7 @@ module RelatonIec
         result = search(code)
         result.select do |i|
           i.hit[:code] &&
-            i.hit[:code].match(docidrx).to_s == code &&
+            i.hit[:code].match(docidrx).to_s.include?(code) &&
             corrigrx !~ i.hit[:code]
         end
       end

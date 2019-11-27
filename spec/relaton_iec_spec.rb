@@ -74,9 +74,20 @@ RSpec.describe RelatonIec do
       end
     end
 
-    it "gets a frozen reference for IEV" do
-      results = RelatonIec::IecBibliography.get("IEV", nil, {})
-      expect(results.to_xml).to include %(<bibitem id="IEC60050-2011" type="standard">)
+    context "gets all parts" do
+      it "by reference" do
+        VCR.use_cassette "iec_80000_all_parts" do
+          results = RelatonIec::IecBibliography.get("IEC 80000 (all parts)", nil, {})
+          expect(results.docidentifier.first.id).to eq "IEC 80000 (all parts)"
+        end
+      end
+
+      it "by options" do
+        VCR.use_cassette "iec_80000_all_parts" do
+          results = RelatonIec::IecBibliography.get("IEC 80000", nil, { all_parts: true })
+          expect(results.docidentifier.first.id).to eq "IEC 80000 (all parts)"
+        end
+      end
     end
 
     it "warns when resource with part number not found on IEC website" do
