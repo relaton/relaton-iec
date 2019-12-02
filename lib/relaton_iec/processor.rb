@@ -5,7 +5,7 @@ module RelatonIec
     def initialize
       @short = :relaton_iec
       @prefix = "IEC"
-      @defaultprefix = %r{^(IEC)[ /]|^IEV($| )}
+      @defaultprefix = %r{^IEC\s|^IEV($|\s)}
       @idtype = "IEC"
     end
 
