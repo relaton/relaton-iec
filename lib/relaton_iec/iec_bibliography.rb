@@ -38,8 +38,8 @@ module RelatonIec
 
         return iev if code.casecmp("IEV").zero?
 
-        opts[:all_parts] ||= !(code = code.sub(" (all parts)", "")).nil?
-        # code += "-1" if opts[:all_parts]
+        opts[:all_parts] ||= !(code =~ / \(all parts\)/).nil?
+        code = code.sub(/ \(all parts\)/, "")
         ret = iecbib_get1(code, year, opts)
         return nil if ret.nil?
 
