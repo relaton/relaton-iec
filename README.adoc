@@ -1,9 +1,12 @@
 = RelatonIec: retrieve IEC Standards for bibliographic use using the BibliographicItem model
 
-image:https://img.shields.io/gem/v/relaton_iec.svg["Gem Version", link="https://rubygems.org/gems/relaton_iec"]
-image:https://img.shields.io/travis/metanorma/relaton_iec/master.svg["Build Status", link="https://travis-ci.com/metanorma/relaton_iec"]
-image:https://ci.appveyor.com/api/projects/status/ewepoefhla5h76p7?svg=true["Appveyor Build Status", link="https://ci.appveyor.com/project/ribose/relaton_iec"]
-image:https://codeclimate.com/github/metanorma/relaton_iec/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/metanorma/relaton_iec"]
+image:https://img.shields.io/gem/v/relaton-iec.svg["Gem Version", link="https://rubygems.org/gems/relaton-iec"]
+image:https://github.com/relaton/relaton-iec/workflows/macos/badge.svg["Build Status (macOS)", link="https://github.com/relaton/relaton-iec/actions?workflow=macos"]
+image:https://github.com/relaton/relaton-iec/workflows/windows/badge.svg["Build Status (Windows)", link="https://github.com/relaton/relaton-iec/actions?workflow=windows"]
+image:https://github.com/relaton/relaton-iec/workflows/ubuntu/badge.svg["Build Status (Ubuntu)", link="https://github.com/relaton/relaton-iec/actions?workflow=ubuntu"]
+image:https://codeclimate.com/github/relaton/relaton-iec/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/relaton/relaton-iec"]
+image:https://img.shields.io/github/issues-pr-raw/relaton/relaton-iec.svg["Pull Requests", link="https://github.com/relaton/relaton-iec/pulls"]
+image:https://img.shields.io/github/commits-since/relaton/relaton-iec/latest.svg["Commits since latest",link="https://github.com/relaton/relaton-iec/releases"]
 
 RelatonIec is a Ruby gem that implements the https://github.com/metanorma/metanorma-model-iso#iso-bibliographic-item[IsoBibliographicItem model].
 
