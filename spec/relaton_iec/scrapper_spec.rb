@@ -53,6 +53,12 @@ RSpec.describe RelatonIec::Scrapper do
       expect(title.first[:title_main]).to eq "Main"
     end
 
+    it "with three parts" do
+      hit_data = { title: "Main - title - part" }
+      title = RelatonIec::Scrapper.send :fetch_titles, hit_data
+      expect(title.first[:title_main]).to eq "title"
+    end
+
     it "with extra parts" do
       hit_data = { title: "Intro - Main - Part - Extra" }
       title = RelatonIec::Scrapper.send :fetch_titles, hit_data

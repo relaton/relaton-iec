@@ -22,7 +22,8 @@ RSpec.describe RelatonIec do
       expect(hit_collection.fetched).to be_truthy
       expect(hit_collection.first).to be_instance_of RelatonIec::Hit
       expect(hit_collection.to_s).to eq(
-        "<RelatonIec::HitCollection:#{format('%#.14x', hit_collection.object_id << 1)} @fetched=true>",
+        "<RelatonIec::HitCollection:#{format('%#.14x', hit_collection.object_id << 1)} "\
+        "@ref=60050-102 @fetched=true>",
       )
     end
   end
