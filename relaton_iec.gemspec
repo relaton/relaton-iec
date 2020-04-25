@@ -8,10 +8,10 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Ribose Inc."]
   spec.email         = ["open.source@ribose.com"]
 
-  spec.summary       = "RelatonIec: retrieve IEC Standards for bibliographic use "\
-                       "using the IsoBibliographicItem model"
-  spec.description   = "RelatonIec: retrieve IEC Standards for bibliographic use "\
-                       "using the IsoBibliographicItem model"
+  spec.summary       = "RelatonIec: retrieve IEC Standards for bibliographic "\
+                       "use using the IecBibliographicItem model"
+  spec.description   = "RelatonIec: retrieve IEC Standards for bibliographic "\
+                       "use using the IecBibliographicItem model"
   spec.homepage      = "https://github.com/metanorma/relaton-iec"
   spec.license       = "MIT"
 
@@ -29,10 +29,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "ruby-debug-ide"
+  spec.add_development_dependency "ruby-jing"
   spec.add_development_dependency "simplecov"
   spec.add_development_dependency "vcr"
   spec.add_development_dependency "webmock"
 
   spec.add_dependency "addressable"
-  spec.add_dependency "relaton-iso-bib", "~> 0.9.0"
+  spec.add_dependency "relaton-iso-bib", "~> 1.0.0"
 end

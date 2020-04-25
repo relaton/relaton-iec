@@ -6,7 +6,6 @@ require "addressable/uri"
 module RelatonIec
   # Page of hit collection.
   class HitCollection < RelatonBib::HitCollection
-
     DOMAIN = "https://webstore.iec.ch"
 
     # @param ref_nbr [String]

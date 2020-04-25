@@ -1,10 +1,17 @@
 # frozen_string_literal: true
 
 require "open-uri"
+require "jing"
 
 RSpec.describe RelatonIec do
   it "has a version number" do
     expect(RelatonIec::VERSION).not_to be nil
+  end
+
+  it "returs grammar hash" do
+    hash = RelatonIec.grammar_hash
+    expect(hash).to be_instance_of String
+    expect(hash.size).to eq 32
   end
 
   it "raise access error" do
@@ -40,6 +47,9 @@ RSpec.describe RelatonIec do
       end
       expect(result).to be_equivalent_to File.read(file_path, encoding: "utf-8").
         sub(/(?<=<fetched>)\d{4}-\d{2}-\d{2}/, Date.today.to_s)
+      schema = Jing.new "spec/examples/isobib.rng"
+      errors = schema.validate file_path
+      expect(errors).to eq []
     end
   end
 

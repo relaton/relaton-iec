@@ -56,7 +56,7 @@ module RelatonIec
 
         status, relations = fetch_status_relations hit_data[:url]
 
-        RelatonIsoBib::IsoBibliographicItem.new(
+        IecBibliographicItem.new(
           fetched: Date.today.to_s,
           docid: [RelatonBib::DocumentIdentifier.new(id: hit_data[:code], type: "IEC")],
           structuredidentifier: fetch_structuredidentifier(doc),
@@ -246,7 +246,7 @@ module RelatonIec
         doc.xpath('//ROW[STATUS[.!="PREPARING"]][STATUS[.!="PUBLISHED"]]').map do |r|
           r_type = r.at("STATUS").text.downcase
           type = case r_type
-                #  when 'published' then 'obsoletes' # Valid
+                 # when 'published' then 'obsoletes' # Valid
                  when "revised", "replaced" then "updates"
                  when "withdrawn" then "obsoletes"
                  else r_type
@@ -255,9 +255,7 @@ module RelatonIec
           fref = RelatonBib::FormattedRef.new(
             content: r.at("FULL_NAME").text, format: "text/plain",
           )
-          bibitem = RelatonIsoBib::IsoBibliographicItem.new(
-            formattedref: fref,
-          )
+          bibitem = IecBibliographicItem.new(formattedref: fref)
           { type: type, bibitem: bibitem }
         end
       end

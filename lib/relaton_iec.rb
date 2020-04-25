@@ -1,14 +1,17 @@
 require "relaton_iec/version"
 require "relaton_iec/iec_bibliography"
-
-# if defined? Relaton
-#   require "relaton_iec/processor"
-#   # don't register the gem if it's required form relaton's registry
-#   return if caller.detect { |c| c.include? "register_gems" }
-
-#   Relaton::Registry.instance.register(RelatonIec::Processor)
-# end
+require "relaton_iec/iec_bibliographic_item"
+require "relaton_iec/xml_parser"
+require "relaton_iec/hash_converter"
+require "digest/md5"
 
 module RelatonIec
-  # Your code goes here...
+  # Returns hash of XML reammar
+  # @return [String]
+  def self.grammar_hash
+    gem_path = File.expand_path "..", __dir__
+    grammars_path = File.join gem_path, "grammars", "*"
+    grammars = Dir[grammars_path].sort.map { |gp| File.read gp }.join
+    Digest::MD5.hexdigest grammars
+  end
 end

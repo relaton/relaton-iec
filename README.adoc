@@ -10,7 +10,7 @@ image:https://img.shields.io/github/commits-since/relaton/relaton-iec/latest.svg
 
 RelatonIec is a Ruby gem that implements the https://github.com/metanorma/metanorma-model-iso#iso-bibliographic-item[IsoBibliographicItem model].
 
-You can use it to retrieve metadata of IEC Standards from https://www.iec.ch, and access such metadata through the `IsoBibliographicItem` object.
+You can use it to retrieve metadata of IEC Standards from https://www.iec.ch, and access such metadata through the `IecBibliographicItem` object.
 
 == Installation
 

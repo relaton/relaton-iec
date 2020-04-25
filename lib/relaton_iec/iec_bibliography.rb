@@ -17,15 +17,10 @@ module RelatonIec
         raise RelatonBib::RequestError, "Could not access http://www.iec.ch"
       end
 
-      # @param text [String]
-      # @return [Array<IsoBibliographicItem>]
-      # def search_and_fetch(text, year = nil)
-      #   Scrapper.get(text, year)
-      # end
-
       # @param code [String] the ISO standard Code to look up (e..g "ISO 9000")
       # @param year [String] the year the standard was published (optional)
-      # @param opts [Hash] options; restricted to :all_parts if all-parts reference is required
+      # @param opts [Hash] options; restricted to :all_parts if all-parts
+      #   reference is required
       # @return [String] Relaton XML serialisation of reference
       def get(code, year = nil, opts = {})
         if year.nil?
@@ -72,7 +67,7 @@ module RelatonIec
         workers.worker { |w| { i: w[:i], hit: w[:hit].fetch } }
         s.each_with_index { |hit, i| workers << { i: i, hit: hit } }
         workers.end
-        workers.result.sort { |x, y| x[:i] <=> y[:i] }.map { |x| x[:hit] }
+        workers.result.sort_by { |a| a[:i] }.map { |x| x[:hit] }
       end
 
       def isobib_search_filter(code)

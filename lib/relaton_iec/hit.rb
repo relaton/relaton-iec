@@ -4,7 +4,7 @@ module RelatonIec
   # Hit.
   class Hit < RelatonBib::Hit
     # Parse page.
-    # @return [Isobib::IsoBibliographicItem]
+    # @return [RelatonIec::IecBibliographicItem]
     def fetch
       @fetch ||= Scrapper.parse_page @hit
     end
