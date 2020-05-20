@@ -50,8 +50,10 @@ abstract:
   script: Latn
   format: text/plain
 docstatus:
-  stage: '60'
-  substage: '00'
+  stage:
+    value: '60'
+  substage:
+    value: '00'
 copyright:
   owner:
     name: International Electrotechnical Commission
