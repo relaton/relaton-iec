@@ -75,7 +75,7 @@ RSpec.describe RelatonIec::Scrapper do
     doc = double
     expect(doc).to receive(:xpath).and_return double(text: "2018")
     result = RelatonIec::Scrapper.send :fetch_copyright, "IEC 123", doc
-    expect(result[:from]).to eq "2018"
+    expect(result[0][:from]).to eq "2018"
   end
 
   context "raises error" do
