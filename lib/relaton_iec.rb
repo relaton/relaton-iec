@@ -1,3 +1,7 @@
+require "relaton_iso_bib"
+require "relaton_iec/hit"
+require "nokogiri"
+require "net/http"
 require "relaton_iec/version"
 require "relaton_iec/iec_bibliography"
 require "relaton_iec/iec_bibliographic_item"

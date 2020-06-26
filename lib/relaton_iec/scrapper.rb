@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-require "relaton_iso_bib"
-require "relaton_iec/hit"
-require "nokogiri"
-require "net/http"
-
 # Capybara.request_driver :poltergeist do |app|
 #   Capybara::Poltergeist::Driver.new app, js_errors: false
 # end
@@ -12,7 +7,6 @@ require "net/http"
 
 module RelatonIec
   # Scrapper.
-  # rubocop:disable Metrics/ModuleLength
   module Scrapper
     DOMAIN = "https://webstore.iec.ch"
 
@@ -213,42 +207,12 @@ module RelatonIec
         ).text.downcase.tr " ", "-"
       end
 
-      # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
-
       # Fetch titles.
       # @param hit_data [Hash]
       # @return [Array<Hash>]
       def fetch_titles(hit_data)
-        titles = hit_data[:title].split " - "
-        case titles.size
-        when 0
-          intro, main, part = nil, "", nil
-        when 1
-          intro, main, part = nil, titles[0], nil
-        when 2
-          if /^(Part|Partie) \d+:/ =~ titles[1]
-            intro, main, part = nil, titles[0], titles[1]
-          else
-            intro, main, part = titles[0], titles[1], nil
-          end
-        when 3
-          if /^(Part|Partie) \d+:/ =~ titles[1]
-            intro, main, part = nil, titles[0], titles[1..2].join(" - ")
-          else
-            intro, main, part = titles[0], titles[1], titles[2]
-          end
-        else
-          intro, main, part = titles[0], titles[1], titles[2..-1]&.join(" -- ")
-        end
-        [{
-          title_intro: intro,
-          title_main: main,
-          title_part: part,
-          language: "en",
-          script: "Latn",
-        }]
+        RelatonBib::TypedTitleString.from_string hit_data[:title], "en", "Latn"
       end
-      # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
 
       # Fetch dates
       # @param doc [Nokogiri::HTML::Document]
@@ -328,5 +292,4 @@ module RelatonIec
       # rubocop:enable Metrics/MethodLength
     end
   end
-  # rubocop:enable Metrics/ModuleLength
 end

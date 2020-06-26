@@ -40,32 +40,6 @@ RSpec.describe RelatonIec::Scrapper do
     end
   end
 
-  context "returns title" do
-    it "with no parts" do
-      hit_data = { title: "" }
-      title = RelatonIec::Scrapper.send :fetch_titles, hit_data
-      expect(title.first[:title_main]).to eq ""
-    end
-
-    it "with main part" do
-      hit_data = { title: "Main" }
-      title = RelatonIec::Scrapper.send :fetch_titles, hit_data
-      expect(title.first[:title_main]).to eq "Main"
-    end
-
-    it "with three parts" do
-      hit_data = { title: "Main - title - part" }
-      title = RelatonIec::Scrapper.send :fetch_titles, hit_data
-      expect(title.first[:title_main]).to eq "title"
-    end
-
-    it "with extra parts" do
-      hit_data = { title: "Intro - Main - Part - Extra" }
-      title = RelatonIec::Scrapper.send :fetch_titles, hit_data
-      expect(title.first[:title_part]).to eq "Part -- Extra"
-    end
-  end
-
   it "returns ISO contributor" do
     result = RelatonIec::Scrapper.send :fetch_contributors, "ISO 123"
     expect(result.first[:entity][:name]).to eq "International Organization for Standardization"

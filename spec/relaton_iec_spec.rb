@@ -80,7 +80,7 @@ RSpec.describe RelatonIec do
         results = RelatonIec::IecBibliography.get("IEC 60050-102:2007").to_xml
         expect(results).to include %(<on>2007</on>)
         expect(results).to include(
-          '<title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics - General concepts and linear algebra</title>',
+          '<title type="title-part" format="text/plain" language="en" script="Latn">Part 102: Mathematics -- General concepts and linear algebra</title>',
         )
       end
     end
