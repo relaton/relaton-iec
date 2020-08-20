@@ -35,5 +35,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "webmock"
 
   spec.add_dependency "addressable"
-  spec.add_dependency "relaton-iso-bib", "~> 1.2.0"
+  spec.add_dependency "relaton-iso-bib", "~> 1.3.0"
 end
