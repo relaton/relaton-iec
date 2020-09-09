@@ -29,21 +29,21 @@ module RelatonIec
       # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
 
       # Parse page.
-      # @param hit [Hash]
+      # @param hit_data [Hash]
       # @return [Hash]
       def parse_page(hit_data)
         doc = get_page hit_data[:url]
 
         # Fetch edition.
         edition = doc.at(
-          "//th[contains(., 'Edition')]/following-sibling::td/span",
+          "//th[contains(., 'Edition')]/following-sibling::td/span"
         ).text
 
         status, relations = fetch_status_relations hit_data[:url]
 
         IecBibliographicItem.new(
           fetched: Date.today.to_s,
-          docid: [RelatonBib::DocumentIdentifier.new(id: hit_data[:code], type: "IEC")],
+          docid: fetch_docid(hit_data),
           structuredidentifier: fetch_structuredidentifier(doc),
           edition: edition,
           language: ["en"],
@@ -59,12 +59,47 @@ module RelatonIec
           copyright: fetch_copyright(hit_data[:code], doc),
           link: fetch_link(doc, hit_data[:url]),
           relation: relations,
-          place: ["Geneva"],
+          place: ["Geneva"]
         )
       end
       # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
       private
+
+      # @param hit [Hash]
+      # @return [Array<RelatonBib::DocumentIdentifier>]
+      def fetch_docid(hit)
+        rest = hit[:code].downcase.sub(%r{
+          (?<head>[^\s]+)\s
+          (?<type>is|ts|tr|pas|srd|guide|tec|wp)?(?(<type>)\s)
+          (?<pnum>[\d-]+)\s?
+          (?<_dd>:)?(?(<_dd>)(?<date>[\d-]+)\s?)
+        }x, "")
+        m = $~
+        deliv = /cmv|csv|exv|prv|rlv|ser/.match(hit[:code].downcase).to_s
+        urn = ["urn", "iec", "std", m[:head].split("/").join("-"), m[:pnum],
+               m[:date], m[:type], deliv, "en"]
+        urn += fetch_ajunct(rest)
+        [
+          RelatonBib::DocumentIdentifier.new(id: hit[:code], type: "IEC"),
+          RelatonBib::DocumentIdentifier.new(id: urn.join(":"), type: "URN"),
+        ]
+      end
+
+      # @param rest [String]
+      # @return [Array<String, nil>]
+      def fetch_ajunct(rest)
+        r = rest.sub(%r{
+          (?<_pl>\+)(?(<_pl>)(?<adjunct>amd)(?<adjnum>\d+)\s?)
+          (?<_d2>:)?(?(<_d2>)(?<adjdt>[\d-]+)\s?)
+        }x, "")
+        m = $~ || {}
+        return [] unless m[:adjunct]
+
+        plus = m[:adjunct] && "plus"
+        urn = [plus, m[:adjunct], m[:adjnum], m[:adjdt]]
+        urn + fetch_ajunct(r)
+      end
 
       # Fetch abstracts.
       # @param doc [Nokigiri::HTML::Document]
@@ -111,12 +146,12 @@ module RelatonIec
         item_ref = doc.at("//span[@itemprop='productID']")
         unless item_ref
           return RelatonIsoBib::StructuredIdentifier.new(
-            project_number: "?", part_number: "", prefix: nil, id: "?",
+            project_number: "?", part_number: "", prefix: nil, id: "?"
           )
         end
 
         m = item_ref.text.match(
-          /(?<=\s)(?<project>\d+)-?(?<part>(?<=-)\d+|)-?(?<subpart>(?<=-)\d+|)/,
+          /(?<=\s)(?<project>\d+)-?(?<part>(?<=-)\d+|)-?(?<subpart>(?<=-)\d+|)/
         )
         RelatonIsoBib::StructuredIdentifier.new(
           project_number: m[:project],
@@ -124,7 +159,7 @@ module RelatonIec
           subpart_number: m[:subpart],
           prefix: nil,
           type: "IEC",
-          id: item_ref.text,
+          id: item_ref.text
         )
       end
 
@@ -168,8 +203,8 @@ module RelatonIec
       # @return [Array<Hash>]
       # rubocop:disable Metrics/MethodLength
       def fetch_relations(doc)
-        doc.xpath('//ROW[STATUS[.!="PREPARING"]][STATUS[.!="PUBLISHED"]]').
-          map do |r|
+        doc.xpath('//ROW[STATUS[.!="PREPARING"]][STATUS[.!="PUBLISHED"]]')
+          .map do |r|
           r_type = r.at("STATUS").text.downcase
           type = case r_type
                  # when 'published' then 'obsoletes' # Valid
@@ -178,7 +213,7 @@ module RelatonIec
                  else r_type
                  end
           fref = RelatonBib::FormattedRef.new(
-            content: r.at("FULL_NAME").text, format: "text/plain",
+            content: r.at("FULL_NAME").text, format: "text/plain"
           )
           bibitem = IecBibliographicItem.new(formattedref: fref)
           { type: type, bibitem: bibitem }
@@ -203,7 +238,7 @@ module RelatonIec
       # @return [String]
       def fetch_type(doc)
         doc.at(
-          '//th[contains(., "Publication type")]/following-sibling::td/span',
+          '//th[contains(., "Publication type")]/following-sibling::td/span'
         ).text.downcase.tr " ", "-"
       end
 
@@ -249,7 +284,7 @@ module RelatonIec
       # @return [Array<Hash>]
       def fetch_ics(doc)
         doc.xpath(
-          '//th[contains(text(), "ICS")]/following-sibling::td/a',
+          '//th[contains(text(), "ICS")]/following-sibling::td/a'
         ).map do |i|
           code = i.text.match(/[\d\.]+/).to_s.split "."
           { field: code[0], group: code[1], subgroup: code[2] }
@@ -281,8 +316,8 @@ module RelatonIec
         end
         from = code.match(/(?<=:)\d{4}/).to_s
         if from.empty?
-          from = doc.xpath("//span[@itemprop='releaseDate']").text.
-            match(/\d{4}/).to_s
+          from = doc.xpath("//span[@itemprop='releaseDate']").text
+            .match(/\d{4}/).to_s
         end
         [{
           owner: [{ name: name, abbreviation: abbreviation, url: url }],

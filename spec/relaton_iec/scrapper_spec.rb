@@ -40,9 +40,17 @@ RSpec.describe RelatonIec::Scrapper do
     end
   end
 
+  it "parse URN with 3 adjuncts" do
+    docid = RelatonIec::Scrapper.send :fetch_docid, code: "IEC 60034-1:1969+"\
+    "AMD1:1977+AMD2:1979+AMD3:1980 CSV"
+    expect(docid.last.id).to eq "urn:iec:std:iec:60034-1:1969::csv:en:plus:amd"\
+    ":1:1977:plus:amd:2:1979:plus:amd:3:1980"
+  end
+
   it "returns ISO contributor" do
     result = RelatonIec::Scrapper.send :fetch_contributors, "ISO 123"
-    expect(result.first[:entity][:name]).to eq "International Organization for Standardization"
+    expect(result.first[:entity][:name]).to eq "International Organization "\
+    "for Standardization"
   end
 
   it "returns copyright with release date" do
