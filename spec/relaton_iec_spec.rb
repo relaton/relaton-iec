@@ -99,6 +99,8 @@ RSpec.describe RelatonIec do
         VCR.use_cassette "iec_80000_all_parts" do
           results = RelatonIec::IecBibliography.get "IEC 80000 (all parts)"
           expect(results.docidentifier.first.id).to eq "IEC 80000 (all parts)"
+          expect(results.docidentifier.last.id).to eq "urn:iec:std:iec:"\
+          "80000:::ser"
         end
       end
 
@@ -108,6 +110,8 @@ RSpec.describe RelatonIec do
             "IEC 80000", nil, { all_parts: true }
           )
           expect(results.docidentifier.first.id).to eq "IEC 80000 (all parts)"
+          expect(results.docidentifier.last.id).to eq "urn:iec:std:iec:"\
+          "80000:::ser"
         end
       end
     end
