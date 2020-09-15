@@ -31,7 +31,7 @@ Or install it yourself as:
 
 == Usage
 
-Refer to https://github.com/metanorma/relaton-iso/blob/master/README.adoc: the usage interface is identical.
+Refer to https://github.com/relaton/relaton-iso/blob/master/README.adoc the usage interface is identical.
 
 == Development
 
