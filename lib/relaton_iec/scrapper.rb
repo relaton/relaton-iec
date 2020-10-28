@@ -223,8 +223,7 @@ module RelatonIec
       def fetch_status_relations(url)
         pubid = url.match(/\d+$/).to_s
         uri = URI DOMAIN + "/webstore/webstore.nsf/AjaxRequestXML?"\
-        "Openagent&url=http://www.iec.ch/dyn/www/f?"\
-        "p=103:390:::::P390_PUBLICATION_ID:" + pubid
+        "Openagent&url=" + pubid
         resp = Net::HTTP.get_response uri
         doc = Nokogiri::XML resp.body
         status = fetch_status doc
