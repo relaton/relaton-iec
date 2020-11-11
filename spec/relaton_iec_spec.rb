@@ -71,9 +71,9 @@ RSpec.describe RelatonIec do
       VCR.use_cassette "get_a_code" do
         results = RelatonIec::IecBibliography.get("IEC 60050-102").to_xml
         expect(results).to include '<bibitem id="IEC60050-102" type="standard">'
-        expect(results).to include %(<on>2007</on>)
+        expect(results).to include %(<on>2007-08-27</on>)
         expect(results.gsub(/<relation.*<\/relation>/m, "")).not_to include(
-          %(<on>2007</on>)
+          %(<on>2007-08-27</on>)
         )
         expect(results).to include '<docidentifier type="IEC">'\
         "IEC 60050-102:2007</docidentifier>"
@@ -85,7 +85,7 @@ RSpec.describe RelatonIec do
     it "gets a reference with an year in a code" do
       VCR.use_cassette "get_a_code_with_year" do
         results = RelatonIec::IecBibliography.get("IEC 60050-102:2007").to_xml
-        expect(results).to include %(<on>2007</on>)
+        expect(results).to include %(<on>2007-08-27</on>)
         expect(results).to include(
           '<title type="title-part" format="text/plain" language="en" '\
           'script="Latn">Part 102: Mathematics -- General concepts and '\

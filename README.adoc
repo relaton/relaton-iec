@@ -18,7 +18,7 @@ Add this line to your application's Gemfile:
 
 [source,ruby]
 ----
-gem 'relaton_iec'
+gem 'relaton-iec'
 ----
 
 And then execute:
@@ -27,7 +27,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install relaton_iec
+    $ gem install relaton-iec
 
 == Usage
 
