@@ -136,9 +136,9 @@ module RelatonIec
             return { ret: r } if !year
 
             r.date.select { |d| d.type == "published" }.each do |d|
-              return { ret: r } if year.to_i == d.on.year
+              return { ret: r } if year.to_i == d.on(:year)
 
-              missed_years << d.on.year
+              missed_years << d.on(:year)
             end
           end
         end
