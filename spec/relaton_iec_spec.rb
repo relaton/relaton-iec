@@ -131,5 +131,12 @@ RSpec.describe RelatonIec do
       expect(results.to_xml).to include '<bibitem id="IEC60050-2011" '\
       'type="standard">'
     end
+
+    it "packaged standard" do
+      VCR.use_cassette "packaged_standard" do
+        results = RelatonIec::IecBibliography.get "IEC 60050-311"
+        expect(results.docidentifier.first.id).to eq "IEC 60050-300"
+      end
+    end
   end
 end

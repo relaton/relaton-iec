@@ -9,35 +9,52 @@ module RelatonIec
     DOMAIN = "https://webstore.iec.ch"
 
     # @param ref_nbr [String]
-    # @param year [String]
-    def initialize(ref_nbr, year = nil)
-      super
-      @array = hits ref_nbr, year
+    # @param year [String, nil]
+    # @param part [String, nil]
+    def initialize(ref_nbr, year = nil, part = nil)
+      super ref_nbr, year
+      @array = hits ref_nbr, year, part
     end
 
     private
 
-    def hits(ref, year)
+    # @param ref [String]
+    # @param year [String, nil]
+    # @param part [String, nil]
+    # @return [Array<RelatonIec::Hit>]
+    def hits(ref, year, part)
       from, to = nil
       if year
         from = Date.strptime year, "%Y"
         to   = from.next_year.prev_day
       end
-      get_results ref, from, to
+      get_results ref, from, to, part
     end
 
-    def get_results(ref, from,to)
+    # @param ref [String]
+    # @param from [Date, nil]
+    # @param to [Date, nil]
+    # @param part [String, nil]
+    # @return [Array<RelatonIec::Hit>]
+    def get_results(ref, from, to, part = nil)
+      code = part ? ref.sub(/(?<=-\d)\d+/, "*") : ref
       [nil, "trf", "wr"].reduce([]) do |m, t|
         url = "#{DOMAIN}/searchkey"
         url += "&type=#{t}" if t
-        url += "&RefNbr=#{ref}&From=#{from}&To=#{to}&start=1"
-        m + results(Addressable::URI.parse(url).normalize)
+        url += "&RefNbr=#{code}&From=#{from}&To=#{to}&start=1"
+        m + results(Addressable::URI.parse(url).normalize, part)
       end
     end
 
-    def results(uri)
-      Nokogiri::HTML(OpenURI.open_uri(uri)).css(
-        "//body/li", "ul.search-results > li", "ul.morethesame > li"
+    # @param url [String]
+    # @param part [String, nil]
+    # @return [Array<RelatonIec::Hit>]
+    def results(uri, part)
+      contains = "[contains(.,'Part #{part}:')]" if part
+      Nokogiri::HTML(OpenURI.open_uri(uri)).xpath(
+        "//body/li#{contains}",
+        "//ul[contains(@class,'search-results')]/li#{contains}",
+        "//ul[contains(@class,'morethesame')]/li#{contains}"
       ).map { |h| make_hit h }
     end
 

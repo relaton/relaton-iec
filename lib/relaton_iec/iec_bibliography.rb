@@ -9,10 +9,19 @@ module RelatonIec
   # Class methods for search ISO standards.
   class IecBibliography
     class << self
+      ##
+      # Search for standards entries. To seach packaged document it needs to
+      # pass part parametr.
+      #
+      # @example Search for packaged standard
+      #   RelatonIec::IecBibliography.search 'IEC 60050-311', nil, '311'
+      #
       # @param text [String]
+      # @param year [String, nil]
+      # @param part [String, nil] search for packaged stndard if not nil
       # @return [RelatonIec::HitCollection]
-      def search(text, year = nil)
-        HitCollection.new text, year
+      def search(text, year = nil, part = nil)
+        HitCollection.new text, year, part
       rescue SocketError, OpenURI::HTTPError, OpenSSL::SSL::SSLError
         raise RelatonBib::RequestError, "Could not access http://www.iec.ch"
       end
@@ -76,14 +85,20 @@ module RelatonIec
         workers.result.sort_by { |a| a[:i] }.map { |x| x[:hit] }
       end
 
-      def isobib_search_filter(code)
+      def isobib_search_filter(code, year) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
         docidrx = %r{^(ISO|IEC)[^0-9]*\s[0-9-]+}
         corrigrx = %r{^(ISO|IEC)[^0-9]*\s[0-9-]+:[0-9]+/}
         warn "[relaton-iec] (\"#{code}\") fetching..."
-        result = search(code)
+        result = search(code, year)
+        if result.empty? && /(?<=-)(?<part>\d+)/ =~ code
+          # try to search packaged standard
+          result = search code, year, part
+          ref = code.sub /(?<=-\d)\d+/, ""
+        else ref = code
+        end
         result.select do |i|
           i.hit[:code] &&
-            i.hit[:code].match(docidrx).to_s.include?(code) &&
+            i.hit[:code].match(docidrx).to_s.include?(ref) &&
             corrigrx !~ i.hit[:code]
         end
       end
@@ -148,7 +163,7 @@ module RelatonIec
       def iecbib_get1(code, year, _opts)
         return iev if code.casecmp("IEV").zero?
 
-        result = isobib_search_filter(code) || return
+        result = isobib_search_filter(code, year) || return
         ret = isobib_results_filter(result, year)
         if ret[:ret]
           warn "[relaton-iec] (\"#{code}\") found "\
