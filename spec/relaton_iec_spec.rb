@@ -138,5 +138,12 @@ RSpec.describe RelatonIec do
         expect(results.docidentifier.first.id).to eq "IEC 60050-300"
       end
     end
+
+    it "IEC 60027" do
+      VCR.use_cassette "IEC 60027" do
+        results = RelatonIec::IecBibliography.get "IEC 60027"
+        expect(results).to be_instance_of RelatonIec::IecBibliographicItem
+      end
+    end
   end
 end

@@ -55,11 +55,13 @@ module RelatonIec
         "//body/li#{contains}",
         "//ul[contains(@class,'search-results')]/li#{contains}",
         "//ul[contains(@class,'morethesame')]/li#{contains}"
-      ).map { |h| make_hit h }
+      ).map { |h| make_hit h }.compact
     end
 
     def make_hit(hit)
-      link  = hit.at('a[@href!="#"]')
+      link = hit.at('a[@href!="#"]')
+      return unless link
+
       code  = link.text.tr [194, 160].pack("c*").force_encoding("UTF-8"), ""
       title = hit.xpath("text()").text.gsub(/[\r\n]/, "")
       Hit.new({ code: code, title: title, url: DOMAIN + link[:href] }, self)
