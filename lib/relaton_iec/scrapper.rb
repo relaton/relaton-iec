@@ -170,7 +170,7 @@ module RelatonIec
       def fetch_status(doc)
         wip = doc.at('//ROW[STATUS[.="PREPARING"]]')
         if wip
-          statuses = YAML.load_file "lib/relaton_iec/statuses.yml"
+          statuses = YAML.load_file File.join __dir__, "statuses.yml"
           s = wip.at("STAGE").text
           stage, substage = statuses[s]["stage"].split "."
         else
