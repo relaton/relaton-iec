@@ -51,7 +51,10 @@ module RelatonIec
     # @return [Array<RelatonIec::Hit>]
     def results(uri, part)
       contains = "[contains(.,'Part #{part}:')]" if part
-      Nokogiri::HTML(OpenURI.open_uri(uri)).xpath(
+      resp = OpenURI.open_uri(uri, "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) "\
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36")
+      doc = Nokogiri::HTML(resp)
+      doc.xpath(
         "//body/li#{contains}",
         "//ul[contains(@class,'search-results')]/li#{contains}",
         "//ul[contains(@class,'morethesame')]/li#{contains}"

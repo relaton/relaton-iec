@@ -19,13 +19,13 @@ RSpec.describe RelatonIec do
     expect(OpenURI).to receive(:open_uri).and_raise(
       OpenURI::HTTPError.new("", exception_io)
     )
-    expect { RelatonIec::IecBibliography.search "60050-102", "2007" }
+    expect { RelatonIec::IecBibliography.search "60050", "2020" }
       .to raise_error RelatonBib::RequestError
   end
 
   it "fetch hits of page" do
     VCR.use_cassette "60050_102_2007" do
-      hit_collection = RelatonIec::IecBibliography.search("60050-102", "2007")
+      hit_collection = RelatonIec::IecBibliography.search("60050", "2020")
       expect(hit_collection.fetched).to be_falsy
       expect(hit_collection.fetch).to be_instance_of RelatonIec::HitCollection
       expect(hit_collection.fetched).to be_truthy
@@ -33,7 +33,7 @@ RSpec.describe RelatonIec do
       expect(hit_collection.to_s).to eq(
         "<RelatonIec::HitCollection:"\
         "#{format('%<id>#.14x', id: hit_collection.object_id << 1)} "\
-        "@ref=60050-102 @fetched=true>"
+        "@ref=60050 @fetched=true>"
       )
     end
   end
@@ -139,10 +139,17 @@ RSpec.describe RelatonIec do
       end
     end
 
-    it "IEC 60027" do
-      VCR.use_cassette "iec_60027" do
-        results = RelatonIec::IecBibliography.get "IEC 60027"
-        expect(results).to be_instance_of RelatonIec::IecBibliographicItem
+    it "IEC 60027-1" do
+      VCR.use_cassette "iec_60027_1" do
+        result = RelatonIec::IecBibliography.get "IEC 60027-1"
+        expect(result.docidentifier[0].id).to eq "IEC 60027-1"
+      end
+    end
+
+    it "gets amendment" do
+      VCR.use_cassette "iec_60050_102_amd_1" do
+        bib = RelatonIec::IecBibliography.get "IEC 60050-102/Amd 1"
+        expect(bib.docidentifier[0].id).to eq "IEC 60050-102/AMD1:2017"
       end
     end
   end

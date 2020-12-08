@@ -27,15 +27,15 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Tue, 24 Nov 2020 16:10:20 GMT
+      - Wed, 02 Dec 2020 23:12:13 GMT
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 0d54c3ddc4e7347d45d33a921b50661f.cloudfront.net (CloudFront)
+      - 1.1 f857c6fa23ed7b2d0b237aefe9c50960.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - ZAG50-C1
       X-Amz-Cf-Id:
-      - fWs3gYAcTVVq96wJB_PUi368AbnB6RJ-_-cRCgZKGUimA_Ijz_Mq0A==
+      - V0PS43Lkmf0bsj4TGXpvDw5ZONR1cd2OwFTvYV8WFi3vWe-d26moPQ==
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -54,7 +54,7 @@ http_interactions:
         wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
         id=\"nbres\" type=\"hidden\"  value=\"0\">\n<ul class=\"search-results lined-list\">\nNo
         valid publication found.\n</body>\n</html>\n"
-  recorded_at: Tue, 24 Nov 2020 16:10:17 GMT
+  recorded_at: Wed, 02 Dec 2020 23:12:10 GMT
 - request:
     method: get
     uri: https://webstore.iec.ch/searchkey&type=trf&RefNbr=IEC%2060050-103&From=0207-01-01&To=0207-12-31&start=1
@@ -82,15 +82,15 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Tue, 24 Nov 2020 16:10:20 GMT
+      - Wed, 02 Dec 2020 23:12:13 GMT
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 9616c9d248a84b00a499563db915c53b.cloudfront.net (CloudFront)
+      - 1.1 38a3f663851a0597e7026100a58b9b39.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - ZAG50-C1
       X-Amz-Cf-Id:
-      - BZeBqLrCsGX6B7yA0gRsHbVP3exHXEfj6CqwrchFfeDi2e6Zng3QlQ==
+      - hrN6zgU3cp8C2vNAYt2g4tNB-muSO0yII4IChz4Y_1fzAdzJGQmbuQ==
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -108,7 +108,7 @@ http_interactions:
         wordsOnly: !match });\n\t\t\t\t$(\"#trf.search-results\").highlight(word,{
         wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
         id=\"nbrestrf\" type=\"hidden\"  value=\"0\">\nNo publication found.\n</body>\n</html>\n"
-  recorded_at: Tue, 24 Nov 2020 16:10:18 GMT
+  recorded_at: Wed, 02 Dec 2020 23:12:11 GMT
 - request:
     method: get
     uri: https://webstore.iec.ch/searchkey&type=wr&RefNbr=IEC%2060050-103&From=0207-01-01&To=0207-12-31&start=1
@@ -136,15 +136,15 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Tue, 24 Nov 2020 16:10:21 GMT
+      - Wed, 02 Dec 2020 23:12:14 GMT
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 6e67f1ea42d4e5ff9c87cf2624025a28.cloudfront.net (CloudFront)
+      - 1.1 124f1c96be6ce1b7012fa9b6449f2ac7.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - ZAG50-C1
       X-Amz-Cf-Id:
-      - U43KcpAYIFUl7cvJMjjMG89r_ZPNbNKMfy_cGXnzXg4uTcOg6Q7UOw==
+      - hs1zIvndRwJTiQbv_5H8pmTJF3XlEOJjuPSBR5WFpf9ep8-V9ngLlQ==
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -162,7 +162,7 @@ http_interactions:
         wordsOnly: !match });\n\t\t\t\t$(\"#trf.search-results\").highlight(word,{
         wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
         id=\"nbreswr\" type=\"hidden\"  value=\"0\">\nNo publication found.\n</body>\n</html>\n"
-  recorded_at: Tue, 24 Nov 2020 16:10:18 GMT
+  recorded_at: Wed, 02 Dec 2020 23:12:11 GMT
 - request:
     method: get
     uri: https://webstore.iec.ch/searchkey&RefNbr=IEC%2060050-1*&From=0207-01-01&To=0207-12-31&start=1
@@ -190,15 +190,15 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Tue, 24 Nov 2020 16:10:22 GMT
+      - Wed, 02 Dec 2020 23:12:16 GMT
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 2285d262a6b5edcf46f904cd07877cdd.cloudfront.net (CloudFront)
+      - 1.1 3108e2685e0e061c5abe75f40944947d.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - ZAG50-C1
       X-Amz-Cf-Id:
-      - 4rYsPerxe2Y57RxAIq_MnWwH9EtB1I9tT0Ueub5UpV2ulMPDZ5IQuQ==
+      - 06f_bvVT0Sr7XLLxdxV1vXcts3vu4J_hA69W77k07uEmorkJbaZa5w==
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -217,7 +217,7 @@ http_interactions:
         wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
         id=\"nbres\" type=\"hidden\"  value=\"0\">\n<ul class=\"search-results lined-list\">\nNo
         valid publication found.\n</body>\n</html>\n"
-  recorded_at: Tue, 24 Nov 2020 16:10:20 GMT
+  recorded_at: Wed, 02 Dec 2020 23:12:13 GMT
 - request:
     method: get
     uri: https://webstore.iec.ch/searchkey&type=trf&RefNbr=IEC%2060050-1*&From=0207-01-01&To=0207-12-31&start=1
@@ -245,15 +245,15 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Tue, 24 Nov 2020 16:10:23 GMT
+      - Wed, 02 Dec 2020 23:12:16 GMT
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 f857c6fa23ed7b2d0b237aefe9c50960.cloudfront.net (CloudFront)
+      - 1.1 cd58d60f2b52ca321822f27453e5f098.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - ZAG50-C1
       X-Amz-Cf-Id:
-      - XGtICAtU3Gff2wOmlKlI807Hg5s5ogtfWAMtJN43i39Tpny2qy76Yw==
+      - IuobsggXuXwV7-Xxnfu8dUq-Raao07Vc-tZ4MePvGIq03JqgcDCJFw==
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -271,7 +271,7 @@ http_interactions:
         wordsOnly: !match });\n\t\t\t\t$(\"#trf.search-results\").highlight(word,{
         wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
         id=\"nbrestrf\" type=\"hidden\"  value=\"0\">\nNo publication found.\n</body>\n</html>\n"
-  recorded_at: Tue, 24 Nov 2020 16:10:20 GMT
+  recorded_at: Wed, 02 Dec 2020 23:12:13 GMT
 - request:
     method: get
     uri: https://webstore.iec.ch/searchkey&type=wr&RefNbr=IEC%2060050-1*&From=0207-01-01&To=0207-12-31&start=1
@@ -299,15 +299,15 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Tue, 24 Nov 2020 16:10:24 GMT
+      - Wed, 02 Dec 2020 23:12:17 GMT
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 76991fdca074ecae847653e013587ff8.cloudfront.net (CloudFront)
+      - 1.1 9680e9cb5cbc773ebfed1b7a558f7db6.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - ZAG50-C1
       X-Amz-Cf-Id:
-      - CL2ipYS9SCeMGSvSyx1-LCsPlmB9DC81Oc5aoPpMYWQPEOG22K4vuQ==
+      - VbZ40SQS2L-ny3MqwriiQj59lMGIsPDuTBfxGKkmKCm2dzzEYGzBow==
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -325,5 +325,5 @@ http_interactions:
         wordsOnly: !match });\n\t\t\t\t$(\"#trf.search-results\").highlight(word,{
         wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
         id=\"nbreswr\" type=\"hidden\"  value=\"0\">\nNo publication found.\n</body>\n</html>\n"
-  recorded_at: Tue, 24 Nov 2020 16:10:22 GMT
+  recorded_at: Wed, 02 Dec 2020 23:12:15 GMT
 recorded_with: VCR 6.0.0

@@ -172,6 +172,8 @@ module RelatonIec
         if wip
           statuses = YAML.load_file File.join __dir__, "statuses.yml"
           s = wip.at("STAGE").text
+          return unless statuses[s]
+
           stage, substage = statuses[s]["stage"].split "."
         else
           stage    = "60"

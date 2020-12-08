@@ -85,10 +85,16 @@ module RelatonIec
         workers.result.sort_by { |a| a[:i] }.map { |x| x[:hit] }
       end
 
-      def isobib_search_filter(code, year) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-        docidrx = %r{^(ISO|IEC)[^0-9]*\s[0-9-]+}
-        corrigrx = %r{^(ISO|IEC)[^0-9]*\s[0-9-]+:[0-9]+/}
-        warn "[relaton-iec] (\"#{code}\") fetching..."
+      def isobib_search_filter(reference, year, opts) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+        %r{
+          ^(?<code>(?:ISO|IEC)[^\d]*\s[\d-]+\w?)
+          (:(?<year1>\d{4}))?
+          (?<bundle>\+[^\s\/]+)?
+          (\/(?<corr>AMD\s\d+))?
+        }x =~ reference.upcase
+        year ||= year1
+        corr&.sub! " ", ""
+        warn "[relaton-iec] (\"#{reference}\") fetching..."
         result = search(code, year)
         if result.empty? && /(?<=-)(?<part>\d+)/ =~ code
           # try to search packaged standard
@@ -97,9 +103,16 @@ module RelatonIec
         else ref = code
         end
         result.select do |i|
-          i.hit[:code] &&
-            i.hit[:code].match(docidrx).to_s.include?(ref) &&
-            corrigrx !~ i.hit[:code]
+          %r{
+            ^(?<code2>(?:ISO|IEC)[^\d]*\s\d+(-\w+)?)
+            (:(?<year2>\d{4}))?
+            (?<bundle2>\+[^\s\/]+)?
+            (\/(?<corr2>AMD\d+))?
+          }x =~ i.hit[:code]
+          code2.sub! /(?<=-\d)\w*/, "" if part
+          code2.sub! /-\d+\w*/, "" if opts[:all_parts]
+          ref == code2 && (year.nil? || year == year2) && bundle == bundle2 &&
+            corr == corr2
         end
       end
 
@@ -160,10 +173,10 @@ module RelatonIec
         { years: missed_years }
       end
 
-      def iecbib_get1(code, year, _opts)
+      def iecbib_get1(code, year, opts)
         return iev if code.casecmp("IEV").zero?
 
-        result = isobib_search_filter(code, year) || return
+        result = isobib_search_filter(code, year, opts) || return
         ret = isobib_results_filter(result, year)
         if ret[:ret]
           warn "[relaton-iec] (\"#{code}\") found "\
