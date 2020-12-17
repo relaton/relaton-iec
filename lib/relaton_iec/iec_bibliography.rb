@@ -21,7 +21,7 @@ module RelatonIec
       # @param part [String, nil] search for packaged stndard if not nil
       # @return [RelatonIec::HitCollection]
       def search(text, year = nil, part = nil)
-        HitCollection.new text, year, part
+        HitCollection.new text, year&.strip, part
       rescue SocketError, OpenURI::HTTPError, OpenSSL::SSL::SSLError
         raise RelatonBib::RequestError, "Could not access http://www.iec.ch"
       end
