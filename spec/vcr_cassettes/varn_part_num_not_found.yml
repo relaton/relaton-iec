@@ -28,15 +28,15 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Thu, 17 Dec 2020 17:01:06 GMT
+      - Mon, 25 Jan 2021 11:37:14 GMT
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 9680e9cb5cbc773ebfed1b7a558f7db6.cloudfront.net (CloudFront)
+      - 1.1 3b241d28b74f1afdcb7ac9fb7109cff1.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - ZAG50-C1
       X-Amz-Cf-Id:
-      - dnyCIoCMmMw2D3B1quibUWExiW6t4SV3w6bcINJkgLgzFX85KJd9qw==
+      - pjTOgEew8_OxIuFcDN5hWP4WurdgJyl4HyI4N0kEv5V3_OWrv4S4Iw==
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -55,7 +55,7 @@ http_interactions:
         wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
         id=\"nbres\" type=\"hidden\"  value=\"0\">\n<ul class=\"search-results lined-list\">\nNo
         valid publication found.\n</body>\n</html>\n"
-  recorded_at: Thu, 17 Dec 2020 17:01:01 GMT
+  recorded_at: Mon, 25 Jan 2021 11:37:10 GMT
 - request:
     method: get
     uri: https://webstore.iec.ch/searchkey&type=trf&RefNbr=IEC%2060050-103&From=0207-01-01&To=0207-12-31&start=1
@@ -84,15 +84,15 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Thu, 17 Dec 2020 17:01:06 GMT
+      - Mon, 25 Jan 2021 11:37:14 GMT
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 c49bda74c25f4f26cc20173eec28da1f.cloudfront.net (CloudFront)
+      - 1.1 eaa5b4468d4ba37bc9733291d72738ec.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - ZAG50-C1
       X-Amz-Cf-Id:
-      - GyhJNVgMdlo0GFwlB9l5pav0rJB91a5bAE7cZARljsBLDa0C3wOgFg==
+      - FaNC6vVevLljvoButHQ5UbxPCQRQXVRrqFbPNVbtHInlHiFnrpwVww==
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -110,7 +110,7 @@ http_interactions:
         wordsOnly: !match });\n\t\t\t\t$(\"#trf.search-results\").highlight(word,{
         wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
         id=\"nbrestrf\" type=\"hidden\"  value=\"0\">\nNo publication found.\n</body>\n</html>\n"
-  recorded_at: Thu, 17 Dec 2020 17:01:01 GMT
+  recorded_at: Mon, 25 Jan 2021 11:37:10 GMT
 - request:
     method: get
     uri: https://webstore.iec.ch/searchkey&type=wr&RefNbr=IEC%2060050-103&From=0207-01-01&To=0207-12-31&start=1
@@ -139,15 +139,15 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Thu, 17 Dec 2020 17:01:08 GMT
+      - Mon, 25 Jan 2021 11:37:15 GMT
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 ec5f7ca5219bc2c06993f1aa180b2fa1.cloudfront.net (CloudFront)
+      - 1.1 375ffc8f2a15d6fd2fa731e1cdf5a737.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - ZAG50-C1
       X-Amz-Cf-Id:
-      - c_slIgsj5_ludDtR2lS8JnHeY4RMWGpQMOI9IHEIIg4QQzMopLSG3w==
+      - "-_whY4OV886jDOujxlsU6yItksJgWqeavQwS4IubuJZfnMWzUCbGKg=="
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -165,7 +165,7 @@ http_interactions:
         wordsOnly: !match });\n\t\t\t\t$(\"#trf.search-results\").highlight(word,{
         wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
         id=\"nbreswr\" type=\"hidden\"  value=\"0\">\nNo publication found.\n</body>\n</html>\n"
-  recorded_at: Thu, 17 Dec 2020 17:01:03 GMT
+  recorded_at: Mon, 25 Jan 2021 11:37:11 GMT
 - request:
     method: get
     uri: https://webstore.iec.ch/searchkey&RefNbr=IEC%2060050-1*&From=0207-01-01&To=0207-12-31&start=1
@@ -194,15 +194,15 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Thu, 17 Dec 2020 17:01:09 GMT
+      - Mon, 25 Jan 2021 11:37:17 GMT
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 76991fdca074ecae847653e013587ff8.cloudfront.net (CloudFront)
+      - 1.1 b63f332297d95bccb0f4e41c4aef0ab1.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - ZAG50-C1
       X-Amz-Cf-Id:
-      - IVOi6FS5Q1eQoC1eBjGkEvbTyLHXMWCB9yE_OTD1uXiMVFD8eY-Rrg==
+      - OQ-eeJkFuRWxfuMx7DD2LYZtBkdRjR4sjFmnEtbqrDq1SEuCSQcJOA==
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -221,7 +221,7 @@ http_interactions:
         wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
         id=\"nbres\" type=\"hidden\"  value=\"0\">\n<ul class=\"search-results lined-list\">\nNo
         valid publication found.\n</body>\n</html>\n"
-  recorded_at: Thu, 17 Dec 2020 17:01:04 GMT
+  recorded_at: Mon, 25 Jan 2021 11:37:13 GMT
 - request:
     method: get
     uri: https://webstore.iec.ch/searchkey&type=trf&RefNbr=IEC%2060050-1*&From=0207-01-01&To=0207-12-31&start=1
@@ -250,15 +250,15 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Thu, 17 Dec 2020 17:01:10 GMT
+      - Mon, 25 Jan 2021 11:37:17 GMT
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 158b0f42a1d87ab9108e2baf28e8c990.cloudfront.net (CloudFront)
+      - 1.1 7fbfed9453edeb4b5dca9173a3f5f8dd.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - ZAG50-C1
       X-Amz-Cf-Id:
-      - VrztqszVyYJUZB5-LjJcg9MZigtekoa6rOXsutvqCzHHmJKw7oj_EA==
+      - CcK9QmoJC_GLqU0iGcmEaUWyd7bp876jlUqrFl7QN5QOcn1KvHGzyQ==
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -276,7 +276,7 @@ http_interactions:
         wordsOnly: !match });\n\t\t\t\t$(\"#trf.search-results\").highlight(word,{
         wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
         id=\"nbrestrf\" type=\"hidden\"  value=\"0\">\nNo publication found.\n</body>\n</html>\n"
-  recorded_at: Thu, 17 Dec 2020 17:01:05 GMT
+  recorded_at: Mon, 25 Jan 2021 11:37:13 GMT
 - request:
     method: get
     uri: https://webstore.iec.ch/searchkey&type=wr&RefNbr=IEC%2060050-1*&From=0207-01-01&To=0207-12-31&start=1
@@ -305,15 +305,15 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Thu, 17 Dec 2020 17:01:11 GMT
+      - Mon, 25 Jan 2021 11:37:19 GMT
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 2285d262a6b5edcf46f904cd07877cdd.cloudfront.net (CloudFront)
+      - 1.1 9db8c72ec08059d1364d1dd74e1dc958.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - ZAG50-C1
       X-Amz-Cf-Id:
-      - rvDQ11xrMx8kGwMeoHKAH2EfeI6umCkIsWysj61RASMhijM6XP009A==
+      - "-yWOx21l3jjWj-Sa_uDb2h2ueuQhb6x9W-0tH9n_GwljcAZ8MSCzgQ=="
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -331,5 +331,182 @@ http_interactions:
         wordsOnly: !match });\n\t\t\t\t$(\"#trf.search-results\").highlight(word,{
         wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
         id=\"nbreswr\" type=\"hidden\"  value=\"0\">\nNo publication found.\n</body>\n</html>\n"
-  recorded_at: Thu, 17 Dec 2020 17:01:06 GMT
+  recorded_at: Mon, 25 Jan 2021 11:37:15 GMT
+- request:
+    method: get
+    uri: https://webstore.iec.ch/searchkey&RefNbr=IEC%2060050-103&From=&To=&start=1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/86.0.4240.111 Safari/537.36
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html; charset=US-ASCII
+      Content-Length:
+      - '856'
+      Connection:
+      - keep-alive
+      Server:
+      - Lotus-Domino
+      Date:
+      - Mon, 25 Jan 2021 11:37:20 GMT
+      X-Cache:
+      - Miss from cloudfront
+      Via:
+      - 1.1 b63f332297d95bccb0f4e41c4aef0ab1.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - ZAG50-C1
+      X-Amz-Cf-Id:
+      - w2RgBo6qe9-80CI_ABOBZscLBggyIdBwMckp-a0xzNr0D7PcC3lCMg==
+    body:
+      encoding: ASCII-8BIT
+      string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
+        {\n\t\t    background-color: #ddf0ff;\n    color: #0060aa;\n    text-shadow:
+        none;\n\t}\n\t.bold {\n\tfont-weight: bold;\n\t}\n.blue {\ncolor: blue;\n\t}\n</style>\n<script>\n\t$(document).ready(function(){\n\t\ttry
+        {\n\n\t\t\tvar k = $(\".search-query\").val().trim();\n\n\t\t\tif (k == '')
+        {k = $(\"#search-inputsearch\").val().trim();}\n\t\t\t} catch(e){\n\t\t\t//IE8\n\t\t\tvar
+        k = $.trim($(\".search-query\").val());\n\t\t\tif (k == '') {k = $(\".search-query\").val().trim();}\n\t\t\t}\n
+        \t\tvar element = k.split(\" \");\n\n\t\tfor (var i = 0; i < k.length; i++)
+        {\n\t\t\tif (\telement[i] != undefined) {\t\t\t\t\t\n\t\t\t\t//console.log(i+\"
+        - \" + element[i]);\n\t\t\t\tvar word = element[i].replace('\"','');\n\t\t\t\tvar
+        regexp=/\\*/g;\n\t\t\t\tvar match = regexp.exec(word);\n\n\n\t\t\t\tword =
+        element[i].replace('*','')\n\n\t       \t\t$(\".search-results\").highlight(word,{
+        wordsOnly: !match });\n\t\t\t\t$(\"#wr.search-results\").highlight(word,{
+        wordsOnly: !match });\n\t\t\t\t$(\"#trf.search-results\").highlight(word,{
+        wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
+        id=\"nbres\" type=\"hidden\"  value=\"1\">\n<ul class=\"search-results lined-list\">\n<li>\r\n\n<a
+        class=\"showmore\" id=\"161\" href=\"#\">Show all publications &raquo;</a><a
+        href=\"/publication/161\">IEC 60050-103:2009&nbsp;&nbsp;</a>\r\n\n<br>International
+        Electrotechnical Vocabulary (IEV) - Part 103: Mathematics - Functions<ul class=\"morethesame
+        161\">\r\n\n<li>\r\n\n<a href=\"/publication/61317\">IEC 60050-103:2009/AMD1:2017</a>\r\n\n<br>Amendment
+        1 - International Electrotechnical Vocabulary (IEV) - Part 103: Mathematics
+        - Functions</li>\r\n\n<li>\r\n\n<a href=\"/publication/65769\">IEC 60050-103:2009/AMD2:2019</a>\r\n\n<br>Amendment
+        2 - International Electrotechnical Vocabulary (IEV) - Part 103: Mathematics
+        - Functions</li>\r\n\n<li>\r\n\n<a href=\"/publication/67574\">IEC 60050-103:2009/AMD3:2020</a>\r\n\n<br>Amendment
+        3 - International Electrotechnical Vocabulary (IEV) - Part 103: Mathematics
+        - Functions</li>\r\n\n</ul>\r\n\n</li>\r\n\n</ul>\n<div class=\"pagination
+        pagination-centered\">\n\t\t\t\t<ul><li class=\"active\"><a href=\"#\" Title=\"Current
+        page\">1</a></li></ul>\n\t\t   </div>\n</body>\n</html>\n"
+  recorded_at: Mon, 25 Jan 2021 11:37:16 GMT
+- request:
+    method: get
+    uri: https://webstore.iec.ch/searchkey&type=trf&RefNbr=IEC%2060050-103&From=&To=&start=1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/86.0.4240.111 Safari/537.36
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html; charset=US-ASCII
+      Content-Length:
+      - '546'
+      Connection:
+      - keep-alive
+      Server:
+      - Lotus-Domino
+      Date:
+      - Mon, 25 Jan 2021 11:37:20 GMT
+      X-Cache:
+      - Miss from cloudfront
+      Via:
+      - 1.1 9569de78dc2ca85c5ba29cb17f0eb7ce.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - ZAG50-C1
+      X-Amz-Cf-Id:
+      - 2NETV6XeEOqln0myfqbyXXHt9y_MbK8UhA3IeBf2-1gmxK2ZqC-_mg==
+    body:
+      encoding: ASCII-8BIT
+      string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
+        {\n\t\t    background-color: #ddf0ff;\n    color: #0060aa;\n    text-shadow:
+        none;\n\t}\n\t.bold {\n\tfont-weight: bold;\n\t}\n.blue {\ncolor: blue;\n\t}\n</style>\n<script>\n\t$(document).ready(function(){\n\t\ttry
+        {\n\n\t\t\tvar k = $(\".search-query\").val().trim();\n\n\t\t\tif (k == '')
+        {k = $(\"#search-inputsearch\").val().trim();}\n\t\t\t} catch(e){\n\t\t\t//IE8\n\t\t\tvar
+        k = $.trim($(\".search-query\").val());\n\t\t\tif (k == '') {k = $(\".search-query\").val().trim();}\n\t\t\t}\n
+        \t\tvar element = k.split(\" \");\n\n\t\tfor (var i = 0; i < k.length; i++)
+        {\n\t\t\tif (\telement[i] != undefined) {\t\t\t\t\t\n\t\t\t\t//console.log(i+\"
+        - \" + element[i]);\n\t\t\t\tvar word = element[i].replace('\"','');\n\t\t\t\tvar
+        regexp=/\\*/g;\n\t\t\t\tvar match = regexp.exec(word);\n\n\n\t\t\t\tword =
+        element[i].replace('*','')\n\n\t       \t\t$(\".search-results\").highlight(word,{
+        wordsOnly: !match });\n\t\t\t\t$(\"#wr.search-results\").highlight(word,{
+        wordsOnly: !match });\n\t\t\t\t$(\"#trf.search-results\").highlight(word,{
+        wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
+        id=\"nbrestrf\" type=\"hidden\"  value=\"0\">\nNo publication found.\n</body>\n</html>\n"
+  recorded_at: Mon, 25 Jan 2021 11:37:16 GMT
+- request:
+    method: get
+    uri: https://webstore.iec.ch/searchkey&type=wr&RefNbr=IEC%2060050-103&From=&To=&start=1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/86.0.4240.111 Safari/537.36
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html; charset=US-ASCII
+      Content-Length:
+      - '546'
+      Connection:
+      - keep-alive
+      Server:
+      - Lotus-Domino
+      Date:
+      - Mon, 25 Jan 2021 11:37:21 GMT
+      X-Cache:
+      - Miss from cloudfront
+      Via:
+      - 1.1 c1caf5d327c9eee53d26ab7b7a8235f0.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - ZAG50-C1
+      X-Amz-Cf-Id:
+      - YI3c42O2DhAkgJ3Y_AKRMxCtj8270BXGhzqXxpgp-hiqpfG51WzhgA==
+    body:
+      encoding: ASCII-8BIT
+      string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
+        {\n\t\t    background-color: #ddf0ff;\n    color: #0060aa;\n    text-shadow:
+        none;\n\t}\n\t.bold {\n\tfont-weight: bold;\n\t}\n.blue {\ncolor: blue;\n\t}\n</style>\n<script>\n\t$(document).ready(function(){\n\t\ttry
+        {\n\n\t\t\tvar k = $(\".search-query\").val().trim();\n\n\t\t\tif (k == '')
+        {k = $(\"#search-inputsearch\").val().trim();}\n\t\t\t} catch(e){\n\t\t\t//IE8\n\t\t\tvar
+        k = $.trim($(\".search-query\").val());\n\t\t\tif (k == '') {k = $(\".search-query\").val().trim();}\n\t\t\t}\n
+        \t\tvar element = k.split(\" \");\n\n\t\tfor (var i = 0; i < k.length; i++)
+        {\n\t\t\tif (\telement[i] != undefined) {\t\t\t\t\t\n\t\t\t\t//console.log(i+\"
+        - \" + element[i]);\n\t\t\t\tvar word = element[i].replace('\"','');\n\t\t\t\tvar
+        regexp=/\\*/g;\n\t\t\t\tvar match = regexp.exec(word);\n\n\n\t\t\t\tword =
+        element[i].replace('*','')\n\n\t       \t\t$(\".search-results\").highlight(word,{
+        wordsOnly: !match });\n\t\t\t\t$(\"#wr.search-results\").highlight(word,{
+        wordsOnly: !match });\n\t\t\t\t$(\"#trf.search-results\").highlight(word,{
+        wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
+        id=\"nbreswr\" type=\"hidden\"  value=\"0\">\nNo publication found.\n</body>\n</html>\n"
+  recorded_at: Mon, 25 Jan 2021 11:37:17 GMT
 recorded_with: VCR 6.0.0

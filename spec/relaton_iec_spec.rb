@@ -67,7 +67,7 @@ RSpec.describe RelatonIec do
   end
 
   describe "get" do
-    it "gets a code" do
+    it "a code" do
       VCR.use_cassette "get_a_code" do
         results = RelatonIec::IecBibliography.get("IEC 60050-102").to_xml
         expect(results).to include '<bibitem id="IEC60050-102" type="standard">'
@@ -82,7 +82,7 @@ RSpec.describe RelatonIec do
       end
     end
 
-    it "gets a reference with an year in a code" do
+    it "a reference with an year in a code" do
       VCR.use_cassette "get_a_code_with_year" do
         results = RelatonIec::IecBibliography.get("IEC 60050-102:2007").to_xml
         expect(results).to include %(<on>2007-08-27</on>)
@@ -94,24 +94,46 @@ RSpec.describe RelatonIec do
       end
     end
 
-    context "gets all parts" do
+    it "a reference with an incorrect year" do
+      VCR.use_cassette "get_a_code_with_incorrect_year" do
+        expect do
+          RelatonIec::IecBibliography.get("IEC 60050:2005")
+        end.to output(/There was no match for 2005, though there were matches found for 1996/).to_stderr
+      end
+    end
+
+    context "all parts" do
       it "by reference" do
         VCR.use_cassette "iec_80000_all_parts" do
           results = RelatonIec::IecBibliography.get "IEC 80000 (all parts)"
           expect(results.docidentifier.first.id).to eq "IEC 80000 (all parts)"
-          expect(results.docidentifier.last.id).to eq "urn:iec:std:iec:"\
-          "80000:::ser"
+          expect(results.docidentifier.last.id).to eq "urn:iec:std:iec:80000:::ser"
         end
       end
 
       it "by options" do
         VCR.use_cassette "iec_80000_all_parts" do
-          results = RelatonIec::IecBibliography.get(
-            "IEC 80000", nil, { all_parts: true }
-          )
+          results = RelatonIec::IecBibliography.get("IEC 80000", nil, { all_parts: true })
           expect(results.docidentifier.first.id).to eq "IEC 80000 (all parts)"
-          expect(results.docidentifier.last.id).to eq "urn:iec:std:iec:"\
-          "80000:::ser"
+          expect(results.docidentifier.last.id).to eq "urn:iec:std:iec:80000:::ser"
+        end
+      end
+
+      it "IEC 61326:2020" do
+        VCR.use_cassette "iec_61326_2020_all_parts" do
+          result = RelatonIec::IecBibliography.get "IEC 61326:2020 (all parts)"
+          expect(result.docidentifier[0].id).to eq "IEC 61326 RLV (all parts)"
+          expect(result.relation.last.type).to eq "partOf"
+          expect(result.relation.last.bibitem.formattedref.content).to eq "IEC 61326-2-6:2020"
+        end
+      end
+
+      it "hint" do
+        VCR.use_cassette "iec_61326" do
+          expect do
+            result = RelatonIec::IecBibliography.get "IEC 61326"
+            expect(result.docidentifier[0].id).to eq "IEC 61326"
+          end.to output(/WARNING: IEC 61326 found as IEC 61326:2002 but also contain parts/).to_stderr
         end
       end
     end
