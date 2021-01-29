@@ -12,13 +12,13 @@ module RelatonIec
 
     DOMAIN = "https://webstore.iec.ch"
 
-    # @param ref_nbr [String]
+    # @param ref [String]
     # @param year [String, nil]
     # @param part [String, nil]
-    def initialize(ref_nbr, year = nil, part = nil)
-      super ref_nbr, year
+    def initialize(ref, year = nil, part = nil)
+      super ref, year
       @part = part
-      @array = hits ref_nbr, year
+      @array = ref ? hits(ref, year) : []
     end
 
     # @return [RelatonIec::IecBibliographicItem]

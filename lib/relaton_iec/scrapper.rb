@@ -69,36 +69,11 @@ module RelatonIec
       # @param hit [Hash]
       # @return [Array<RelatonBib::DocumentIdentifier>]
       def fetch_docid(hit)
-        rest = hit[:code].downcase.sub(%r{
-          (?<head>[^\s]+)\s
-          (?<type>is|ts|tr|pas|srd|guide|tec|wp)?(?(<type>)\s)
-          (?<pnum>[\d-]+)\s?
-          (?<_dd>:)?(?(<_dd>)(?<date>[\d-]+)\s?)
-        }x, "")
-        m = $~
-        deliv = /cmv|csv|exv|prv|rlv|ser/.match(hit[:code].downcase).to_s
-        urn = ["urn", "iec", "std", m[:head].split("/").join("-"), m[:pnum],
-               m[:date], m[:type], deliv, "en"]
-        urn += fetch_ajunct(rest)
+        urn = RelatonIec.code_to_urn hit[:code], "en"
         [
           RelatonBib::DocumentIdentifier.new(id: hit[:code], type: "IEC"),
-          RelatonBib::DocumentIdentifier.new(id: urn.join(":"), type: "URN"),
+          RelatonBib::DocumentIdentifier.new(id: urn, type: "URN"),
         ]
-      end
-
-      # @param rest [String]
-      # @return [Array<String, nil>]
-      def fetch_ajunct(rest)
-        r = rest.sub(%r{
-          (?<_pl>\+)(?(<_pl>)(?<adjunct>amd)(?<adjnum>\d+)\s?)
-          (?<_d2>:)?(?(<_d2>)(?<adjdt>[\d-]+)\s?)
-        }x, "")
-        m = $~ || {}
-        return [] unless m[:adjunct]
-
-        plus = m[:adjunct] && "plus"
-        urn = [plus, m[:adjunct], m[:adjnum], m[:adjdt]]
-        urn + fetch_ajunct(r)
       end
 
       # Fetch abstracts.

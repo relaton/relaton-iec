@@ -175,4 +175,21 @@ RSpec.describe RelatonIec do
       end
     end
   end
+
+  context "covert to URN reference" do
+    it "with amedment" do
+      urn = RelatonIec.code_to_urn "IEC 60050-102:2007/AMD1:2017"
+      expect(urn).to eq "urn:iec:std:iec:60050-102:2007::::plus:amd:1:2017"
+    end
+
+    it "with amedments and deliverable" do
+      urn = RelatonIec.code_to_urn "IEC 60034-1:1969+AMD1:1977+AMD2:1979+AMD3:1980 CSV", "en-fr"
+      expect(urn).to eq "urn:iec:std:iec:60034-1:1969::csv:en-fr:plus:amd:1:1977:plus:amd:2:1979:plus:amd:3:1980"
+    end
+
+    it "with type" do
+      urn = RelatonIec.code_to_urn "IEC TS 60034-16-3:1996", "fr"
+      expect(urn).to eq "urn:iec:std:iec:60034-16-3:1996:ts::fr"
+    end
+  end
 end

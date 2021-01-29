@@ -31,7 +31,200 @@ Or install it yourself as:
 
 == Usage
 
-Refer to https://github.com/relaton/relaton-iso/blob/master/README.adoc the usage interface is identical.
+=== Search for a standard using keywords
+
+`RelatonIec::IecBibliography.search(ref, year)` method returns hits collection. Each hit can be used to fetch a document.
+
+- `ref` - reference to search document
+- `year` - filter by year (optional)
+
+[source,ruby]
+----
+require 'relaton_iec'
+=> true
+
+hit_collection = RelatonIec::IecBibliography.search("60050")
+=> <RelatonIec::HitCollection:0x007fe0d7126f28 @ref=60050 @fetched=false>
+
+hit_collection.first
+=> <RelatonIec::Hit:0x007fe1068b4d10 @text="60050" @fetched="false" @fullIdentifier="" @title="IEC 60050-102:2007">
+
+item = hit_collection[2].fetch
+=> #<RelatonIec::IecBibliographicItem:0x007fe1171a06f8
+...
+
+item.docidentifier
+=> [#<RelatonBib::DocumentIdentifier:0x007fe1171bb930 @id="IEC 60050-112:2010", @scope=nil, @type="IEC">,
+ #<RelatonBib::DocumentIdentifier:0x007fe1171bb728 @id="urn:iec:std:iec:60050-112:2010:::en", @scope=nil, @type="URN">]
+
+item.docidentifier.detect { |di| di.type == "URN" }.id
+=> "urn:iec:std:iec:60050-112:2010:::en"
+----
+
+=== Fetch documen by keywords
+
+`RelatonIec::IecBibliography.get(ref, year, opts)` method returns document.
+
+- `ref` - reference to search document
+- `year` - filter by year (optional)
+- `opts` - hash of options (optional). Supported options are `:all_parts` (boolean), `:keep_year` (boolean).
+
+[source,ruby]
+----
+item = RelatonIec::IecBibliography.get("IEC 60050-112:2010")
+[relaton-iec] ("IEC 60050-112") fetching...
+[relaton-iec] ("IEC 60050-112") found IEC 60050-112:2010
+=> #<RelatonIec::IecBibliographicItem:0x007fa64e874f78
+
+item = RelatonIec::IecBibliography.get("IEC 60050-112", "2010", all_parts: true)
+[relaton-iec] ("IEC 60050-112") fetching...
+[relaton-iec] ("IEC 60050-112") found IEC 60050 (all parts)
+=> #<RelatonIec::IecBibliographicItem:0x007fa69e9b3948
+
+item.docidentifier.first
+=> #<RelatonBib::DocumentIdentifier:0x007fa69e9abd10 @id="IEC 60050 (all parts)", @scope=nil, @type="IEC">
+
+item = RelatonIec::IecBibliography.get("IEC 60050-112", "2010")
+[relaton-iec] ("IEC 60050-112") fetching...
+[relaton-iec] ("IEC 60050-112") found IEC 60050-112:2010
+=> #<RelatonIec::IecBibliographicItem:0x007fa69f296da8
+
+item.docidentifier.first
+=> #<RelatonBib::DocumentIdentifier:0x007fa69f2a65f0 @id="IEC 60050-112:2010", @scope=nil, @type="IEC">
+----
+
+=== XML serialization
+
+Possible options:
+
+- *bibdata* - If true then wrapp item with _bibdata_ element and add _ext_ element.
+- *note* - Array of hashes `{ text: "Note", type: "note" }`. These notes will be added to XML.
+
+[source,ruby]
+----
+item.to_xml
+=> "<bibitem id="IEC60050-112-2010" type="standard">
+      <fetched>2021-01-28</fetched>
+      <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
+      <title type="title-part" format="text/plain" language="en" script="Latn">Part 112: Quantities and units</title>
+      <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) - Part 112: Quantities and units</title>
+      <uri type="src">https://webstore.iec.ch/publication/162</uri>
+      <uri type="obp">/preview/info_iec60050-112%7Bed1.0%7Db.pdf</uri>
+      <docidentifier type="IEC">IEC 60050-112:2010</docidentifier>
+      <docidentifier type="URN">urn:iec:std:iec:60050-112:2010:::en</docidentifier>
+      <date type="published">
+        <on>2010-01-27</on>
+      </date>
+      <contributor>
+        <role type="publisher"/>
+        <organization>
+          <name>International Electrotechnical Commission</name>
+          <abbreviation>IEC</abbreviation>
+          <uri>www.iec.ch</uri>
+        </organization>
+      </contributor>
+      <edition>1.0</edition>
+      <language>en</language>
+      <script>Latn</script>
+      <abstract format="text/plain" language="en" script="Latn">
+        IEC 60050-112:2010 gives the general terminology concerning quantities and units, the terminology of SI, terms used in names and definitions of quantities, and some basic concepts in metrology. It cancels and replaces Sections 111-11 and 111-12 of International Standard IEC 60050-111:1996. It has the status of a horizontal standard in accordance with IEC Guide 108.
+      </abstract>
+      <status>
+        <stage>60</stage>
+        <substage>60</substage>
+      </status>
+      <copyright>
+        <from>2010</from>
+        <owner>
+          <organization>
+            <name>International Electrotechnical Commission</name>
+            <abbreviation>IEC</abbreviation>
+            <uri>www.iec.ch</uri>
+          </organization>
+        </owner>
+      </copyright>
+      <place>Geneva</place>
+    </bibitem>"
+
+item.to_xml bibdata: true
+=> "<bibdata type="standard">
+      <fetched>2021-01-28</fetched>
+      <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
+      <title type="title-part" format="text/plain" language="en" script="Latn">Part 112: Quantities and units</title>
+      <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) - Part 112: Quantities and units</title>
+      <uri type="src">https://webstore.iec.ch/publication/162</uri>
+      <uri type="obp">/preview/info_iec60050-112%7Bed1.0%7Db.pdf</uri>
+      <docidentifier type="IEC">IEC 60050-112:2010</docidentifier>
+      <docidentifier type="URN">urn:iec:std:iec:60050-112:2010:::en</docidentifier>
+      ...
+      <ext>
+        <doctype>international-standard</doctype>
+        <editorialgroup>
+          <technical-committee number="1" type="technicalCommittee">TC 1 - Terminology</technical-committee>
+        </editorialgroup>
+        <ics>
+          <code>01.040.01</code>
+          <text>Generalities. Terminology. Standardization. Documentation (Vocabularies)</text>
+        </ics>
+        <ics>
+          <code>01.060</code>
+          <text>Quantities and units</text>
+        </ics>
+        <structuredidentifier type="IEC">
+          <project-number>60050</project-number>
+        </structuredidentifier>
+      </ext>
+    </bibdata>"
+
+item.to_xml note: [{ text: "Note", type: "note" }]
+=> "<bibitem id="IEC60050-112-2010" type="standard">
+      ...
+      <note format="text/plain" type="note">Note</note>
+      ...
+    </bibitem>"
+----
+
+=== Converting reference to URN
+
+URN is document a identifier format. It has fields delimited by colon. If any field is absent then it's place is empty. All values are in lower-case.
+
+URN structure: +
+`urn:sdo_namespace:content_type_namespace:header:project_number:date:type:deliverable:language:relation:adjunct_type:adjunct_number:date:component_or_related_asset`
+
+* prefix
+- `urn` - value: urn
+- `sdo_namespace` - value: iec
+- `content_type_namespace` - value: std
+* base document information
+- `header` - possible values are: iec, iso, iec-iso, iec-ieee, iec-itu, iec-astm
+- `project_number` - number and partnumber. For example 67654, 60601-1, 61076-7-101
+- `date` - document date (optional). Examples: 2010-03, 2010, 2010-10-11 etc.
+- `type` - documant type (optional). Possible values: ts, tr, pas, guide, is, ser.
+- `deliverable` - (optional) possible values: prv, csv, exv, rlv, cmv
+- `language` - (optional) examples: en, fr, ru, en-fr, en-fr-ru etc.
+* adjunct document information (optional)
+- `relation` - value: plus
+- `adjunct_type` - possible values: amd, cor, ish
+- `adjunct_number` - adjunct number. Examples: 1, 2, 3, etc.
+- `date` - adjanct date. Example: 2009
+* component or related asset information (optional)
+- `component_or_related_asset` - # or = followed by component id or related asset. Exammples: #fig-1, #sec-1, =forum
+
+For more information see https://github.com/relaton/relaton-iec/issues/22
+
+The method `RelatonIec.code_to_urn(code, lang)` converts document identifier to URN.
+
+* `code` is a document identifier
+* `lang` is a laguage code (optional). Examples: en, fr, en-fr etc.
+
+[source,ruby]
+----
+RelatonIec.code_to_urn "IEC 60050-102:2007/AMD1:2017"
+=> "urn:iec:std:iec:60050-102:2007::::plus:amd:1:2017"
+
+RelatonIec.code_to_urn "IEC 60034-1:1969+AMD1:1977+AMD2:1979+AMD3:1980 CSV", "en-fr"
+=> "urn:iec:std:iec:60034-1:1969::csv:en-fr:plus:amd:1:1977:plus:amd:2:1979:plus:amd:3:1980"
+----
 
 == Development
 

@@ -83,35 +83,31 @@ module RelatonIec
       #   workers.result.sort_by { |a| a[:i] }.map { |x| x[:hit] }
       # end
 
-      def search_filter(reference, year, opts) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+      def search_filter(ref, year) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
         %r{
           ^(?<code>(?:ISO|IEC)[^\d]*\s\d+((?:-\w+)+)?)
           (:(?<year1>\d{4}))?
           (?<bundle>\+[^\s\/]+)?
           (\/(?<corr>AMD\s\d+))?
-        }x =~ reference.upcase
+        }x =~ ref.upcase
         year ||= year1
         corr&.sub! " ", ""
-        warn "[relaton-iec] (\"#{reference}\") fetching..."
+        warn "[relaton-iec] (\"#{ref}\") fetching..."
         result = search(code, year)
         if result.empty? && /(?<=-)(?<part>[\w-]+)/ =~ code
           # try to search packaged standard
           result = search code, year, part
-          # ref = code.sub /(?<=-\d)\w+/, ""
-          # else ref = code
         end
         result = search code if result.empty?
-        code.sub! /((?:-\w+)+)/, ""
+        code&.sub! /((?:-\w+)+)/, ""
         result.select do |i|
           %r{
             ^(?<code2>(?:ISO|IEC)[^\d]*\s\d+)((?:-\w+)+)?
-            (:(?<year2>\d{4}))?
+            (:\d{4})?
             (?<bundle2>\+[^\s\/]+)?
             (\/(?<corr2>AMD\d+))?
           }x =~ i.hit[:code]
-          # code2.sub! /(?<=-\d)\w*/, "" if part
-          # code2.sub! /((?:-\w+)+)/, "" if opts[:all_parts]
-          code == code2 && bundle == bundle2 && corr == corr2 # (year.nil? || year == year2) &&
+          code == code2 && bundle == bundle2 && corr == corr2
         end
       end
 
@@ -196,7 +192,7 @@ module RelatonIec
       def iecbib_get(code, year, opts)
         # return iev if code.casecmp("IEV").zero?
 
-        result = search_filter(code, year, opts) || return
+        result = search_filter(code, year) || return
         ret = results_filter(result, code, year, opts)
         if ret[:ret]
           if ret[:missed_parts]
