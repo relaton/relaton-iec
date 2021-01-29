@@ -52,6 +52,9 @@ module RelatonIec
 
       private
 
+      # @param code [String]
+      # @param year [String]
+      # @param missed_years [Array<String>]
       def fetch_ref_err(code, year, missed_years) # rubocop:disable Metrics/MethodLength
         id = year ? "#{code}:#{year}" : code
         warn "[relaton-iec] WARNING: no match found online for #{id}. "\
@@ -83,9 +86,12 @@ module RelatonIec
       #   workers.result.sort_by { |a| a[:i] }.map { |x| x[:hit] }
       # end
 
+      # @param ref [String]
+      # @param year [String, nil]
+      # @return [RelatonIec::HitCollection]
       def search_filter(ref, year) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
         %r{
-          ^(?<code>(?:ISO|IEC)[^\d]*\s\d+((?:-\w+)+)?)
+          ^(?<code>\S+[^\d]*\s\d+((?:-\w+)+)?)
           (:(?<year1>\d{4}))?
           (?<bundle>\+[^\s\/]+)?
           (\/(?<corr>AMD\s\d+))?
@@ -102,7 +108,7 @@ module RelatonIec
         code&.sub! /((?:-\w+)+)/, ""
         result.select do |i|
           %r{
-            ^(?<code2>(?:ISO|IEC)[^\d]*\s\d+)((?:-\w+)+)?
+            ^(?<code2>\S+[^\d]*\s\d+)((?:-\w+)+)?
             (:\d{4})?
             (?<bundle2>\+[^\s\/]+)?
             (\/(?<corr2>AMD\d+))?
@@ -180,18 +186,23 @@ module RelatonIec
         { ret: ret, years: missed_years, missed_parts: missed_parts }
       end
 
+      # @param ref [string]
+      # @param part [String, nil]
+      # @return [Array<String, nil>]
       def code_year(ref, part)
         %r{
-          ^(?<code>(?:ISO|IEC)[^\d]*\s\d+((?:-\w+)+)?)
+          ^(?<code>\S+[^\d]*\s\d+((?:-\w+)+)?)
           (:(?<year>\d{4}))?
         }x =~ ref
         code.sub!(/-\d+/, "") if part
         [code, year]
       end
 
-      def iecbib_get(code, year, opts)
-        # return iev if code.casecmp("IEV").zero?
-
+      # @param code [String]
+      # @param year [String, nil]
+      # @param opts [Hash]
+      # @return [RelatonIec::IecBibliographicItem, nil]
+      def iecbib_get(code, year, opts) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
         result = search_filter(code, year) || return
         ret = results_filter(result, code, year, opts)
         if ret[:ret]
