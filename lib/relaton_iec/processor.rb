@@ -35,5 +35,11 @@ module RelatonIec
     def grammar_hash
       @grammar_hash ||= ::RelatonIec.grammar_hash
     end
+
+    # @param code [String]
+    # @return [String, nil]
+    def urn_to_code(code)
+      RelatonIec.urn_to_code code
+    end
   end
 end

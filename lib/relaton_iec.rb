@@ -22,8 +22,8 @@ module RelatonIec
 
     # @param code [String]
     # @param lang [String]
-    # @return [String]
-    def code_to_urn(code, lang = nil)
+    # @return [String, nil]
+    def code_to_urn(code, lang = nil) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       rest = code.downcase.sub(%r{
         (?<head>[^\s]+)\s
         (?<type>is|ts|tr|pas|srd|guide|tec|wp)?(?(<type>)\s)
@@ -31,26 +31,55 @@ module RelatonIec
         (?<_dd>:)?(?(<_dd>)(?<date>[\d-]+)\s?)
       }x, "")
       m = $~
+      return unless m[:head] && m[:pnum]
+
       deliv = /cmv|csv|exv|prv|rlv|ser/.match(code.downcase).to_s
       urn = ["urn", "iec", "std", m[:head].split("/").join("-"), m[:pnum], m[:date], m[:type], deliv, lang]
-      (urn + fetch_ajunct(rest)).join ":"
+      (urn + ajunct_to_urn(rest)).join ":"
+    end
+
+    # @param urn [String]
+    # @return [Array<String>, nil] urn & language
+    def urn_to_code(urn) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+      fields = urn.upcase.split ":"
+      return if fields.size < 5
+
+      head, num, date, type, deliv, lang = fields[3, 8]
+      code = head.gsub("-", "/")
+      code += " #{type}" unless type.nil? || type.empty?
+      code += " #{num}"
+      code += ":#{date}" unless date.nil? || date.empty?
+      code += ajanct_to_code(fields[9..-1])
+      code += " #{deliv}" unless deliv.nil? || deliv.empty?
+      [code, lang&.downcase]
     end
 
     private
 
+    # @param fields [Array<String>]
+    # @return [String]
+    def ajanct_to_code(fields)
+      return "" if fields.nil? || fields.empty?
+
+      rel, type, num, date = fields[0..3]
+      code = (rel.empty? ? "/" : "+") + type + num
+      code += ":#{date}" unless date.empty?
+      code + ajanct_to_code(fields[4..-1])
+    end
+
     # @param rest [String]
     # @return [Array<String, nil>]
-    def fetch_ajunct(rest)
+    def ajunct_to_urn(rest)
       r = rest.sub(%r{
-        (?<_pl>\+|\/)(?(<_pl>)(?<adjunct>amd)(?<adjnum>\d+)\s?)
+        (?<pl>\+|\/)(?(<pl>)(?<adjunct>(amd|cor|ish))(?<adjnum>\d+)\s?)
         (?<_d2>:)?(?(<_d2>)(?<adjdt>[\d-]+)\s?)
       }x, "")
       m = $~ || {}
       return [] unless m[:adjunct]
 
-      plus = m[:adjunct] && "plus"
+      plus = "plus" if m[:pl] == "+"
       urn = [plus, m[:adjunct], m[:adjnum], m[:adjdt]]
-      urn + fetch_ajunct(r)
+      urn + ajunct_to_urn(r)
     end
   end
 end

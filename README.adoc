@@ -189,7 +189,7 @@ item.to_xml note: [{ text: "Note", type: "note" }]
 URN is document a identifier format. It has fields delimited by colon. If any field is absent then it's place is empty. All values are in lower-case.
 
 URN structure: +
-`urn:sdo_namespace:content_type_namespace:header:project_number:date:type:deliverable:language:relation:adjunct_type:adjunct_number:date:component_or_related_asset`
+`urn:sdo_namespace:content_type_namespace:header:project_number:date:type:deliverable:language:relation:adjunct_type:adjunct_number:date[#/=]component_or_related_asset`
 
 * prefix
 - `urn` - value: urn
@@ -203,7 +203,7 @@ URN structure: +
 - `deliverable` - (optional) possible values: prv, csv, exv, rlv, cmv
 - `language` - (optional) examples: en, fr, ru, en-fr, en-fr-ru etc.
 * adjunct document information (optional)
-- `relation` - value: plus
+- `relation` - "plus" for consolidations of ajancts with a base document or "/" for ajancts itself
 - `adjunct_type` - possible values: amd, cor, ish
 - `adjunct_number` - adjunct number. Examples: 1, 2, 3, etc.
 - `date` - adjanct date. Example: 2009
@@ -220,10 +220,21 @@ The method `RelatonIec.code_to_urn(code, lang)` converts document identifier to 
 [source,ruby]
 ----
 RelatonIec.code_to_urn "IEC 60050-102:2007/AMD1:2017"
-=> "urn:iec:std:iec:60050-102:2007::::plus:amd:1:2017"
+=> "urn:iec:std:iec:60050-102:2007:::::amd:1:2017"
 
 RelatonIec.code_to_urn "IEC 60034-1:1969+AMD1:1977+AMD2:1979+AMD3:1980 CSV", "en-fr"
 => "urn:iec:std:iec:60034-1:1969::csv:en-fr:plus:amd:1:1977:plus:amd:2:1979:plus:amd:3:1980"
+----
+
+The method `RelatonIec.urn_to_code(urn)` converts URN to document identifier.
+
+[source,ruby]
+----
+RelatonIec.urn_to_code "urn:iec:std:iec:60050-102:2007:::::amd:1:2017"
+=> ["IEC 60050-102:2007/AMD1:2017", ""]
+
+RelatonIec.urn_to_code "urn:iec:std:iec:60034-1:1969::csv:en-fr:plus:amd:1:1977:plus:amd:2:1979:plus:amd:3:1980"
+=> ["IEC 60034-1:1969+AMD1:1977+AMD2:1979+AMD3:1980 CSV", "en-fr"]
 ----
 
 == Development
