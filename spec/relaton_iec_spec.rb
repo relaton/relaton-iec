@@ -174,10 +174,17 @@ RSpec.describe RelatonIec do
         expect(bib.docidentifier[0].id).to eq "IEC 60050-102/AMD1:2017"
       end
     end
+
+    it "CISPR" do
+      VCR.use_cassette "CISPR 32:2015" do
+        bib = RelatonIec::IecBibliography.get "CISPR 32:2015"
+        expect(bib.docidentifier[0].id).to eq "CISPR 32:2015"
+      end
+    end
   end
 
-  context "covert" do
-    context "to URN reference" do
+  context "convert" do
+    context "form reference to URN" do
       it "amedment" do
         urn = RelatonIec.code_to_urn "IEC 60050-102:2007/AMD1:2017"
         expect(urn).to eq "urn:iec:std:iec:60050-102:2007:::::amd:1:2017"
@@ -194,7 +201,7 @@ RSpec.describe RelatonIec do
       end
     end
 
-    context "to reference form URN" do
+    context "form URN to reference" do
       it "amendment" do
         ref = RelatonIec.urn_to_code "urn:iec:std:iec:60050-102:2007:::::amd:1:2017"
         expect(ref).to eq ["IEC 60050-102:2007/AMD1:2017", ""]

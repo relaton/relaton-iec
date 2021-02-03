@@ -241,14 +241,7 @@ module RelatonIec
 
       def fetch_contributors(code)
         code.sub(/\s.*/, "").split("/").map do |abbrev|
-          case abbrev
-          when "ISO"
-            name = "International Organization for Standardization"
-            url = "www.iso.org"
-          when "IEC"
-            name = "International Electrotechnical Commission"
-            url  = "www.iec.ch"
-          end
+          name, url = name_url abbrev
           { entity: { name: name, url: url, abbreviation: abbrev },
             role: [type: "publisher"] }
         end
@@ -285,11 +278,7 @@ module RelatonIec
       # @return [Array<Hash>]
       def fetch_copyright(code, doc)
         abbreviation = code.match(/.*?(?=\s)/).to_s
-        case abbreviation
-        when "IEC"
-          name = "International Electrotechnical Commission"
-          url = "www.iec.ch"
-        end
+        name, url = name_url abbreviation
         from = code.match(/(?<=:)\d{4}/).to_s
         if from.empty?
           from = doc.xpath("//span[@itemprop='releaseDate']").text
@@ -301,6 +290,14 @@ module RelatonIec
         }]
       end
       # rubocop:enable Metrics/MethodLength
+
+      def name_url(abbrev)
+        case abbrev
+        when "ISO" then ["International Organization for Standardization", "www.iso.org"]
+        when "IEC" then ["International Electrotechnical Commission", "www.iec.ch"]
+        when "CISPR" then ["International special committee on radio interference", "www.iec.ch"]
+        end
+      end
     end
   end
 end
