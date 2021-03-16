@@ -176,9 +176,16 @@ RSpec.describe RelatonIec do
     end
 
     it "CISPR" do
-      VCR.use_cassette "CISPR 32:2015" do
+      VCR.use_cassette "cispr_32_2015" do
         bib = RelatonIec::IecBibliography.get "CISPR 32:2015"
         expect(bib.docidentifier[0].id).to eq "CISPR 32:2015"
+      end
+    end
+
+    it "IEC/TR 62547" do
+      VCR.use_cassette "iec_tr_62547" do
+        bib = RelatonIec::IecBibliography.get "IEC/TR 62547"
+        expect(bib.docidentifier[0].id).to eq "IEC TR 62547"
       end
     end
   end

@@ -21,7 +21,7 @@ module RelatonIec
       # @param part [String, nil] search for packaged stndard if not nil
       # @return [RelatonIec::HitCollection]
       def search(text, year = nil, part = nil)
-        HitCollection.new text, year&.strip, part
+        HitCollection.new text.sub(/(^\w+)\//, '\1 '), year&.strip, part
       rescue SocketError, OpenURI::HTTPError, OpenSSL::SSL::SSLError
         raise RelatonBib::RequestError, "Could not access http://www.iec.ch"
       end
@@ -105,6 +105,7 @@ module RelatonIec
           result = search code, year, part
         end
         result = search code if result.empty?
+        code = result.text.dup
         code&.sub! /((?:-\w+)+)/, ""
         result.select do |i|
           %r{
@@ -158,8 +159,8 @@ module RelatonIec
       # Does not match corrigenda etc (e.g. ISO 3166-1:2006/Cor 1:2007)
       # If no match, returns any years which caused mismatch, for error
       # reporting
-      def results_filter(result, ref, year, opts) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
-        r_code, r_year = code_year ref, result.part
+      def results_filter(result, year, opts) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
+        r_code, r_year = code_year result.text, result.part
         r_year ||= year
         missed_years = []
         missed_parts = false
@@ -186,7 +187,7 @@ module RelatonIec
         { ret: ret, years: missed_years, missed_parts: missed_parts }
       end
 
-      # @param ref [string]
+      # @param ref [String]
       # @param part [String, nil]
       # @return [Array<String, nil>]
       def code_year(ref, part)
@@ -204,7 +205,7 @@ module RelatonIec
       # @return [RelatonIec::IecBibliographicItem, nil]
       def iecbib_get(code, year, opts) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
         result = search_filter(code, year) || return
-        ret = results_filter(result, code, year, opts)
+        ret = results_filter(result, year, opts)
         if ret[:ret]
           if ret[:missed_parts]
             warn "[relaton-iec] WARNING: #{code} found as #{ret[:ret].docidentifier.first.id} "\
