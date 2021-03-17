@@ -7,7 +7,7 @@ module RelatonIec
       # @param item_hash [Hash]
       # @return [RelatonIec::IecBibliographicItem]
       def bib_item(item_hash)
-        IecBibliographicItem.new item_hash
+        IecBibliographicItem.new **item_hash
       end
     end
   end
