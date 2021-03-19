@@ -184,6 +184,19 @@ item.to_xml note: [{ text: "Note", type: "note" }]
     </bibitem>"
 ----
 
+=== Create bibliography item from hash
+
+[source,ruby]
+----
+hash = YAML.load_file "spec/examples/hit.yaml"
+=> {"id"=>"IEC61058-2-4-1995+AMD1-2003CSV",
+...
+
+RelatonIec::IecBibliographicItem.from_hash hash
+=> #<RelatonIec::IecBibliographicItem:0x00007fe16f032d40
+...
+----
+
 === Converting reference to URN
 
 URN is document a identifier format. It has fields delimited by colon. If any field is absent then it's place is empty. All values are in lower-case.

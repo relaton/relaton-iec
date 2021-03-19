@@ -26,8 +26,7 @@ module RelatonIec
     # @param hash [Hash]
     # @return [RelatonIsoBib::IecBibliographicItem]
     def hash_to_bib(hash)
-      item_hash = ::RelatonIec::HashConverter.hash_to_bib(hash)
-      ::RelatonIec::IecBibliographicItem.new item_hash
+      ::RelatonIec::IecBibliographicItem.from_hash hash
     end
 
     # Returns hash of XML grammar

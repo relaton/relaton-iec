@@ -1,8 +1,7 @@
 RSpec.describe RelatonIec::HashConverter do
   it "create item form YAML" do
     hash = YAML.load_file "spec/examples/hit.yaml"
-    item_hash = RelatonIec::HashConverter.hash_to_bib hash
-    item = RelatonIec::IecBibliographicItem.new **item_hash
+    item = RelatonIec::IecBibliographicItem.from_hash hash
     expect(item.to_hash).to eq hash
   end
 
