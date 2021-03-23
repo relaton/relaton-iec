@@ -25,7 +25,7 @@ module RelatonIec
     def to_all_parts # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity
       parts = @array.reject { |h| h.part.nil? }
       hit = parts.min_by &:part
-      return @array.first.fetch lang unless hit
+      return @array.first&.fetch unless hit
 
       bibitem = hit.fetch
       all_parts_item = bibitem.to_all_parts
