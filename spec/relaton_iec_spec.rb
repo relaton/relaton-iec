@@ -17,7 +17,7 @@ RSpec.describe RelatonIec do
   it "raise access error" do
     exception_io = double("io")
     expect(OpenURI).to receive(:open_uri).and_raise(
-      OpenURI::HTTPError.new("", exception_io)
+      OpenURI::HTTPError.new("", exception_io),
     )
     expect { RelatonIec::IecBibliography.search "60050", "2020" }
       .to raise_error RelatonBib::RequestError
@@ -33,7 +33,7 @@ RSpec.describe RelatonIec do
       expect(hit_collection.to_s).to eq(
         "<RelatonIec::HitCollection:"\
         "#{format('%<id>#.14x', id: hit_collection.object_id << 1)} "\
-        "@ref=60050 @fetched=true>"
+        "@ref=60050 @fetched=true>",
       )
     end
   end
@@ -73,7 +73,7 @@ RSpec.describe RelatonIec do
         expect(results).to include '<bibitem id="IEC60050-102" type="standard">'
         expect(results).to include %(<on>2007-08-27</on>)
         expect(results.gsub(/<relation.*<\/relation>/m, "")).not_to include(
-          %(<on>2007-08-27</on>)
+          %(<on>2007-08-27</on>),
         )
         expect(results).to include '<docidentifier type="IEC">'\
         "IEC 60050-102:2007</docidentifier>"
@@ -89,7 +89,7 @@ RSpec.describe RelatonIec do
         expect(results).to include(
           '<title type="title-part" format="text/plain" language="en" '\
           'script="Latn">Part 102: Mathematics -- General concepts and '\
-          "linear algebra</title>"
+          "linear algebra</title>",
         )
       end
     end
@@ -143,7 +143,7 @@ RSpec.describe RelatonIec do
         expect { RelatonIec::IecBibliography.get("IEC 60050-103", "207", {}) }
           .to output(
             /The provided document part may not exist, or the document may no |
-            longer be published in parts/
+            longer be published in parts/,
           ).to_stderr
       end
     end

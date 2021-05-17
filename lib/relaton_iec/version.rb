@@ -1,3 +1,3 @@
 module RelatonIec
-  VERSION = "1.7.8".freeze
+  VERSION = "1.8.0".freeze
 end

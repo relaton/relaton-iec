@@ -73,3 +73,10 @@ structuredidentifier:
   project_number: '61058'
   type: IEC
 doctype: international-standard
+function: emc
+updates_document_type: guide
+accessibility_color_inside: true
+price_code: pc
+cen_processing: false
+secretary: sec
+interest_to_committees: itc
