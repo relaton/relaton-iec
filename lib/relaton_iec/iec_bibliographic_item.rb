@@ -3,7 +3,7 @@ module RelatonIec
     TYPES = %w[
       international-standard technical-specification technical-report
       publicly-available-specification international-workshop-agreement
-      guide
+      guide industry-technical-agreement
     ].freeze
 
     FUNCTION = %w[emc safety enviroment quality-assurance].freeze

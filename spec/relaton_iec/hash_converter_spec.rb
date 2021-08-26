@@ -15,7 +15,7 @@ RSpec.describe RelatonIec::HashConverter do
       }],
     }
     item_hash = RelatonIec::HashConverter.hash_to_bib hash
-    item = RelatonIec::IecBibliographicItem.new **item_hash
+    item = RelatonIec::IecBibliographicItem.new(**item_hash)
     expect(item.relation.first.bibitem.formattedref.content).to eq "ref"
   end
 end
