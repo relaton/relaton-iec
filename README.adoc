@@ -196,6 +196,17 @@ item.to_xml note: [{ text: "Note", type: "note" }]
     </bibitem>"
 ----
 
+=== Typed links
+
+Each IEC document has `src` type link and optional `obp` type link.
+
+[source,ruby]
+----
+item.link
+=> [#<RelatonBib::TypedUri:0x00007ffe9d9b6420 @content=#<Addressable::URI:0x80c URI:https://webstore.iec.ch/publication/162>, @type="src">,
+ #<RelatonBib::TypedUri:0x00007ffe9d9af080 @content=#<Addressable::URI:0x820 URI:/preview/info_iec60050-112%7Bed1.0%7Db.pdf>, @type="obp">]
+----
+
 === Create bibliography item from hash
 
 [source,ruby]
