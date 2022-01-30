@@ -3,19 +3,25 @@ id: IEC61058-2-4-1995+AMD1-2003CSV
 title:
 - type: title-intro
   content: Switches for appliances
-  language: en
-  script: Latn
+  language:
+  - en
+  script:
+  - Latn
   format: text/plain
 - type: title-main
   content: 'Part 2-4: Particular requirements for independently mounted switches'
-  language: en
-  script: Latn
+  language:
+  - en
+  script:
+  - Latn
   format: text/plain
 - type: main
   content: 'Switches for appliances – Part 2-4: Particular requirements for independently
     mounted switches'
-  language: en
-  script: Latn
+  language:
+  - en
+  script:
+  - Latn
   format: text/plain
 link:
 - content: https://webstore.iec.ch/publication/4385
@@ -24,30 +30,36 @@ link:
   type: obp
 type: standard
 docid:
-  id: IEC 61058-2-4:1995+AMD1:2003 CSV
+- id: IEC 61058-2-4:1995+AMD1:2003 CSV
   type: IEC
 date:
-  type: published
+- type: published
   value: '2003-03-18'
 contributor:
-  organization:
-    name: International Electrotechnical Commission
+- organization:
+    name:
+    - International Electrotechnical Commission
     abbreviation: IEC
     url: www.iec.ch
-  role: publisher
+  role:
+  - publisher
 edition: '1.1'
 revdate: '2003-03-18'
-language: en
-script: Latn
+language:
+- en
+script:
+- Latn
 abstract:
-  content: "Applies to independently mounted switches for appliances actuated\r\nby
+- content: "Applies to independently mounted switches for appliances actuated\r\nby
     hand, by foot or by other human activity for use with\r\nappliances and other
     equipment for household and similar purposes,\r\nwith a rated voltage not exceeding
     440 V and a rated current not\r\nexceeding 63 A.\r\n\r\nThis consolidated version
     consists of the first edition (1995)   \r\nand its amendment 1 (2003). Therefore,
     no need to order amendment in\r\naddition to this publication.                                   \r\n"
-  language: en
-  script: Latn
+  language:
+  - en
+  script:
+  - Latn
   format: text/plain
 docstatus:
   stage:
@@ -55,20 +67,22 @@ docstatus:
   substage:
     value: '00'
 copyright:
-  owner:
-    name: International Electrotechnical Commission
+- owner:
+  - name:
+    - International Electrotechnical Commission
     abbreviation: IEC
     url: www.iec.ch
   from: '1995'
-place: Geneva
+place:
+- Geneva
 fetched: '2020-04-24'
 editorialgroup:
   technical_committee:
-    name: TC 23/SC 23J - Switches for appliances
+  - name: TC 23/SC 23J - Switches for appliances
     type: technicalCommittee
     number: 23
 ics:
-  code: 29.120.40
+- code: 29.120.40
   text: Switches
 structuredidentifier:
   project_number: '61058'
