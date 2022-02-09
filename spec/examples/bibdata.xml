@@ -5,7 +5,7 @@
   <title type="main" format="text/plain" language="en" script="Latn">Switches for appliances – Part 2-4: Particular requirements for independently mounted switches</title>
   <uri type="src">https://webstore.iec.ch/publication/4385</uri>
   <uri type="obp">/preview/info_iec61058-2-4%7Bed1.1%7Db.pdf</uri>
-  <docidentifier type="IEC">IEC 61058-2-4:1995+AMD1:2003 CSV</docidentifier>
+  <docidentifier type="IEC" primary="true">IEC 61058-2-4:1995+AMD1:2003 CSV</docidentifier>
   <date type="published">
     <on>2003-03-18</on>
   </date>
@@ -20,15 +20,15 @@
   <edition>1.1</edition>
   <language>en</language>
   <script>Latn</script>
-  <abstract format="text/plain" language="en" script="Latn">Applies to independently mounted switches for appliances actuated&#13;
-by hand, by foot or by other human activity for use with&#13;
-appliances and other equipment for household and similar purposes,&#13;
-with a rated voltage not exceeding 440 V and a rated current not&#13;
-exceeding 63 A.&#13;
-&#13;
-This consolidated version consists of the first edition (1995)   &#13;
-and its amendment 1 (2003). Therefore, no need to order amendment in&#13;
-addition to this publication.                                   &#13;
+  <abstract format="text/plain" language="en" script="Latn">Applies to independently mounted switches for appliances actuated
+by hand, by foot or by other human activity for use with
+appliances and other equipment for household and similar purposes,
+with a rated voltage not exceeding 440 V and a rated current not
+exceeding 63 A.
+
+This consolidated version consists of the first edition (1995)   
+and its amendment 1 (2003). Therefore, no need to order amendment in
+addition to this publication.                                   
 </abstract>
   <status>
     <stage>60</stage>

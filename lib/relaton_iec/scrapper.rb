@@ -9,6 +9,11 @@ module RelatonIec
   # Scrapper.
   module Scrapper
     DOMAIN = "https://webstore.iec.ch"
+    ABBREVS = {
+      "ISO" => ["International Organization for Standardization", "www.iso.org"],
+      "IEC" => ["International Electrotechnical Commission", "www.iec.ch"],
+      "CISPR" => ["International special committee on radio interference", "www.iec.ch"],
+    }.freeze
 
     TYPES = {
       "ISO" => "international-standard",
@@ -36,7 +41,7 @@ module RelatonIec
 
         # Fetch edition.
         edition = doc.at(
-          "//th[contains(., 'Edition')]/following-sibling::td/span"
+          "//th[contains(., 'Edition')]/following-sibling::td/span",
         ).text
 
         status, relations = fetch_status_relations hit_data[:url]
@@ -59,7 +64,7 @@ module RelatonIec
           copyright: fetch_copyright(hit_data[:code], doc),
           link: fetch_link(doc, hit_data[:url]),
           relation: relations,
-          place: ["Geneva"]
+          place: ["Geneva"],
         )
       end
       # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
@@ -71,7 +76,7 @@ module RelatonIec
       def fetch_docid(hit)
         urn = RelatonIec.code_to_urn hit[:code], "en"
         [
-          RelatonBib::DocumentIdentifier.new(id: hit[:code], type: "IEC"),
+          RelatonBib::DocumentIdentifier.new(id: hit[:code], type: "IEC", primary: true),
           RelatonBib::DocumentIdentifier.new(id: urn, type: "URN"),
         ]
       end
@@ -121,12 +126,12 @@ module RelatonIec
         item_ref = doc.at("//span[@itemprop='productID']")
         unless item_ref
           return RelatonIsoBib::StructuredIdentifier.new(
-            project_number: "?", part_number: "", prefix: nil, id: "?"
+            project_number: "?", part_number: "", prefix: nil, id: "?",
           )
         end
 
         m = item_ref.text.match(
-          /(?<=\s)(?<project>\d+)-?(?<part>(?<=-)\d+|)-?(?<subpart>(?<=-)\d+|)/
+          /(?<=\s)(?<project>\d+)-?(?<part>(?<=-)\d+|)-?(?<subpart>(?<=-)\d+|)/,
         )
         RelatonIsoBib::StructuredIdentifier.new(
           project_number: m[:project],
@@ -134,7 +139,7 @@ module RelatonIec
           subpart_number: m[:subpart],
           prefix: nil,
           type: "IEC",
-          id: item_ref.text
+          id: item_ref.text,
         )
       end
 
@@ -190,7 +195,7 @@ module RelatonIec
                  else r_type
                  end
           fref = RelatonBib::FormattedRef.new(
-            content: r.at("FULL_NAME").text, format: "text/plain"
+            content: r.at("FULL_NAME").text, format: "text/plain",
           )
           bibitem = IecBibliographicItem.new(formattedref: fref)
           { type: type, bibitem: bibitem }
@@ -199,8 +204,8 @@ module RelatonIec
 
       def fetch_status_relations(url)
         pubid = url.match(/\d+$/).to_s
-        uri = URI DOMAIN + "/webstore/webstore.nsf/AjaxRequestXML?"\
-        "Openagent&url=" + pubid
+        uri = URI "#{DOMAIN}/webstore/webstore.nsf/AjaxRequestXML?"\
+                  "Openagent&url=#{pubid}"
         resp = Net::HTTP.get_response uri
         doc = Nokogiri::XML resp.body
         status = fetch_status doc
@@ -214,7 +219,7 @@ module RelatonIec
       # @return [String]
       def fetch_type(doc)
         doc.at(
-          '//th[contains(., "Publication type")]/following-sibling::td/span'
+          '//th[contains(., "Publication type")]/following-sibling::td/span',
         ).text.downcase.tr " ", "-"
       end
 
@@ -253,9 +258,9 @@ module RelatonIec
       # @return [Array<Hash>]
       def fetch_ics(doc)
         doc.xpath(
-          '//th[contains(text(), "ICS")]/following-sibling::td/a'
+          '//th[contains(text(), "ICS")]/following-sibling::td/a',
         ).map do |i|
-          code = i.text.match(/[\d\.]+/).to_s.split "."
+          code = i.text.match(/[\d.]+/).to_s.split "."
           { field: code[0], group: code[1], subgroup: code[2] }
         end
       end
@@ -292,11 +297,7 @@ module RelatonIec
       # rubocop:enable Metrics/MethodLength
 
       def name_url(abbrev)
-        case abbrev
-        when "ISO" then ["International Organization for Standardization", "www.iso.org"]
-        when "IEC" then ["International Electrotechnical Commission", "www.iec.ch"]
-        when "CISPR" then ["International special committee on radio interference", "www.iec.ch"]
-        end
+        ABBREVS[abbrev]
       end
     end
   end

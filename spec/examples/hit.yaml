@@ -32,6 +32,7 @@ type: standard
 docid:
 - id: IEC 61058-2-4:1995+AMD1:2003 CSV
   type: IEC
+  primary: true
 date:
 - type: published
   value: '2003-03-18'

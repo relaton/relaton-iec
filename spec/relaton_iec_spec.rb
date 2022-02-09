@@ -59,10 +59,12 @@ RSpec.describe RelatonIec do
   it "return string of hit" do
     VCR.use_cassette "60050_101_1998" do
       hits = RelatonIec::IecBibliography.search("60050-101", "1998").fetch
-      expect(hits.first.to_s).to eq "<RelatonIec::Hit:"\
+      expect(hits.first.to_s).to eq(
+        "<RelatonIec::Hit:"\
         "#{format('%<id>#.14x', id: hits.first.object_id << 1)} "\
         '@text="60050-101" @fetched="true" '\
-        '@fullIdentifier="IEC60050-101-1998:1998" @title="IEC 60050-101:1998">'
+        '@fullIdentifier="IEC60050-101-1998:1998" @title="IEC 60050-101:1998">',
+      )
     end
   end
 
@@ -75,10 +77,14 @@ RSpec.describe RelatonIec do
         expect(results.gsub(/<relation.*<\/relation>/m, "")).not_to include(
           %(<on>2007-08-27</on>),
         )
-        expect(results).to include '<docidentifier type="IEC">'\
-        "IEC 60050-102:2007</docidentifier>"
-        expect(results).not_to include '<docidentifier type="IEC">'\
-        "IEC 60050</docidentifier>"
+        expect(results).to include(
+          '<docidentifier type="IEC" primary="true">'\
+          "IEC 60050-102:2007</docidentifier>",
+        )
+        expect(results).not_to include(
+          '<docidentifier type="IEC" primary="true">'\
+          "IEC 60050</docidentifier>",
+        )
       end
     end
 
@@ -151,7 +157,7 @@ RSpec.describe RelatonIec do
     it "gets a frozen reference for IEV" do
       results = RelatonIec::IecBibliography.get("IEV", nil, {})
       expect(results.to_xml).to include '<bibitem id="IEC60050-2011" '\
-      'type="standard">'
+                                        'type="standard">'
     end
 
     it "packaged standard" do
