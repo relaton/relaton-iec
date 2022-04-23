@@ -21,7 +21,7 @@ module RelatonIec
       # @param part [String, nil] search for packaged stndard if not nil
       # @return [RelatonIec::HitCollection]
       def search(text, year = nil, part = nil)
-        HitCollection.new text.sub(/(^\w+)\//, '\1 '), year&.strip, part
+        HitCollection.new text&.sub(/(^\w+)\//, '\1 '), year&.strip, part
       rescue SocketError, OpenURI::HTTPError, OpenSSL::SSL::SSLError
         raise RelatonBib::RequestError, "Could not access http://www.iec.ch"
       end
@@ -32,8 +32,8 @@ module RelatonIec
       #   reference is required
       # @return [String] Relaton XML serialisation of reference
       def get(code, year = nil, opts = {}) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
-        opts[:all_parts] ||= code.match? /\s\(all parts\)/
-        ref = code.sub /\s\(all parts\)/, ""
+        opts[:all_parts] ||= code.match?(/\s\(all parts\)/)
+        ref = code.sub(/\s\(all parts\)/, "")
         if year.nil?
           /^(?<code1>[^:]+):(?<year1>[^:]+)/ =~ ref
           unless code1.nil?
@@ -91,10 +91,10 @@ module RelatonIec
       # @return [RelatonIec::HitCollection]
       def search_filter(ref, year) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
         %r{
-          ^(?<code>\S+[^\d]*\s\d+((?:-\w+)+)?)
-          (:(?<year1>\d{4}))?
-          (?<bundle>\+[^\s\/]+)?
-          (\/(?<corr>AMD\s\d+))?
+          ^(?<code>\S+[^\d]*\s\d+(?:-\w+)*)
+          (?::(?<year1>\d{4}))?
+          (?<bundle>\+[^\s/]+)?
+          (?:/(?<corr>AMD\s\d+))?
         }x =~ ref.upcase
         year ||= year1
         corr&.sub! " ", ""
@@ -106,13 +106,12 @@ module RelatonIec
         end
         result = search code if result.empty?
         code = result.text.dup
-        code&.sub! /((?:-\w+)+)/, ""
+        code&.sub!(/((?:-\w+)+)/, "")
         result.select do |i|
           %r{
-            ^(?<code2>\S+[^\d]*\s\d+)((?:-\w+)+)?
-            (:\d{4})?
-            (?<bundle2>\+[^\s\/]+)?
-            (\/(?<corr2>AMD\d+))?
+            ^(?<code2>\S+[^\d]*\s\d+)(?:-\w+)*(?::\d{4})?
+            (?<bundle2>\+[^\s/]+)?
+            (?:/(?<corr2>AMD\d+))?
           }x =~ i.hit[:code]
           code == code2 && bundle == bundle2 && corr == corr2
         end

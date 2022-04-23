@@ -31,7 +31,7 @@ module RelatonIec
       all_parts_item = bibitem.to_all_parts
       parts.reject { |h| h.hit[:code] == hit.hit[:code] }.each do |hi|
         isobib = RelatonIec::IecBibliographicItem.new(
-          formattedref: RelatonBib::FormattedRef.new(content: hi.hit[:code])
+          formattedref: RelatonBib::FormattedRef.new(content: hi.hit[:code]),
         )
         all_parts_item.relation << RelatonBib::DocumentRelation.new(type: "partOf", bibitem: isobib)
       end
