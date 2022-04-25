@@ -17,17 +17,18 @@ module RelatonIec
 
     TYPES = {
       "ISO" => "international-standard",
-      "TS" => "technicalSpecification",
-      "TR" => "technicalReport",
-      "PAS" => "publiclyAvailableSpecification",
-      "AWI" => "appruvedWorkItem",
-      "CD" => "committeeDraft",
-      "FDIS" => "finalDraftInternationalStandard",
-      "NP" => "newProposal",
-      "DIS" => "draftInternationalStandard",
-      "WD" => "workingDraft",
+      "TS" => "technical-specification",
+      "TR" => "technical-report",
+      "PAS" => "publicly-available-specification",
+      "AWI" => "appruved-work-item",
+      "CD" => "committee-draft",
+      "FDIS" => "final-draft-international-standard",
+      "NP" => "new-proposal",
+      "DIS" => "draft-international-standard",
+      "WD" => "working-draft",
       "R" => "recommendation",
       "Guide" => "guide",
+      "SRD" => "system-reference-delivrabble",
     }.freeze
 
     class << self
@@ -218,9 +219,10 @@ module RelatonIec
       # @param doc [Nokogiri::HTML::Document]
       # @return [String]
       def fetch_type(doc)
-        doc.at(
+        type = doc.at(
           '//th[contains(., "Publication type")]/following-sibling::td/span',
-        ).text.downcase.tr " ", "-"
+        ).text
+        TYPES[type] || type.downcase.tr(" ", "-")
       end
 
       # Fetch titles.

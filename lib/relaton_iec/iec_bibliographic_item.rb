@@ -3,7 +3,7 @@ module RelatonIec
     TYPES = %w[
       international-standard technical-specification technical-report
       publicly-available-specification international-workshop-agreement
-      guide industry-technical-agreement
+      guide industry-technical-agreement system-reference-delivrabble
     ].freeze
 
     FUNCTION = %w[emc safety enviroment quality-assurance].freeze
@@ -25,9 +25,9 @@ module RelatonIec
       if args[:updates_document_type] &&
           !TYPES.include?(args[:updates_document_type])
         warn "[relaton-iec] WARNING: invalid updates_document_type "\
-          "\"#{args[:updates_document_type]}\""
+             "\"#{args[:updates_document_type]}\""
         warn "[relaton-iec] allowed updates_document_type values are: "\
-          "#{TYPES.join(', ')}"
+             "#{TYPES.join(', ')}"
       end
       @function = args.delete :function
       @updates_document_type = args.delete :updates_document_type
