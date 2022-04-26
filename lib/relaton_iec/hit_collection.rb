@@ -43,7 +43,15 @@ module RelatonIec
     # @param ref [String]
     # @param year [String, nil]
     # @return [Array<RelatonIec::Hit>]
-    def hits(ref, year)
+    def hits(ref, year) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+      file = "../data/#{ref.sub(/^IEC\s/, '').gsub(' ', '_').upcase}.yaml"
+      path = File.expand_path file, __dir__
+      if File.exist? path
+        hash = YAML.safe_load_file path
+        hit = Hit.new({ code: ref }, self)
+        hit.fetch = IecBibliographicItem.from_hash hash
+        return [hit]
+      end
       from, to = nil
       if year
         from = Date.strptime year, "%Y"

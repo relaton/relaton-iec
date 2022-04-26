@@ -3,6 +3,8 @@
 module RelatonIec
   # Hit.
   class Hit < RelatonBib::Hit
+    attr_writer :fetch
+
     # Parse page.
     # @return [RelatonIec::IecBibliographicItem]
     def fetch

@@ -58,19 +58,19 @@ module RelatonIec
       def fetch_ref_err(code, year, missed_years) # rubocop:disable Metrics/MethodLength
         id = year ? "#{code}:#{year}" : code
         warn "[relaton-iec] WARNING: no match found online for #{id}. "\
-          "The code must be exactly like it is on the standards website."
+             "The code must be exactly like it is on the standards website."
         unless missed_years.empty?
           warn "[relaton-iec] (There was no match for #{year}, though there "\
-            "were matches found for #{missed_years.join(', ')}.)"
+               "were matches found for #{missed_years.join(', ')}.)"
         end
         if /\d-\d/.match? code
           warn "[relaton-iec] The provided document part may not exist, or "\
-            "the document may no longer be published in parts."
+               "the document may no longer be published in parts."
         else
           warn "[relaton-iec] If you wanted to cite all document parts for "\
-            "the reference, use \"#{code} (all parts)\".\nIf the document is "\
-            "not a standard, use its document type abbreviation (TS, TR, PAS, "\
-            "Guide)."
+               "the reference, use \"#{code} (all parts)\".\nIf the document "\
+               "is not a standard, use its document type abbreviation (TS, "\
+               "TR, PAS, Guide)."
         end
         nil
       end
@@ -91,7 +91,7 @@ module RelatonIec
       # @return [RelatonIec::HitCollection]
       def search_filter(ref, year) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
         %r{
-          ^(?<code>\S+[^\d]*\s\d+(?:-\w+)*)
+          ^(?<code>\S+[^\d]*\s\d+(?:-\w+)*(?:\s[A-Z]+)?)
           (?::(?<year1>\d{4}))?
           (?<bundle>\+[^\s/]+)?
           (?:/(?<corr>AMD\s\d+))?
@@ -106,10 +106,10 @@ module RelatonIec
         end
         result = search code if result.empty?
         code = result.text.dup
-        code&.sub!(/((?:-\w+)+)/, "")
+        code&.sub!(/(?:-\w+)+(?:\s[A-Z]+)?/, "")
         result.select do |i|
           %r{
-            ^(?<code2>\S+[^\d]*\s\d+)(?:-\w+)*(?::\d{4})?
+            ^(?<code2>\S+[^\d]*\s\d+)(?:-\w+)*(?:\s[A-Z]+)?(?::\d{4})?
             (?<bundle2>\+[^\s/]+)?
             (?:/(?<corr2>AMD\d+))?
           }x =~ i.hit[:code]
@@ -191,8 +191,8 @@ module RelatonIec
       # @return [Array<String, nil>]
       def code_year(ref, part)
         %r{
-          ^(?<code>\S+[^\d]*\s\d+((?:-\w+)+)?)
-          (:(?<year>\d{4}))?
+          ^(?<code>\S+[^\d]*\s\d+(?:-\w+)*)
+          (?::(?<year>\d{4}))?
         }x =~ ref
         code.sub!(/-\d+/, "") if part
         [code, year]

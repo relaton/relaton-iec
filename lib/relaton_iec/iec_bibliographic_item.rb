@@ -43,7 +43,7 @@ module RelatonIec
     # @return [RelatonIsoBib::IecBibliographicItem]
     def self.from_hash(hash)
       item_hash = ::RelatonIec::HashConverter.hash_to_bib(hash)
-      new **item_hash
+      new(**item_hash)
     end
 
     # @param opts [Hash]
@@ -52,7 +52,7 @@ module RelatonIec
     # @option opts [String] :lang language
     # @return [String] XML
     def to_xml(**opts) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
-      super **opts do |b|
+      super(**opts) do |b|
         if opts[:bibdata]
           b.ext do
             b.doctype doctype if doctype
@@ -63,16 +63,16 @@ module RelatonIec
             structuredidentifier&.to_xml b
             b.stagename stagename if stagename
             if updates_document_type
-              b.send("updates-document-type", updates_document_type)
+              b.send(:"updates-document-type", updates_document_type)
             end
             unless accessibility_color_inside.nil?
-              b.send("accessibility-color-inside", accessibility_color_inside)
+              b.send(:"accessibility-color-inside", accessibility_color_inside)
             end
-            b.send("price-code", price_code) if price_code
-            b.send("cen-processing", cen_processing) unless cen_processing.nil?
+            b.send(:"price-code", price_code) if price_code
+            b.send(:"cen-processing", cen_processing) unless cen_processing.nil?
             b.secretary secretary if secretary
             if interest_to_committees
-              b.send("interest-to-committees", interest_to_committees)
+              b.send(:"interest-to-committees", interest_to_committees)
             end
           end
         end

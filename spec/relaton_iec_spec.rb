@@ -194,6 +194,11 @@ RSpec.describe RelatonIec do
         expect(bib.docidentifier[0].id).to eq "IEC TR 62547"
       end
     end
+
+    it "IEC 61360-4 DB" do
+      bib = RelatonIec::IecBibliography.get "IEC 61360-4 DB"
+      expect(bib.docidentifier[0].id).to eq "IEC 61360-4 DB"
+    end
   end
 
   context "convert" do
