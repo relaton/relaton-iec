@@ -47,7 +47,7 @@ module RelatonIec
       file = "../data/#{ref.sub(/^IEC\s/, '').gsub(' ', '_').upcase}.yaml"
       path = File.expand_path file, __dir__
       if File.exist? path
-        hash = YAML.safe_load_file path
+        hash = YAML.safe_load File.read(path, encoding: "utf-8")
         hit = Hit.new({ code: ref }, self)
         hit.fetch = IecBibliographicItem.from_hash hash
         return [hit]
