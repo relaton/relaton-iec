@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://webstore.iec.ch/searchkey&RefNbr=IEC%2060050&From=2005-01-01&To=2005-12-31&start=1
+    uri: https://webstore.iec.ch/searchkey&RefNbr=IEC%2060050-111&From=2005-01-01&To=2005-12-31&start=1
     body:
       encoding: US-ASCII
       string: ''
@@ -28,15 +28,15 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Sat, 23 Apr 2022 11:06:56 GMT
+      - Tue, 14 Jun 2022 16:07:47 GMT
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 31035bb61f7468c9d95f8f0f36403248.cloudfront.net (CloudFront)
+      - 1.1 8c71fe23914182493dae4cb15c841346.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
-      - BUD50-C1
+      - VIE50-P1
       X-Amz-Cf-Id:
-      - E2bT5focfxbD4HSAXRtOfBs9kEDZSKlGvaL41bxJLNxAyca7Fyjg9Q==
+      - fRgLi1po5hczMdIVKRKGRJVeWqzco_vviO9uv4aOZpmnjNU5rfoP2Q==
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -55,10 +55,10 @@ http_interactions:
         wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
         id=\"nbres\" type=\"hidden\"  value=\"0\">\n<ul class=\"search-results lined-list\">\nNo
         valid publication found.\n</body>\n</html>\n"
-  recorded_at: Sat, 23 Apr 2022 11:06:59 GMT
+  recorded_at: Tue, 14 Jun 2022 16:07:44 GMT
 - request:
     method: get
-    uri: https://webstore.iec.ch/searchkey&type=trf&RefNbr=IEC%2060050&From=2005-01-01&To=2005-12-31&start=1
+    uri: https://webstore.iec.ch/searchkey&type=trf&RefNbr=IEC%2060050-111&From=2005-01-01&To=2005-12-31&start=1
     body:
       encoding: US-ASCII
       string: ''
@@ -84,15 +84,15 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Sat, 23 Apr 2022 11:06:57 GMT
+      - Tue, 14 Jun 2022 16:07:47 GMT
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 39ab62538ffdeaa07dae29bbaa23912e.cloudfront.net (CloudFront)
+      - 1.1 ac02b9a9a93754a9f85004c4c9792fee.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
-      - BUD50-C1
+      - VIE50-P1
       X-Amz-Cf-Id:
-      - 8ztVy3APT7oMqxlUguzrfDhMdiebaUxhSE3n-mlsiaY7_bG3nBaiqg==
+      - tp7kFE0MR-nT0bzHIMEJ9wpGmjvS_juyiYIn7kxLJD8_uOXbAc7cpQ==
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -110,10 +110,10 @@ http_interactions:
         wordsOnly: !match });\n\t\t\t\t$(\"#trf.search-results\").highlight(word,{
         wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
         id=\"nbrestrf\" type=\"hidden\"  value=\"0\">\nNo publication found.\n</body>\n</html>\n"
-  recorded_at: Sat, 23 Apr 2022 11:07:00 GMT
+  recorded_at: Tue, 14 Jun 2022 16:07:45 GMT
 - request:
     method: get
-    uri: https://webstore.iec.ch/searchkey&type=wr&RefNbr=IEC%2060050&From=2005-01-01&To=2005-12-31&start=1
+    uri: https://webstore.iec.ch/searchkey&type=wr&RefNbr=IEC%2060050-111&From=2005-01-01&To=2005-12-31&start=1
     body:
       encoding: US-ASCII
       string: ''
@@ -139,15 +139,15 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Sat, 23 Apr 2022 11:06:59 GMT
+      - Tue, 14 Jun 2022 16:07:48 GMT
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 7d96f66bed58c00decdf9696146921d8.cloudfront.net (CloudFront)
+      - 1.1 353b8eaf90b8d7986000f2da151952bc.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
-      - BUD50-C1
+      - VIE50-P1
       X-Amz-Cf-Id:
-      - yefNqLkcrnsYXDpNR606sVdRQeU_w9Vef4vNc6zmIx9Q3Yc09WLpxw==
+      - FyJHF9ib1ShGy9xJXWJmX_9-v4wbiviqCVtsoopF8TLvKii2LnKqaw==
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -171,5 +171,5 @@ http_interactions:
         href=\"/publication/12420\">IEC 60050-111:1996/AMD1:2005</a>\r\n\n<br>Amendment
         1 - International Electrotechnical Vocabulary (IEV) - Part 111: Physics and
         chemistry</li>\r\n\n</ul>\r\n\n</li>\r\n\n</body>\n</html>\n"
-  recorded_at: Sat, 23 Apr 2022 11:07:02 GMT
+  recorded_at: Tue, 14 Jun 2022 16:07:45 GMT
 recorded_with: VCR 6.1.0

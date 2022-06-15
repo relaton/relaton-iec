@@ -195,10 +195,12 @@ module RelatonIec
                  when "withdrawn" then "obsoletes"
                  else r_type
                  end
-          fref = RelatonBib::FormattedRef.new(
-            content: r.at("FULL_NAME").text, format: "text/plain",
+          ref = r.at("FULL_NAME").text
+          fref = RelatonBib::FormattedRef.new content: ref, format: "text/plain"
+          bibitem = IecBibliographicItem.new(
+            formattedref: fref,
+            docid: [RelatonBib::DocumentIdentifier.new(id: ref, type: "IEC", primary: true)],
           )
-          bibitem = IecBibliographicItem.new(formattedref: fref)
           { type: type, bibitem: bibitem }
         end
       end

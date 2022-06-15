@@ -90,31 +90,41 @@ module RelatonIec
       # @param year [String, nil]
       # @return [RelatonIec::HitCollection]
       def search_filter(ref, year) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
-        %r{
-          ^(?<code>\S+[^\d]*\s\d+(?:-\w+)*(?:\s[A-Z]+)?)
-          (?::(?<year1>\d{4}))?
-          (?<bundle>\+[^\s/]+)?
-          (?:/(?<corr>AMD\s\d+))?
-        }x =~ ref.upcase
-        year ||= year1
-        corr&.sub! " ", ""
+        rp1 = ref_parts ref.upcase
+        year ||= rp1[:year]
+        corr = rp1[:corr]&.sub " ", ""
         warn "[relaton-iec] (\"#{ref}\") fetching..."
-        result = search(code, year)
-        if result.empty? && /(?<=-)(?<part>[\w-]+)/ =~ code
-          # try to search packaged standard
-          result = search code, year, part
-        end
-        result = search code if result.empty?
+        result = search(rp1[:code], year)
         code = result.text.dup
-        code&.sub!(/(?:-\w+)+(?:\s[A-Z]+)?/, "")
-        result.select do |i|
-          %r{
-            ^(?<code2>\S+[^\d]*\s\d+)(?:-\w+)*(?:\s[A-Z]+)?(?::\d{4})?
-            (?<bundle2>\+[^\s/]+)?
-            (?:/(?<corr2>AMD\d+))?
-          }x =~ i.hit[:code]
-          code == code2 && bundle == bundle2 && corr == corr2
+        if result.empty? && /(?<=\d-)(?<part>[\w-]+)/ =~ rp1[:code]
+          # try to search packaged standard
+          result = search rp1[:code], year, part
+          pkg_std = result.any?
         end
+        result = search rp1[:code] if result.empty?
+        if pkg_std
+          code.sub!(/(?<=\d-)#{part}/, part[0])
+        else
+          code.sub!(/-[-\d]+/, "")
+        end
+        result.select do |i|
+          rp2 = ref_parts i.hit[:code]
+          code2 = if pkg_std
+                    rp2[:code].sub(/(?<=\d-\d)\d+/, "")
+                  else
+                    rp2[:code].sub(/-[-\d]+/, "")
+                  end
+          code == code2 && rp1[:bundle] == rp2[:bundle] && corr == rp2[:corr]
+        end
+      end
+
+      def ref_parts(ref)
+        %r{
+          ^(?<code>[^\d]+(?:\d+(?:-\w+)*)?(?:\s?[A-Z]+)?(?:\sSUP)?)
+          (?::(?<year>\d{4}))?
+          (?<bundle>\+[^\s/]+)?
+          (?:/(?<corr>AMD\s?\d+))?
+        }x.match ref
       end
 
       def iev(code = "IEC 60050")

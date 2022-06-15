@@ -103,7 +103,7 @@ RSpec.describe RelatonIec do
     it "a reference with an incorrect year" do
       VCR.use_cassette "get_a_code_with_incorrect_year" do
         expect do
-          RelatonIec::IecBibliography.get("IEC 60050:2005")
+          RelatonIec::IecBibliography.get("IEC 60050-111:2005")
         end.to output(/There was no match for 2005, though there were matches found for 1996/).to_stderr
       end
     end
@@ -196,8 +196,31 @@ RSpec.describe RelatonIec do
     end
 
     it "IEC 61360-4 DB" do
-      bib = RelatonIec::IecBibliography.get "IEC 61360-4 DB"
-      expect(bib.docidentifier[0].id).to eq "IEC 61360-4 DB"
+      VCR.use_cassette "iec_61360_4_db" do
+        bib = RelatonIec::IecBibliography.get "IEC 61360-4 DB"
+        expect(bib.docidentifier[0].id).to eq "IEC 61360-4 DB"
+      end
+    end
+
+    it "ISO/IEC DIR 1 IEC SUP" do
+      VCR.use_cassette "iso_iec_dir_1_sup" do
+        bib = RelatonIec::IecBibliography.get "IEC ISO/IEC DIR 1 IEC SUP"
+        expect(bib.docidentifier[0].id).to eq "ISO/IEC DIR 1 IEC SUP"
+      end
+    end
+
+    it "ISO/IEC DIR 2 IEC" do
+      VCR.use_cassette "iso_iec_dir_2_iec" do
+        bib = RelatonIec::IecBibliography.get "IEC ISO/IEC DIR 2 IEC"
+        expect(bib.docidentifier[0].id).to eq "ISO/IEC DIR 2 IEC"
+      end
+    end
+
+    it "ISO/IEC DIR IEC SUP" do
+      VCR.use_cassette "iso_iec_dir_iec_sup" do
+        bib = RelatonIec::IecBibliography.get "IEC ISO/IEC DIR IEC SUP"
+        expect(bib.docidentifier[0].id).to eq "ISO/IEC DIR IEC SUP"
+      end
     end
   end
 

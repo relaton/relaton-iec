@@ -32,6 +32,7 @@ module RelatonIec
       parts.reject { |h| h.hit[:code] == hit.hit[:code] }.each do |hi|
         isobib = RelatonIec::IecBibliographicItem.new(
           formattedref: RelatonBib::FormattedRef.new(content: hi.hit[:code]),
+          docid: [RelatonBib::DocumentIdentifier.new(id: hi.hit[:code], type: "IEC", primary: true)],
         )
         all_parts_item.relation << RelatonBib::DocumentRelation.new(type: "partOf", bibitem: isobib)
       end
@@ -44,20 +45,34 @@ module RelatonIec
     # @param year [String, nil]
     # @return [Array<RelatonIec::Hit>]
     def hits(ref, year) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-      file = "../data/#{ref.sub(/^IEC\s/, '').gsub(' ', '_').upcase}.yaml"
-      path = File.expand_path file, __dir__
-      if File.exist? path
-        hash = YAML.safe_load File.read(path, encoding: "utf-8")
-        hit = Hit.new({ code: ref }, self)
-        hit.fetch = IecBibliographicItem.from_hash hash
-        return [hit]
+      if /61360-4\sDB|ISO[\s\/]IEC\sDIR/.match?(ref)
+        fetch_from_gh ref
+      else
+        from, to = nil
+        if year
+          from = Date.strptime year, "%Y"
+          to   = from.next_year.prev_day
+        end
+        get_results ref, from, to
       end
-      from, to = nil
-      if year
-        from = Date.strptime year, "%Y"
-        to   = from.next_year.prev_day
-      end
-      get_results ref, from, to
+      # file = "../data/#{ref.sub(/^IEC\s/, '').gsub(/[\s\/]/, '_').upcase}.yaml"
+      # path = File.expand_path file, __dir__
+      # if File.exist? path
+      #   hash = YAML.safe_load File.read(path, encoding: "utf-8")
+      #   hit = Hit.new({ code: ref }, self)
+      #   hit.fetch = IecBibliographicItem.from_hash hash
+      #   return [hit]
+      # end
+    end
+
+    def fetch_from_gh(ref)
+      file = ref.sub(/^IEC\s/, "").gsub(/[\s\/]/, "_").upcase
+      url = "https://raw.githubusercontent.com/relaton/relaton-data-iec/main/data/#{file}.yaml"
+      resp = Net::HTTP.get URI(url)
+      hash = YAML.safe_load resp
+      hit = Hit.new({ code: ref }, self)
+      hit.fetch = IecBibliographicItem.from_hash hash
+      [hit]
     end
 
     # @param ref [String]

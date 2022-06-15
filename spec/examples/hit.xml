@@ -1,5 +1,5 @@
 <bibdata type="standard">
-  <fetched>2022-02-04</fetched>
+  <fetched>2022-06-15</fetched>
   <title type="title-intro" format="text/plain" language="en" script="Latn">Switches for appliances</title>
   <title type="title-main" format="text/plain" language="en" script="Latn">Part 2-4: Particular requirements for independently mounted switches</title>
   <title type="main" format="text/plain" language="en" script="Latn">Switches for appliances - Part 2-4: Particular requirements for independently mounted switches</title>
@@ -48,11 +48,13 @@ addition to this publication.
   <relation type="updates">
     <bibitem type="standard">
       <formattedref format="text/plain">IEC 61058-2-4:1995/AMD1:2003</formattedref>
+      <docidentifier type="IEC" primary="true">IEC 61058-2-4:1995/AMD1:2003</docidentifier>
     </bibitem>
   </relation>
   <relation type="updates">
     <bibitem type="standard">
       <formattedref format="text/plain">IEC 61058-2-4:1995</formattedref>
+      <docidentifier type="IEC" primary="true">IEC 61058-2-4:1995</docidentifier>
     </bibitem>
   </relation>
   <place>Geneva</place>

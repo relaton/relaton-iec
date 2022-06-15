@@ -1,0 +1,106 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://raw.githubusercontent.com/relaton/relaton-data-iec/main/data/ISO_IEC_DIR_IEC_SUP.yaml
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - raw.githubusercontent.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '342'
+      Cache-Control:
+      - max-age=300
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Etag:
+      - W/"1162b0697542ef28970677991d5b6427633293a25db61bf210699c81c1c88d60"
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Github-Request-Id:
+      - 5EEE:A29B:39CEB:73C1A:62AA1CF8
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Wed, 15 Jun 2022 17:55:04 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - cache-vie6356-VIE
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1655315705.561079,VS0,VE155
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Fastly-Request-Id:
+      - 95f048f97e8c7eef0cc43afa7761571ece34c40f
+      Expires:
+      - Wed, 15 Jun 2022 18:00:04 GMT
+      Source-Age:
+      - '0'
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        title:
+        - type: title-main
+          content: Procedures specific to IEC
+          language: en
+          script: Latn
+
+        link:
+        - type: obp
+          content: https://www.iec.ch/members_experts/refdocs/iec/isoiecdir1-iecsup%7bed13.0%7den.pdf
+
+        type: international-standard
+
+        docid:
+          id: ISO/IEC DIR IEC SUP
+          type: IEC
+          primary: true
+
+        date:
+          type: published
+          value: '2019-05-01'
+
+        edition: "13"
+
+        language: en
+
+        script: Latn
+
+        copyright:
+          owner:
+            name: International Electrotechnical Commission
+            abbreviation: IEC
+            url: iec.ch
+          from: '2019'
+  recorded_at: Wed, 15 Jun 2022 17:55:04 GMT
+recorded_with: VCR 6.1.0
