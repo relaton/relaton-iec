@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 703E:2629:22D211:26EE88:62AA1CCE
+      - 466C:1822:A5CAFA:B02173:62B487EF
       Accept-Ranges:
       - bytes
       Date:
-      - Wed, 15 Jun 2022 17:54:22 GMT
+      - Thu, 23 Jun 2022 15:34:08 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-vie6344-VIE
+      - cache-vie6362-VIE
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1655315663.691069,VS0,VE161
+      - S1655998448.934975,VS0,VE166
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 3f5c51548a5a7c962a718f0c3e7075b082630f3a
+      - 4fa9b686e3866f464910a0d65ee390c910f6fab5
       Expires:
-      - Wed, 15 Jun 2022 17:59:22 GMT
+      - Thu, 23 Jun 2022 15:39:08 GMT
       Source-Age:
       - '0'
     body:
@@ -102,5 +102,5 @@ http_interactions:
             abbreviation: IEC
             url: iec.ch
           from: '2019'
-  recorded_at: Wed, 15 Jun 2022 17:54:22 GMT
+  recorded_at: Thu, 23 Jun 2022 15:34:08 GMT
 recorded_with: VCR 6.1.0

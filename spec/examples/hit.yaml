@@ -44,7 +44,8 @@ contributor:
     url: www.iec.ch
   role:
   - publisher
-edition: '1.1'
+edition:
+  content: '1.1'
 revdate: '2003-03-18'
 language:
 - en
