@@ -39,8 +39,9 @@ date:
 contributor:
 - organization:
     name:
-    - International Electrotechnical Commission
-    abbreviation: IEC
+    - content: International Electrotechnical Commission
+    abbreviation:
+      content: IEC
     url: www.iec.ch
   role:
   - publisher
@@ -71,8 +72,9 @@ docstatus:
 copyright:
 - owner:
   - name:
-    - International Electrotechnical Commission
-    abbreviation: IEC
+    - content: International Electrotechnical Commission
+    abbreviation:
+      content: IEC
     url: www.iec.ch
   from: '1995'
 place:
