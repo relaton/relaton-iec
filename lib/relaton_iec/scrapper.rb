@@ -12,6 +12,8 @@ module RelatonIec
     ABBREVS = {
       "ISO" => ["International Organization for Standardization", "www.iso.org"],
       "IEC" => ["International Electrotechnical Commission", "www.iec.ch"],
+      "IEEE" => ["Institute of Electrical and Electronics Engineers", "www.ieee.org"],
+      "ASTM" => ["American Society of Testing Materials", "www.astm.org"],
       "CISPR" => ["International special committee on radio interference", "www.iec.ch"],
     }.freeze
 
@@ -169,9 +171,6 @@ module RelatonIec
       def fetch_workgroup(doc)
         wg = doc.at('//th/abbr[.="TC"]/../following-sibling::td/a').text
         {
-          name: "International Electrotechnical Commission",
-          abbreviation: "IEC",
-          url: "webstore.iec.ch",
           technical_committee: [{
             name: wg,
             type: "technicalCommittee",
@@ -186,7 +185,7 @@ module RelatonIec
       # @return [Array<Hash>]
       # rubocop:disable Metrics/MethodLength
       def fetch_relations(doc)
-        doc.xpath('//ROW[STATUS[.!="PREPARING"]][STATUS[.!="PUBLISHED"]]')
+        doc.xpath('//ROW[STATUS[.!="PREPARING" and .!="PUBLISHED"]]')
           .map do |r|
           r_type = r.at("STATUS").text.downcase
           type = case r_type
@@ -197,17 +196,15 @@ module RelatonIec
                  end
           ref = r.at("FULL_NAME").text
           fref = RelatonBib::FormattedRef.new content: ref, format: "text/plain"
-          bibitem = IecBibliographicItem.new(
-            formattedref: fref,
-            docid: [RelatonBib::DocumentIdentifier.new(id: ref, type: "IEC", primary: true)],
-          )
+          docid = RelatonBib::DocumentIdentifier.new(id: ref, type: "IEC", primary: true)
+          bibitem = IecBibliographicItem.new(formattedref: fref, docid: [docid])
           { type: type, bibitem: bibitem }
         end
       end
 
       def fetch_status_relations(url)
         pubid = url.match(/\d+$/).to_s
-        uri = URI "#{DOMAIN}/webstore/webstore.nsf/AjaxRequestXML?"\
+        uri = URI "#{DOMAIN}/webstore/webstore.nsf/AjaxRequestXML?" \
                   "Openagent&url=#{pubid}"
         resp = Net::HTTP.get_response uri
         doc = Nokogiri::XML resp.body
@@ -280,12 +277,10 @@ module RelatonIec
         links
       end
 
-      # rubocop:disable Metrics/MethodLength
-
       # Fetch copyright.
       # @param title [String]
       # @return [Array<Hash>]
-      def fetch_copyright(code, doc)
+      def fetch_copyright(code, doc) # rubocop:disable Metrics/MethodLength
         abbreviation = code.match(/.*?(?=\s)/).to_s
         name, url = name_url abbreviation
         from = code.match(/(?<=:)\d{4}/).to_s
@@ -298,7 +293,6 @@ module RelatonIec
           from: from,
         }]
       end
-      # rubocop:enable Metrics/MethodLength
 
       def name_url(abbrev)
         ABBREVS[abbrev]

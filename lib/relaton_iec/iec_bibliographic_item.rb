@@ -17,6 +17,17 @@ module RelatonIec
 
     # attr_reader :tc_sc_officers_note
 
+    #
+    # Initialize a new instance
+    #
+    # @param [Hash] **args <description>
+    # @option args [String, nil] :function
+    # @option args [String, nil] :updates_document_type
+    # @option args [Boolean, nil] :accessibility_color_inside
+    # @option args [String, nil] :price_code
+    # @option args [Boolean, nil] :cen_processing
+    # @option args [String, nil] :secretary
+    #
     def initialize(**args) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       if args[:function] && !FUNCTION.include?(args[:function])
         warn "[relaton-iec] WARNING: invalid function \"#{args[:function]}\""

@@ -11,6 +11,7 @@ module RelatonIec
     attr_reader :part
 
     DOMAIN = "https://webstore.iec.ch"
+    GHURL = "https://raw.githubusercontent.com/relaton/relaton-data-iec/main/"
 
     # @param ref [String]
     # @param year [String, nil]
@@ -67,7 +68,7 @@ module RelatonIec
 
     def fetch_from_gh(ref)
       file = ref.sub(/^IEC\s/, "").gsub(/[\s\/]/, "_").upcase
-      url = "https://raw.githubusercontent.com/relaton/relaton-data-iec/main/data/#{file}.yaml"
+      url = "#{GHURL}data/#{file}.yaml"
       resp = Net::HTTP.get URI(url)
       hash = YAML.safe_load resp
       hit = Hit.new({ code: ref }, self)
@@ -93,13 +94,14 @@ module RelatonIec
     # @return [Array<RelatonIec::Hit>]
     def results(uri)
       contains = "[contains(.,'Part #{part}:')]" if part
-      resp = OpenURI.open_uri(uri, "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) "\
-        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36")
+      ua = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/" \
+           "537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36"
+      resp = OpenURI.open_uri(uri, "User-Agent" => ua)
       doc = Nokogiri::HTML(resp)
       doc.xpath(
         "//body/li#{contains}",
         "//ul[contains(@class,'search-results')]/li#{contains}",
-        "//ul[contains(@class,'morethesame')]/li#{contains}"
+        "//ul[contains(@class,'morethesame')]/li#{contains}",
       ).map { |h| make_hit h }.compact
     end
 
