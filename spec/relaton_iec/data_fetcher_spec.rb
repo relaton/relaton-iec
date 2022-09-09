@@ -18,6 +18,10 @@ describe RelatonIec::DataFetcher do
     end
   end
 
+  # it "feth data", vcr: "fetch_data" do
+  #   subject.fetch
+  # end
+
   context "instance methods" do
     let(:index) { subject.instance_variable_get(:@index) }
 
@@ -54,7 +58,7 @@ describe RelatonIec::DataFetcher do
       file = "static/iec_123.yaml"
       expect(Dir).to receive(:[]).with("static/*.yaml").and_return [file]
       expect(File).to receive(:read).with(file, encoding: "UTF-8").and_return :yaml
-      pub = { "docidentifier" => [{ "id" => "IEC 123", "primary" => true }] }
+      pub = { "docid" => [{ "id" => "IEC 123", "primary" => true }] }
       expect(RelatonBib).to receive(:parse_yaml).with(:yaml).and_return pub
       subject.add_static_files_to_index
       expect(index.instance_variable_get(:@index)).to eq [{ pubid: "IEC 123", file: file }]

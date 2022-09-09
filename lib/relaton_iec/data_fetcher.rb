@@ -51,7 +51,7 @@ module RelatonIec
     def add_static_files_to_index
       Dir["static/*.yaml"].each do |file|
         pub = RelatonBib.parse_yaml File.read(file, encoding: "UTF-8")
-        pubid = pub["docidentifier"].detect { |id| id["primary"] == true }["id"]
+        pubid = pub["docid"].detect { |id| id["primary"] == true }["id"]
         @index.add pubid, file
       end
     end
