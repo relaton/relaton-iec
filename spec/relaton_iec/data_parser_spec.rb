@@ -48,7 +48,7 @@ describe RelatonIec::DataParser do
       expect(subject).to receive(:link).and_return :link
       expect(subject).to receive(:relation).and_return :relation
       expect(RelatonIec::IecBibliographicItem).to receive(:new).with(
-        fetched: Date.today.to_s, docid: :id, structuredidentifier: :strid,
+        docid: :id, structuredidentifier: :strid,
         language: :lang, script: :script, title: :title, doctype: :doctype,
         docstatus: :status, ics: :ics, date: :date, contributor: :contributor,
         editorialgroup: :editorialgroup, abstract: :abstract,

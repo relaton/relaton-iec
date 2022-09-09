@@ -16,7 +16,7 @@ module RelatonIec
     #
     def parse # rubocop:disable Metrics/AbcSize
       IecBibliographicItem.new(
-        fetched: Date.today.to_s, docid: docid,
+        docid: docid,
         structuredidentifier: structuredidentifier, edition: @pub["edition"],
         language: language, script: scripts, title: title, doctype: doctype,
         docstatus: status, ics: ics, date: date, contributor: contributor,
