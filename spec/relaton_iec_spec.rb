@@ -104,7 +104,7 @@ RSpec.describe RelatonIec do
       VCR.use_cassette "get_a_code_with_incorrect_year" do
         expect do
           RelatonIec::IecBibliography.get("IEC 60050-111:2005")
-        end.to output(/There was no match for 2005, though there were matches found for 1996/).to_stderr
+        end.to output(/TIP: No match for edition year 2005, but matches exist for 1996./).to_stderr
       end
     end
 
@@ -139,7 +139,9 @@ RSpec.describe RelatonIec do
           expect do
             result = RelatonIec::IecBibliography.get "IEC 61326"
             expect(result.docidentifier[0].id).to eq "IEC 61326"
-          end.to output(/WARNING: IEC 61326 found as IEC 61326:2002 but also contain parts/).to_stderr
+          end.to output(
+            /TIP: "IEC 61326" also contains other parts, if you want to cite all parts, use \("IEC 61326 \(all parts\)"\)/
+            ).to_stderr
         end
       end
     end
@@ -148,8 +150,7 @@ RSpec.describe RelatonIec do
       VCR.use_cassette "varn_part_num_not_found" do
         expect { RelatonIec::IecBibliography.get("IEC 60050-103", "207", {}) }
           .to output(
-            /The provided document part may not exist, or the document may no |
-            longer be published in parts/,
+            /TIP: If it cannot be found, the document may no longer be published in parts/,
           ).to_stderr
       end
     end
