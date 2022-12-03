@@ -1,5 +1,6 @@
 ---
 id: IEC61058-2-4-1995+AMD1-2003CSV
+schema-version: v1.2.1
 title:
 - type: title-intro
   content: Switches for appliances
@@ -44,7 +45,7 @@ contributor:
       content: IEC
     url: www.iec.ch
   role:
-  - publisher
+  - type: publisher
 edition:
   content: '1.1'
 revdate: '2003-03-18'
@@ -99,3 +100,5 @@ price_code: pc
 cen_processing: false
 secretary: sec
 interest_to_committees: itc
+ext:
+  schema-version: v1.0.0

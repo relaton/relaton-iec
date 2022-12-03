@@ -66,10 +66,11 @@ module RelatonIec
     end
 
     def fetch_from_gh(ref)
-      file = ref.sub(/^IEC\s/, "").gsub(/[\s\/]/, "_").upcase
+      file = ref.sub(/^IEC\s(?=ISO|CISPR)/, "").gsub(/[\s\/]/, "_").upcase
       url = "https://raw.githubusercontent.com/relaton/relaton-data-iec/main/data/#{file}.yaml"
       resp = Net::HTTP.get URI(url)
       hash = YAML.safe_load resp
+      hash["fetched"] = Date.today.to_s
       hit = Hit.new({ code: ref }, self)
       hit.fetch = IecBibliographicItem.from_hash hash
       [hit]

@@ -35,7 +35,7 @@ Or install it yourself as:
 
 `RelatonIec::IecBibliography.search(ref, year)` method returns hits collection. Each hit can be used to fetch a document.
 
-- `ref` - reference to search document
+- `ref` - a reference to search document
 - `year` - filter by year (optional)
 
 [source,ruby]
@@ -54,18 +54,25 @@ item = hit_collection[2].fetch
 ...
 
 item.docidentifier
-=> [#<RelatonBib::DocumentIdentifier:0x007fe1171bb930 @id="IEC 60050-112:2010", @scope=nil, @type="IEC">,
- #<RelatonBib::DocumentIdentifier:0x007fe1171bb728 @id="urn:iec:std:iec:60050-112:2010:::en", @scope=nil, @type="URN">]
+=> [#<RelatonBib::DocumentIdentifier:0x00007f876539d1b0 @id="IEC 60050-112:2010", @language=nil, @primary=true, @scope=nil, @script=nil, @type="IEC">,
+ #<RelatonBib::DocumentIdentifier:0x00007f876539d070
+  @id="urn:iec:std:iec:60050-112:2010:::en",
+  @language=nil,
+  @primary=nil,
+  @scope=nil,
+  @script=nil,
+  @type="URN">]
+[6] pry(main)> 
 
 item.docidentifier.detect { |di| di.type == "URN" }.id
 => "urn:iec:std:iec:60050-112:2010:::en"
 ----
 
-=== Fetch documen by keywords
+=== Fetch document by keywords
 
-`RelatonIec::IecBibliography.get(ref, year, opts)` method returns document.
+`RelatonIec::IecBibliography.get(ref, year, opts)` method returns the document.
 
-- `ref` - reference to search document
+- `ref` - a reference to search document
 - `year` - filter by year (optional)
 - `opts` - hash of options (optional). Supported options are `:all_parts` (boolean), `:keep_year` (boolean).
 
@@ -74,15 +81,17 @@ item.docidentifier.detect { |di| di.type == "URN" }.id
 item = RelatonIec::IecBibliography.get("IEC 60050-112:2010")
 [relaton-iec] ("IEC 60050-112") fetching...
 [relaton-iec] ("IEC 60050-112") found IEC 60050-112:2010
-=> #<RelatonIec::IecBibliographicItem:0x007fa64e874f78
+=> #<RelatonIec::IecBibliographicItem:0x00007f876525e8d0
+...
 
 item = RelatonIec::IecBibliography.get("IEC 60050-112", "2010", all_parts: true)
 [relaton-iec] ("IEC 60050-112") fetching...
 [relaton-iec] ("IEC 60050-112") found IEC 60050 (all parts)
-=> #<RelatonIec::IecBibliographicItem:0x007fa69e9b3948
+=> #<RelatonIec::IecBibliographicItem:0x00007f87851888f0
+...
 
 item.docidentifier.first
-=> #<RelatonBib::DocumentIdentifier:0x007fa69e9abd10 @id="IEC 60050 (all parts)", @scope=nil, @type="IEC">
+=> #<RelatonBib::DocumentIdentifier:0x00007f878518eea8 @id="IEC 60050 (all parts)", @language=nil, @primary=true, @scope=nil, @script=nil, @type="IEC">
 
 item = RelatonIec::IecBibliography.get("IEC 60050-112", "2010")
 [relaton-iec] ("IEC 60050-112") fetching...
@@ -90,12 +99,12 @@ item = RelatonIec::IecBibliography.get("IEC 60050-112", "2010")
 => #<RelatonIec::IecBibliographicItem:0x007fa69f296da8
 
 item.docidentifier.first
-=> #<RelatonBib::DocumentIdentifier:0x007fa69f2a65f0 @id="IEC 60050-112:2010", @scope=nil, @type="IEC">
+=> #<RelatonBib::DocumentIdentifier:0x00007f876530c2c8 @id="IEC 60050-112:2010", @language=nil, @primary=true, @scope=nil, @script=nil, @type="IEC">
 ----
 
 === Search for ISO/IEC Directives
 
-The ISO/IEC Derectives are stored in a static cache in a relaton gem. It needs to use the relaton gem to fetch the ISO/IEC Directives. Folloving reaferences are allowed to fetch:
+The ISO/IEC Directives are stored in a static cache in a relaton gem. It needs to use the relaton gem to fetch the ISO/IEC Directives. The following references are allowed to fetch:
 
 - ISO/IEC DIR 1 - Procedures for the technical work
 - ISO/IEC DIR 1 IEC SUP - Procedures for the technical work – Procedures specific to IEC
@@ -109,87 +118,38 @@ The ISO/IEC Derectives are stored in a static cache in a relaton gem. It needs t
 
 Possible options:
 
-- *bibdata* - If true then wrapp item with _bibdata_ element and add _ext_ element.
+- *bibdata* - If true then wrap item with _bibdata_ element and add _ext_ element.
 - *note* - Array of hashes `{ text: "Note", type: "note" }`. These notes will be added to XML.
 
 [source,ruby]
 ----
 item.to_xml
-=> "<bibitem id="IEC60050-112-2010" type="standard">
-      <fetched>2021-01-28</fetched>
+=> "<bibitem id="IEC60050-112-2010" type="standard" schema-version="v1.2.1">
+      <fetched>2022-12-03</fetched>
       <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
       <title type="title-part" format="text/plain" language="en" script="Latn">Part 112: Quantities and units</title>
       <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) - Part 112: Quantities and units</title>
       <uri type="src">https://webstore.iec.ch/publication/162</uri>
-      <uri type="obp">/preview/info_iec60050-112%7Bed1.0%7Db.pdf</uri>
-      <docidentifier type="IEC">IEC 60050-112:2010</docidentifier>
-      <docidentifier type="URN">urn:iec:std:iec:60050-112:2010:::en</docidentifier>
-      <date type="published">
-        <on>2010-01-27</on>
-      </date>
-      <contributor>
-        <role type="publisher"/>
-        <organization>
-          <name>International Electrotechnical Commission</name>
-          <abbreviation>IEC</abbreviation>
-          <uri>www.iec.ch</uri>
-        </organization>
-      </contributor>
-      <edition>1.0</edition>
-      <language>en</language>
-      <script>Latn</script>
-      <abstract format="text/plain" language="en" script="Latn">
-        IEC 60050-112:2010 gives the general terminology concerning quantities and units, the terminology of SI, terms used in names and definitions of quantities, and some basic concepts in metrology. It cancels and replaces Sections 111-11 and 111-12 of International Standard IEC 60050-111:1996. It has the status of a horizontal standard in accordance with IEC Guide 108.
-      </abstract>
-      <status>
-        <stage>60</stage>
-        <substage>60</substage>
-      </status>
-      <copyright>
-        <from>2010</from>
-        <owner>
-          <organization>
-            <name>International Electrotechnical Commission</name>
-            <abbreviation>IEC</abbreviation>
-            <uri>www.iec.ch</uri>
-          </organization>
-        </owner>
-      </copyright>
-      <place>Geneva</place>
+      ...
     </bibitem>"
 
 item.to_xml bibdata: true
-=> "<bibdata type="standard">
-      <fetched>2021-01-28</fetched>
+=> "<bibdata type="standard" schema-version="v1.2.1">
+      <fetched>2022-12-03</fetched>
       <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
       <title type="title-part" format="text/plain" language="en" script="Latn">Part 112: Quantities and units</title>
       <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) - Part 112: Quantities and units</title>
       <uri type="src">https://webstore.iec.ch/publication/162</uri>
       <uri type="obp">/preview/info_iec60050-112%7Bed1.0%7Db.pdf</uri>
-      <docidentifier type="IEC">IEC 60050-112:2010</docidentifier>
-      <docidentifier type="URN">urn:iec:std:iec:60050-112:2010:::en</docidentifier>
       ...
-      <ext>
+      <ext schema-version="v1.0.0">
         <doctype>international-standard</doctype>
-        <editorialgroup>
-          <technical-committee number="1" type="technicalCommittee">TC 1 - Terminology</technical-committee>
-        </editorialgroup>
-        <ics>
-          <code>01.040.01</code>
-          <text>Generalities. Terminology. Standardization. Documentation (Vocabularies)</text>
-        </ics>
-        <ics>
-          <code>01.060</code>
-          <text>Quantities and units</text>
-        </ics>
-        <structuredidentifier type="IEC">
-          <project-number>60050</project-number>
-        </structuredidentifier>
+        ...
       </ext>
     </bibdata>"
 
 item.to_xml note: [{ text: "Note", type: "note" }]
-=> "<bibitem id="IEC60050-112-2010" type="standard">
+=> "<bibitem id="IEC60050-112-2010" type="standard" schema-version="v1.2.1">
       ...
       <note format="text/plain" type="note">Note</note>
       ...
@@ -207,7 +167,7 @@ item.link
  #<RelatonBib::TypedUri:0x00007ffe9d9af080 @content=#<Addressable::URI:0x820 URI:/preview/info_iec60050-112%7Bed1.0%7Db.pdf>, @type="obp">]
 ----
 
-=== Create bibliography item from hash
+=== Create bibliographic item from Hash
 
 [source,ruby]
 ----
@@ -222,7 +182,7 @@ RelatonIec::IecBibliographicItem.from_hash hash
 
 === Converting reference to URN
 
-URN is document a identifier format. It has fields delimited by colon. If any field is absent then it's place is empty. All values are in lower-case.
+URN is a document identifier format. It has fields delimited by a colon. If any field is absent then its place is empty. All values are in lower-case.
 
 URN structure: +
 `urn:sdo_namespace:content_type_namespace:header:project_number:date:type:deliverable:language:relation:adjunct_type:adjunct_number:date[#/=]component_or_related_asset`

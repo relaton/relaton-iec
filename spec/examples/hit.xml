@@ -1,5 +1,5 @@
-<bibdata type="standard">
-  <fetched>2022-06-15</fetched>
+<bibdata type="standard" schema-version="v1.2.1">
+  <fetched>2022-11-24</fetched>
   <title type="title-intro" format="text/plain" language="en" script="Latn">Switches for appliances</title>
   <title type="title-main" format="text/plain" language="en" script="Latn">Part 2-4: Particular requirements for independently mounted switches</title>
   <title type="main" format="text/plain" language="en" script="Latn">Switches for appliances - Part 2-4: Particular requirements for independently mounted switches</title>
@@ -58,7 +58,7 @@ addition to this publication.
     </bibitem>
   </relation>
   <place>Geneva</place>
-  <ext>
+  <ext schema-version="v1.0.0">
     <doctype>international-standard</doctype>
     <editorialgroup>
       <technical-committee number="23" type="technicalCommittee">TC 23/SC 23J - Switches for appliances</technical-committee>

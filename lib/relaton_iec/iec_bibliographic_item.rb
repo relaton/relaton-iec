@@ -39,6 +39,15 @@ module RelatonIec
       super
     end
 
+    #
+    # Fetch flavor schema version
+    #
+    # @return [String] schema version
+    #
+    def ext_schema
+      schema_versions["relaton-model-iec"]
+    end
+
     # @param hash [Hash]
     # @return [RelatonIsoBib::IecBibliographicItem]
     def self.from_hash(hash)
@@ -54,7 +63,7 @@ module RelatonIec
     def to_xml(**opts) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
       super(**opts) do |b|
         if opts[:bibdata]
-          b.ext do
+          ext = b.ext do
             b.doctype doctype if doctype
             b.horizontal horizontal unless horizontal.nil?
             b.function function if function
@@ -75,6 +84,7 @@ module RelatonIec
               b.send(:"interest-to-committees", interest_to_committees)
             end
           end
+          ext["schema-version"] = ext_schema unless opts[:embedded]
         end
       end
     end

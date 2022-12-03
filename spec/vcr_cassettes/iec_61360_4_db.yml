@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://raw.githubusercontent.com/relaton/relaton-data-iec/main/data/61360-4_DB.yaml
+    uri: https://raw.githubusercontent.com/relaton/relaton-data-iec/main/data/IEC_61360-4_DB.yaml
     body:
       encoding: US-ASCII
       string: ''
@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 7EF2:0861:D06C2:179B92:62FFBFDB
+      - 4894:7791:44928B:6D2685:638BB114
       Accept-Ranges:
       - bytes
       Date:
-      - Fri, 19 Aug 2022 16:52:43 GMT
+      - Sat, 03 Dec 2022 20:27:00 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-vie6346-VIE
+      - cache-atl18466-ATL
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1660927963.392237,VS0,VE188
+      - S1670099221.584049,VS0,VE132
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 38d55737da51fe8ac6d0965af052a00b1a65207f
+      - 1198c417c6281c38c72fa89676c24559c523d54e
       Expires:
-      - Fri, 19 Aug 2022 16:57:43 GMT
+      - Sat, 03 Dec 2022 20:32:00 GMT
       Source-Age:
       - '0'
     body:
@@ -132,5 +132,5 @@ http_interactions:
           script:
           - Latn
           format: text/plain
-  recorded_at: Fri, 19 Aug 2022 16:52:43 GMT
+  recorded_at: Sat, 03 Dec 2022 20:27:00 GMT
 recorded_with: VCR 6.1.0

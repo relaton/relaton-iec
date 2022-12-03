@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require "open-uri"
-require "jing"
-
 RSpec.describe RelatonIec do
   it "has a version number" do
     expect(RelatonIec::VERSION).not_to be nil
@@ -50,7 +47,7 @@ RSpec.describe RelatonIec do
       end
       expect(result).to be_equivalent_to File.read(file_path, encoding: "utf-8")
         .sub(/(?<=<fetched>)\d{4}-\d{2}-\d{2}/, Date.today.to_s)
-      schema = Jing.new "spec/examples/isobib.rng"
+      schema = Jing.new "grammars/relaton-iec-compile.rng"
       errors = schema.validate file_path
       expect(errors).to eq []
     end
@@ -72,7 +69,7 @@ RSpec.describe RelatonIec do
     it "a code" do
       VCR.use_cassette "get_a_code" do
         results = RelatonIec::IecBibliography.get("IEC 60050-102").to_xml
-        expect(results).to include '<bibitem id="IEC60050-102" type="standard">'
+        expect(results).to include '<bibitem id="IEC60050-102" type="standard" schema-version="v1.2.1">'
         expect(results).to include %(<on>2007-08-27</on>)
         expect(results.gsub(/<relation.*<\/relation>/m, "")).not_to include(
           %(<on>2007-08-27</on>),
@@ -156,8 +153,8 @@ RSpec.describe RelatonIec do
 
     it "gets a frozen reference for IEV" do
       results = RelatonIec::IecBibliography.get("IEV", nil, {})
-      expect(results.to_xml).to include '<bibitem id="IEC60050-2011" '\
-                                        'type="standard">'
+      expect(results.to_xml).to include '<bibitem id="IEC60050-2011" ' \
+                                        'type="standard" schema-version="v1.2.1">'
     end
 
     it "packaged standard" do
