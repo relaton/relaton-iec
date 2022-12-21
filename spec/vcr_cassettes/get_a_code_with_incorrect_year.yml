@@ -28,15 +28,17 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Sat, 03 Dec 2022 20:26:44 GMT
+      - Wed, 21 Dec 2022 18:41:45 GMT
+      X-Content-Type-Options:
+      - nosniff
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 d3385c1527acfbb7e4b167c6fc3a82fe.cloudfront.net (CloudFront)
+      - 1.1 85a5b0f6d760d71ec1e7840a933b5572.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - ATL56-P1
       X-Amz-Cf-Id:
-      - 6OcZxY4uc1JhGYqTH_DEVpoyAUVGo1XEH1M0C5bLbkc7jpgiuz0p9g==
+      - Muj4ZYtybcDqxQwFHscIeXlJ4ynIS5k376E20f9KDswB_ZQu9lrMtA==
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -55,7 +57,7 @@ http_interactions:
         wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
         id=\"nbres\" type=\"hidden\"  value=\"0\">\n<ul class=\"search-results lined-list\">\nNo
         valid publication found.\n</body>\n</html>\n"
-  recorded_at: Sat, 03 Dec 2022 20:26:42 GMT
+  recorded_at: Wed, 21 Dec 2022 18:41:43 GMT
 - request:
     method: get
     uri: https://webstore.iec.ch/searchkey&type=trf&RefNbr=IEC%2060050-111&From=2005-01-01&To=2005-12-31&start=1
@@ -84,15 +86,17 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Sat, 03 Dec 2022 20:26:44 GMT
+      - Wed, 21 Dec 2022 18:41:46 GMT
+      X-Content-Type-Options:
+      - nosniff
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 82e84cead217e792fba0efac11cb477a.cloudfront.net (CloudFront)
+      - 1.1 d15135b95e5ad7fd5c97f893917772de.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - ATL56-P1
       X-Amz-Cf-Id:
-      - be19dNFinZSwojAmfYotXfUrjvDNFyVl_Ox2f7TdhXjH-YEwW0VNhg==
+      - 7GNVNrtVzE3shHbk_J8raXOGFjX0KS8ua1WhTQNRK2Vfkq9GPvsEVg==
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -110,7 +114,7 @@ http_interactions:
         wordsOnly: !match });\n\t\t\t\t$(\"#trf.search-results\").highlight(word,{
         wordsOnly: !match });\n\t\t\t\t} \n\t       \t}\n\t});\n\t\t</script>\n\n<input
         id=\"nbrestrf\" type=\"hidden\"  value=\"0\">\nNo publication found.\n</body>\n</html>\n"
-  recorded_at: Sat, 03 Dec 2022 20:26:42 GMT
+  recorded_at: Wed, 21 Dec 2022 18:41:44 GMT
 - request:
     method: get
     uri: https://webstore.iec.ch/searchkey&type=wr&RefNbr=IEC%2060050-111&From=2005-01-01&To=2005-12-31&start=1
@@ -139,15 +143,17 @@ http_interactions:
       Server:
       - Lotus-Domino
       Date:
-      - Sat, 03 Dec 2022 20:26:45 GMT
+      - Wed, 21 Dec 2022 18:41:46 GMT
+      X-Content-Type-Options:
+      - nosniff
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 787da2b9a155d00032c7d0d9a8c2a7dc.cloudfront.net (CloudFront)
+      - 1.1 711d3c800952edc1dd6cabc0c877aa5a.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - ATL56-P1
       X-Amz-Cf-Id:
-      - EC9SGaIenhAULYAM1O9xVlIlvJ4TDgs1H8ECM31Rr2_emRJYyCeZSA==
+      - xjFZV7gshV2jEADAwqJYb1CjcFsFmjZIf73i2JkI9GSlC5_4NSzzmQ==
     body:
       encoding: ASCII-8BIT
       string: "<html>\n<head>\n</head>\n<body text=\"#000000\">\n\n<style>\n\t.highlight
@@ -171,5 +177,5 @@ http_interactions:
         href=\"/publication/12420\">IEC 60050-111:1996/AMD1:2005</a>\r\n\n<br>Amendment
         1 - International Electrotechnical Vocabulary (IEV) - Part 111: Physics and
         chemistry</li>\r\n\n</ul>\r\n\n</li>\r\n\n</body>\n</html>\n"
-  recorded_at: Sat, 03 Dec 2022 20:26:43 GMT
+  recorded_at: Wed, 21 Dec 2022 18:41:44 GMT
 recorded_with: VCR 6.1.0

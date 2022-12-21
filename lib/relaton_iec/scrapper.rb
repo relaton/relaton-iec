@@ -28,7 +28,7 @@ module RelatonIec
       "WD" => "working-draft",
       "R" => "recommendation",
       "Guide" => "guide",
-      "SRD" => "system-reference-delivrabble",
+      "SRD" => "system-reference-deliverable",
     }.freeze
 
     class << self
