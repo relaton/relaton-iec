@@ -34,7 +34,8 @@ module RelatonIec
     def docid
       ids = []
       ids << RelatonBib::DocumentIdentifier.new(id: @pub["reference"], type: "IEC", primary: true)
-      ids << RelatonBib::DocumentIdentifier.new(id: @pub["urnAlt"][0], type: "URN")
+      urn_id = "urn:#{@pub['urnAlt'][0]}"
+      ids << RelatonBib::DocumentIdentifier.new(id: urn_id, type: "URN")
     end
 
     #
@@ -44,7 +45,7 @@ module RelatonIec
     #
     def structuredidentifier
       m = @pub["reference"].match(
-        /(?<=\s)(?<project>\w+)(?:-(?<part>\d*)(?:-(?<subpart>\d*))?)?/,
+        /(?<=\s)(?<project>\w+)(?:-(?<part>\w*)(?:-(?<subpart>\w*))?)?/,
       )
       RelatonIsoBib::StructuredIdentifier.new(
         project_number: m[:project], part: m[:part], subpart: m[:subpart],

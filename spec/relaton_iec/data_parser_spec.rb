@@ -67,7 +67,7 @@ describe RelatonIec::DataParser do
       expect(id[0].type).to eq "IEC"
       expect(id[0].primary).to be true
       expect(id[1]).to be_instance_of RelatonBib::DocumentIdentifier
-      expect(id[1].id).to eq "urnId"
+      expect(id[1].id).to eq "urn:urnId"
       expect(id[1].type).to eq "URN"
       expect(id[1].primary).to be_nil
     end

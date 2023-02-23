@@ -130,7 +130,7 @@ module RelatonIec
       if @files.include? file then warn "File #{file} exists."
       else
         @files << file
-        @index.add did.id, file, pub["lastChangeTimestamp"]
+        @index.add index_id(pub), file, pub["lastChangeTimestamp"]
       end
       content = case @format
                 when "xml" then bib.to_xml bibdata: true
@@ -138,6 +138,17 @@ module RelatonIec
                 when "bibxml" then bib.to_bibxml
                 end
       File.write file, content, encoding: "UTF-8"
+    end
+
+    def index_id(pub)
+      /-(?<part>\d+)/ =~ pub["reference"]
+      title = pub.dig("title", 0, "value")
+      return pub["reference"] unless part && title
+
+      ids = title.scan(/(?<=-\sPart\s)#{part[0]}\d+(?=:)/).map do |m|
+        pub["reference"].sub(/-#{part}/, "-#{m}")
+      end
+      ids.size > 1 ? ids : pub["reference"]
     end
   end
 end

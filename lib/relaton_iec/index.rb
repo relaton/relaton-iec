@@ -20,7 +20,7 @@ module RelatonIec
     #
     # Add document to index or update existing document
     #
-    # @param [String] pubid document identifier
+    # @param [String, Array<String>] pubid document identifier
     # @param [String] file document file name
     # @param [String] change last change date time
     #
@@ -56,6 +56,13 @@ module RelatonIec
       return unless @index.any?
 
       @last_change ||= @index.max_by { |i| i[:last_change].to_s }[:last_change]
+    end
+
+    def search(ref)
+      upcase_ref = ref.upcase
+      @index.select do |i|
+        RelatonBib.array(i[:pubid]).detect { |r| r.include? upcase_ref }
+      end.sort_by { |r| r[:pubid] }
     end
 
     #
@@ -110,9 +117,10 @@ module RelatonIec
     # @return [Hash] index content
     #
     def get_index_from_gh # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-      resp = Zip::InputStream.new URI("#{HitCollection::GHURL}index.zip").open
+      resp = Zip::InputStream.new URI("#{Hit::GHURL}index.zip").open
       zip = resp.get_next_entry
-      index = RelatonBib.parse_yaml zip.get_input_stream.read
+      yaml = zip.get_input_stream.read
+      index = RelatonBib.parse_yaml yaml, [Symbol]
       File.write path, index.to_yaml, encoding: "UTF-8"
       index
     end

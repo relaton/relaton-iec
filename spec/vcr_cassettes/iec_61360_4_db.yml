@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://raw.githubusercontent.com/relaton/relaton-data-iec/main/data/61360-4_DB.yaml
+    uri: https://raw.githubusercontent.com/relaton/relaton-data-iec/main/static/iec_61360-4_db.yaml
     body:
       encoding: US-ASCII
       string: ''
@@ -23,7 +23,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '909'
+      - '914'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -31,7 +31,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"d4e05d38ddb26512a385b1038cf19b6db33b22a67216a65cfa477ce50e3057f6"
+      - W/"ae688c582c63fbf8ca3c23ad684bf6144c591eb0cbd37ce90227a041b8d79973"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - D492:0B3D:5D1FC3:692DE3:63148BA7
+      - A30C:1496:2FE12A:3DF440:63F55826
       Accept-Ranges:
       - bytes
       Date:
-      - Sun, 04 Sep 2022 11:27:36 GMT
+      - Tue, 21 Feb 2023 23:47:50 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-sof1510071-SOF
+      - cache-iad-kcgs7200051-IAD
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1662290856.951636,VS0,VE213
+      - S1677023271.763891,VS0,VE80
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - a8e617ab114b35cf1d4e99f0280beb3f2e084f83
+      - 3ac031c5b4a36724ad0f76abbda201e61fc7fafc
       Expires:
-      - Sun, 04 Sep 2022 11:32:36 GMT
+      - Tue, 21 Feb 2023 23:52:50 GMT
       Source-Age:
       - '0'
     body:
@@ -103,12 +103,14 @@ http_interactions:
         contributor:
         - organization:
             name:
-            - International Electrotechnical Commission
-            abbreviation: IEC
+            - content: International Electrotechnical Commission
+            abbreviation:
+              content: IEC
             url: www.iec.ch
           role:
           - publisher
-        edition: V2.0015.0001
+        edition:
+          content: V2.0015.0001
         language:
         - en
         script:
@@ -132,5 +134,5 @@ http_interactions:
           script:
           - Latn
           format: text/plain
-  recorded_at: Sun, 04 Sep 2022 11:27:36 GMT
+  recorded_at: Tue, 21 Feb 2023 23:47:50 GMT
 recorded_with: VCR 6.1.0

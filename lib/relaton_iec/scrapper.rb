@@ -134,7 +134,7 @@ module RelatonIec
         end
 
         m = item_ref.text.match(
-          /(?<=\s)(?<project>\d+)-?(?<part>(?<=-)\d+|)-?(?<subpart>(?<=-)\d+|)/,
+          /(?<=\s)(?<project>\d+)-?(?<part>(?<=-)\w+|)-?(?<subpart>(?<=-)\w+|)/,
         )
         RelatonIsoBib::StructuredIdentifier.new(
           project_number: m[:project],

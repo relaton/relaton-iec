@@ -129,6 +129,7 @@ describe RelatonIec::DataFetcher do
 
     context "#fetch_pub" do
       let(:parser) { double "parser" }
+      let(:pub) { { "lastChangeTimestamp" => "2015-04-09T09:30:10Z" } }
       let(:bib) do
         docid = double "docid", id: "CISPR 11:2009/AMD1:2010", type: "IEC", primary: true
         double "bib", docidentifier: [docid]
@@ -136,13 +137,16 @@ describe RelatonIec::DataFetcher do
 
       before do
         expect(parser).to receive(:parse).with(no_args).and_return bib
-        expect(RelatonIec::DataParser).to receive(:new).with(:pub).and_return parser
+        expect(RelatonIec::DataParser).to receive(:new).with(pub).and_return parser
       end
 
       it "and save YAML" do
         expect(bib).to receive(:to_hash).and_return({ id: "id" })
         expect(File).to receive(:write).with("data/cispr_11_2009_amd1_2010.yaml", /id: id/, encoding: "UTF-8")
-        subject.fetch_pub :pub
+        expect(subject).to receive(:index_id).with(pub).and_return "CISPR 11:2009/AMD1:2010"
+        index = subject.instance_variable_get :@index
+        expect(index).to receive(:add).with("CISPR 11:2009/AMD1:2010", "data/cispr_11_2009_amd1_2010.yaml", pub["lastChangeTimestamp"])
+        subject.fetch_pub pub
         expect(subject.instance_variable_get(:@files)).to eq ["data/cispr_11_2009_amd1_2010.yaml"]
       end
 
@@ -151,7 +155,7 @@ describe RelatonIec::DataFetcher do
         subject.instance_variable_set :@ext, "xml"
         expect(bib).to receive(:to_xml).with(bibdata: true).and_return("<id='id'/>")
         expect(File).to receive(:write).with("data/cispr_11_2009_amd1_2010.xml", "<id='id'/>", encoding: "UTF-8")
-        subject.fetch_pub :pub
+        subject.fetch_pub pub
       end
 
       it "and save BibXML" do
@@ -159,14 +163,42 @@ describe RelatonIec::DataFetcher do
         subject.instance_variable_set :@ext, "xml"
         expect(bib).to receive(:to_bibxml).with(no_args).and_return "<id='id'/>"
         expect(File).to receive(:write).with("data/cispr_11_2009_amd1_2010.xml", "<id='id'/>", encoding: "UTF-8")
-        subject.fetch_pub :pub
+        subject.fetch_pub pub
       end
 
       it "warn if file exists" do
         subject.instance_variable_set :@files, ["data/cispr_11_2009_amd1_2010.yaml"]
         expect(bib).to receive(:to_hash).and_return({ id: "id" })
         expect(File).to receive(:write).with("data/cispr_11_2009_amd1_2010.yaml", /id: id/, encoding: "UTF-8")
-        expect { subject.fetch_pub :pub }.to output(/File data\/cispr_11_2009_amd1_2010\.yaml exists/).to_stderr
+        expect { subject.fetch_pub pub }.to output(/File data\/cispr_11_2009_amd1_2010\.yaml exists/).to_stderr
+      end
+    end
+
+    context "#index_id" do
+      let(:title) do
+        "International Electrotechnical Vocabulary (IEV) - Part 300: Electrical and electronic " \
+          "measurements and measuring instruments - Part 311: General terms relating to measurements "\
+          "- Part 312: General terms relating to electrical measurements - Part 313: Types of electrical "\
+          "measuring instruments - Part 314: Specific terms according to the type of instrument"
+      end
+
+      it "packaged standard" do
+        pub = { "title" => [{ "value" => title }], "reference" => "IEC 60050-311:2001" }
+        id = subject.index_id pub
+        expect(id).to eq [
+          "IEC 60050-300:2001", "IEC 60050-311:2001", "IEC 60050-312:2001",
+          "IEC 60050-313:2001", "IEC 60050-314:2001"
+        ]
+      end
+
+      it "not packaged standard" do
+        pub = { "title" => [{ "value" => title }], "reference" => "IEC 60050-211:2001" }
+        expect(subject.index_id(pub)).to eq "IEC 60050-211:2001"
+      end
+
+      it "no part" do
+        pub = { "title" => [{ "value" => title }], "reference" => "IEC 60050:2001" }
+        expect(subject.index_id(pub)).to eq "IEC 60050:2001"
       end
     end
   end
