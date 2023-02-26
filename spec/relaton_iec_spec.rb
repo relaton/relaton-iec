@@ -100,13 +100,13 @@ RSpec.describe RelatonIec do
       end
     end
 
-    # it "a reference with an incorrect year" do
-    #   VCR.use_cassette "get_a_code_with_incorrect_year" do
-    #     expect do
-    #       RelatonIec::IecBibliography.get("IEC 60050-111:2005")
-    #     end.to output(/There was no match for 2005, though there were matches found for 1996/).to_stderr
-    #   end
-    # end
+    it "a reference with an incorrect year" do
+      VCR.use_cassette "get_a_code_with_incorrect_year" do
+        expect do
+          RelatonIec::IecBibliography.get("IEC 60050-111:2005")
+        end.to output(/There was no match for 2005, though there were matches found for 1982, 1984, 1977, 1996/).to_stderr
+      end
+    end
 
     context "all parts" do
       it "by reference" do
@@ -188,9 +188,9 @@ RSpec.describe RelatonIec do
       end
     end
 
-    it "IEC/TR 62547" do
+    it "IEC TR 62547" do
       VCR.use_cassette "iec_tr_62547" do
-        bib = RelatonIec::IecBibliography.get "IEC/TR 62547"
+        bib = RelatonIec::IecBibliography.get "IEC TR 62547"
         expect(bib.docidentifier[0].id).to eq "IEC TR 62547"
       end
     end
@@ -204,21 +204,21 @@ RSpec.describe RelatonIec do
 
     it "ISO/IEC DIR 1 IEC SUP" do
       VCR.use_cassette "iso_iec_dir_1_sup" do
-        bib = RelatonIec::IecBibliography.get "IEC ISO/IEC DIR 1 IEC SUP"
+        bib = RelatonIec::IecBibliography.get "ISO/IEC DIR 1 IEC SUP"
         expect(bib.docidentifier[0].id).to eq "ISO/IEC DIR 1 IEC SUP"
       end
     end
 
     it "ISO/IEC DIR 2 IEC" do
       VCR.use_cassette "iso_iec_dir_2_iec" do
-        bib = RelatonIec::IecBibliography.get "IEC ISO/IEC DIR 2 IEC"
+        bib = RelatonIec::IecBibliography.get "ISO/IEC DIR 2 IEC"
         expect(bib.docidentifier[0].id).to eq "ISO/IEC DIR 2 IEC"
       end
     end
 
     it "ISO/IEC DIR IEC SUP" do
       VCR.use_cassette "iso_iec_dir_iec_sup" do
-        bib = RelatonIec::IecBibliography.get "IEC ISO/IEC DIR IEC SUP"
+        bib = RelatonIec::IecBibliography.get "ISO/IEC DIR IEC SUP"
         expect(bib.docidentifier[0].id).to eq "ISO/IEC DIR IEC SUP"
       end
     end
