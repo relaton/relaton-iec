@@ -45,7 +45,7 @@ addition to this publication.
     </owner>
   </copyright>
   <place>Geneva</place>
-  <ext>
+  <ext schema-version="v1.0.0">
     <doctype>international-standard</doctype>
     <function>emc</function>
     <editorialgroup>

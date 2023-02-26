@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require "open-uri"
-require "jing"
-
 RSpec.describe RelatonIec do
   it "has a version number" do
     expect(RelatonIec::VERSION).not_to be nil
@@ -156,7 +153,7 @@ RSpec.describe RelatonIec do
 
     it "gets a frozen reference for IEV" do
       results = RelatonIec::IecBibliography.get("IEV", nil, {})
-      expect(results.to_xml).to include '<bibitem id="IEC60050-2011" '\
+      expect(results.to_xml).to include '<bibitem id="IEC60050-2011" ' \
                                         'type="standard" schema-version="v1.2.1">'
     end
 

@@ -60,7 +60,7 @@ Ce document doit être utilisé conjointement avec l'IEC 61058-1:2016.</p></abst
     </bibitem>
   </relation>
   <place>Geneva</place>
-  <ext>
+  <ext schema-version="v1.0.0">
     <doctype>international-standard</doctype>
     <editorialgroup>
       <technical-committee number="23" type="technicalCommittee">TC 23/SC 23J</technical-committee>

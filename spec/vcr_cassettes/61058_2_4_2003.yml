@@ -208,6 +208,8 @@ http_interactions:
       - SessionID=GD8DV4MAKI; path=/
       Expires:
       - "-1"
+      Cache-Control:
+      - no-cache
       X-Cache:
       - Miss from cloudfront
       Via:

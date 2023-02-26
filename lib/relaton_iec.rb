@@ -76,7 +76,7 @@ module RelatonIec
     # @return [Array<String, nil>]
     def ajunct_to_urn(rest)
       r = rest.sub(%r{
-        (?<pl>\+|\/)(?(<pl>)(?<adjunct>(amd|cor|ish))(?<adjnum>\d+)\s?)
+        (?<pl>\+|/)(?(<pl>)(?<adjunct>(?:amd|cor|ish))(?<adjnum>\d+)\s?)
         (?<_d2>:)?(?(<_d2>)(?<adjdt>[\d-]+)\s?)
       }x, "")
       m = $~ || {}

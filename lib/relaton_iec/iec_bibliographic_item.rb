@@ -1,10 +1,12 @@
 module RelatonIec
   class IecBibliographicItem < RelatonIsoBib::IsoBibliographicItem
-    TYPES = %w[
+    DOCTYPES = %w[
       international-standard technical-specification technical-report
       publicly-available-specification international-workshop-agreement
-      guide industry-technical-agreement system-reference-delivrabble
+      guide industry-technical-agreement system-reference-deliverable
     ].freeze
+
+    DOCSUBTYPES = %w[specification method-of-test vocabulary code-of-practice].freeze
 
     FUNCTION = %w[emc safety enviroment quality-assurance].freeze
 
@@ -18,15 +20,17 @@ module RelatonIec
     # attr_reader :tc_sc_officers_note
 
     #
-    # Initialize a new instance
+    # Initialize instance of RelatonIec::IecBibliographicItem
     #
-    # @param [Hash] **args <description>
-    # @option args [String, nil] :function
-    # @option args [String, nil] :updates_document_type
-    # @option args [Boolean, nil] :accessibility_color_inside
-    # @option args [String, nil] :price_code
+    # @param [Hash] **args hash of attributes
+    # @option args [String, nil] :function function
+    # @option args [String, nil] :updates_document_type updates document type
+    # @option args [String, nil] :price_code price code
     # @option args [Boolean, nil] :cen_processing
     # @option args [String, nil] :secretary
+    # @option args [String, nil] :secretary secretary
+    # @option args [String, nil] :interest_to_committees interest to committees
+    # @option args [Boolean, nil] :accessibility_color_inside accessibility color inside
     #
     def initialize(**args) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       if args[:function] && !FUNCTION.include?(args[:function])
@@ -34,11 +38,11 @@ module RelatonIec
         warn "[relaton-iec] allowed function values are: #{FUNCTION.join(', ')}"
       end
       if args[:updates_document_type] &&
-          !TYPES.include?(args[:updates_document_type])
+          !DOCTYPES.include?(args[:updates_document_type])
         warn "[relaton-iec] WARNING: invalid updates_document_type "\
              "\"#{args[:updates_document_type]}\""
         warn "[relaton-iec] allowed updates_document_type values are: "\
-             "#{TYPES.join(', ')}"
+             "#{DOCTYPES.join(', ')}"
       end
       @function = args.delete :function
       @updates_document_type = args.delete :updates_document_type
@@ -48,6 +52,15 @@ module RelatonIec
       @secretary = args.delete :secretary
       @interest_to_committees = args.delete :interest_to_committees
       super
+    end
+
+    #
+    # Fetch flavor schema version
+    #
+    # @return [String] schema version
+    #
+    def ext_schema
+      schema_versions["relaton-model-iec"]
     end
 
     # @param hash [Hash]
@@ -65,7 +78,7 @@ module RelatonIec
     def to_xml(**opts) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
       super(**opts) do |b|
         if opts[:bibdata]
-          b.ext do
+          ext = b.ext do
             b.doctype doctype if doctype
             b.horizontal horizontal unless horizontal.nil?
             b.function function if function
@@ -86,6 +99,7 @@ module RelatonIec
               b.send(:"interest-to-committees", interest_to_committees)
             end
           end
+          ext["schema-version"] = ext_schema unless opts[:embedded]
         end
       end
     end
