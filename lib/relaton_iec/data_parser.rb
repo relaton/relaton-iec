@@ -1,5 +1,10 @@
 module RelatonIec
   class DataParser
+    ATTRS = %i[
+      docid structuredidentifier language script title doctype
+      ics date contributor editorialgroup abstract copyright link relation
+    ].freeze
+
     #
     # Initialize new instance.
     #
@@ -15,15 +20,12 @@ module RelatonIec
     # @return [RelatonIec::IecBibliographicItem] bib item
     #
     def parse # rubocop:disable Metrics/AbcSize
-      IecBibliographicItem.new(
-        docid: docid,
-        structuredidentifier: structuredidentifier, edition: @pub["edition"],
-        language: language, script: scripts, title: title, doctype: doctype,
-        docstatus: status, ics: ics, date: date, contributor: contributor,
-        editorialgroup: editorialgroup, abstract: abstract,
-        copyright: copyright, link: link, relation: relation,
-        parce_code: @pub["priceInfo"]["priceCode"], place: ["Geneva"]
-      )
+      args = ATTRS.each_with_object({}) { |a, h| h[a] = send a }
+      args[:docstatus] = RelatonBib::DocumentStatus.new stage: @pub["status"]
+      args[:edition] = @pub["edition"]
+      args[:price_code] = @pub["priceInfo"]["priceCode"]
+      args[:place] = ["Geneva"]
+      IecBibliographicItem.new(**args)
     end
 
     #
@@ -34,8 +36,8 @@ module RelatonIec
     def docid
       ids = []
       ids << RelatonBib::DocumentIdentifier.new(id: @pub["reference"], type: "IEC", primary: true)
-      urn_id = "urn:#{@pub['urnAlt'][0]}"
-      ids << RelatonBib::DocumentIdentifier.new(id: urn_id, type: "URN")
+      urnid = "urn:#{@pub['urnAlt'][0]}"
+      ids << RelatonBib::DocumentIdentifier.new(id: urnid, type: "URN")
     end
 
     #
@@ -67,9 +69,9 @@ module RelatonIec
     #
     # @return [Array<String>] scripts
     #
-    def scripts
+    def script
       language.each_with_object([]) do |l, s|
-        scr = script l
+        scr = lang_to_script l
         s << scr if scr && !s.include?(scr)
       end
     end
@@ -81,7 +83,7 @@ module RelatonIec
     #
     # @return [String] script
     #
-    def script(lang)
+    def lang_to_script(lang)
       case lang
       when "en", "fr", "es" then "Latn"
       end
@@ -95,7 +97,7 @@ module RelatonIec
     def title
       @pub["title"].map do |t|
         RelatonBib::TypedTitleString.new(
-          content: t["value"], language: t["lang"], script: script(t["lang"]), type: "main",
+          content: t["value"], language: t["lang"], script: lang_to_script(t["lang"]), type: "main",
         )
       end
     end
@@ -126,7 +128,7 @@ module RelatonIec
     def abstract
       @pub["abstract"]&.map do |a|
         RelatonBib::FormattedString.new(
-          content: a["content"], language: a["lang"], script: script(a["lang"]),
+          content: a["content"], language: a["lang"], script: lang_to_script(a["lang"]),
           format: a["format"]
         )
       end
@@ -144,15 +146,6 @@ module RelatonIec
         { name: name, abbreviation: abbrev, url: url }
       end
       [{ owner: owner, from: from }]
-    end
-
-    #
-    # Parse status.
-    #
-    # @return [RelatonBib::DocumentStatus] status
-    #
-    def status
-      RelatonBib::DocumentStatus.new stage: @pub["status"]
     end
 
     #
@@ -205,9 +198,7 @@ module RelatonIec
     def link
       url = "#{Scrapper::DOMAIN}/publication/#{urn_id}"
       l = [RelatonBib::TypedUri.new(content: url, type: "src")]
-      return l unless @pub["releaseItems"]
-
-      @pub["releaseItems"].each_with_object(l) do |r, a|
+      RelatonBib.array(@pub["releaseItems"]).each_with_object(l) do |r, a|
         next unless r["type"] == "PREVIEW"
 
         url = "#{Scrapper::DOMAIN}/preview/#{r['contentRef']['fileName']}"

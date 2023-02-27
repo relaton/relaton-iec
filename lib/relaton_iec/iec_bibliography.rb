@@ -121,25 +121,41 @@ module RelatonIec
       # matches the year (if provided), and which a part
       # has a title (amendments do not).
       # If no match, returns any years which caused mismatch, for error reporting
-      def results_filter(result, ref, year, opts) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
+      def results_filter(result, ref, year, opts)
         r_code, r_year, r_amd = code_year ref
         r_year ||= year
+        if opts[:all_parts]
+          ret = result.to_all_parts(r_year)
+        else
+          ret, missed_years, missed_parts = match_result(result, r_code, r_year, r_amd, opts)
+        end
+        { ret: ret, years: missed_years, missed_parts: missed_parts }
+      end
+
+      #
+      # Find a match in the search results
+      #
+      # @param [RelatonIec::HitCollection] result <description>
+      # @param [String] code code of the document
+      # @param [String] year year of the document
+      # @param [String] amd amendment of the document
+      # @param [Hash] opts options
+      #
+      # @return [Array<RelatonIec::IecBibliographicItem, Array, nil>] result, missed years, missed parts
+      #
+      def match_result(result, code, year, amd, opts) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
         missed_years = []
         missed_parts = false
-        ret = if opts[:all_parts]
-                result.to_all_parts(r_year)
-              else
-                result.detect do |h|
-                  h_codes, h_years, h_amds = codes_years h.hit[:code]
-                  match_code = h_codes.include? r_code
-                  match_year = h_years.include?(r_year)
-                  match_amd = (!r_amd && h_amds.empty?) || h_amds.include?(r_amd)
-                  missed_parts ||= !opts[:all_parts] && !match_code
-                  missed_years += h_years if r_year && !match_year
-                  match_code && (!year || match_year) && match_amd
-                end&.fetch
-              end
-        { ret: ret, years: missed_years.uniq, missed_parts: missed_parts }
+        ret = result.detect do |h|
+          h_codes, h_years, h_amds = codes_years h.hit[:code]
+          match_code = h_codes.include? code
+          match_year = h_years.include?(year)
+          match_amd = (!amd && h_amds.empty?) || h_amds.include?(amd)
+          missed_parts ||= !opts[:all_parts] && !match_code
+          missed_years += h_years if year && !match_year
+          match_code && (!year || match_year) && match_amd
+        end&.fetch
+        [ret, missed_years.uniq, missed_parts]
       end
 
       # @param ref [String]

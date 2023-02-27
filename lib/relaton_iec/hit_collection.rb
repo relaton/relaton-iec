@@ -19,7 +19,7 @@ module RelatonIec
     end
 
     # @return [RelatonIec::IecBibliographicItem]
-    def to_all_parts(r_year) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity
+    def to_all_parts(r_year) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       parts = @array.select { |h| h.part && h.hit[:code].match?(/^[\s\w-]+:#{r_year}/) }
       hit = parts.min_by { |h| h.part.to_i }
       return @array.first&.fetch unless hit

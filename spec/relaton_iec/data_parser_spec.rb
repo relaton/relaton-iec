@@ -35,10 +35,10 @@ describe RelatonIec::DataParser do
       expect(subject).to receive(:docid).and_return :id
       expect(subject).to receive(:structuredidentifier).and_return :strid
       expect(subject).to receive(:language).and_return :lang
-      expect(subject).to receive(:scripts).and_return :script
+      expect(subject).to receive(:script).and_return :script
       expect(subject).to receive(:title).and_return :title
       expect(subject).to receive(:doctype).and_return :doctype
-      expect(subject).to receive(:status).and_return :status
+      expect(RelatonBib::DocumentStatus).to receive(:new).with(stage: "PUBLISHED").and_return(:status)
       expect(subject).to receive(:ics).and_return :ics
       expect(subject).to receive(:date).and_return :date
       expect(subject).to receive(:contributor).and_return :contributor
@@ -53,7 +53,7 @@ describe RelatonIec::DataParser do
         docstatus: :status, ics: :ics, date: :date, contributor: :contributor,
         editorialgroup: :editorialgroup, abstract: :abstract,
         copyright: :copyright, link: :link, relation: :relation,
-        edition: "1", parce_code: "PC", place: ["Geneva"]
+        edition: "1", price_code: "PC", place: ["Geneva"]
       ).and_return :item
       expect(subject.parse).to be :item
     end
@@ -84,8 +84,8 @@ describe RelatonIec::DataParser do
       expect(subject.language).to eq ["en", "fr"]
     end
 
-    it "#scripts" do
-      expect(subject.scripts).to eq ["Latn"]
+    it "#script" do
+      expect(subject.script).to eq ["Latn"]
     end
 
     it "#title" do
@@ -146,12 +146,12 @@ describe RelatonIec::DataParser do
       )
     end
 
-    it "#status" do
-      st = subject.status
-      expect(st).to be_instance_of RelatonBib::DocumentStatus
-      expect(st.stage).to be_instance_of RelatonBib::DocumentStatus::Stage
-      expect(st.stage.value).to eq "PUBLISHED"
-    end
+    # it "#docstatus" do
+    #   st = subject.docstatus
+    #   expect(st).to be_instance_of RelatonBib::DocumentStatus
+    #   expect(st.stage).to be_instance_of RelatonBib::DocumentStatus::Stage
+    #   expect(st.stage.value).to eq "PUBLISHED"
+    # end
 
     it "#ics" do
       ics = subject.ics

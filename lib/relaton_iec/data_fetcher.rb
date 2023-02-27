@@ -61,15 +61,11 @@ module RelatonIec
     #
     # @return [void]
     #
-    def fetch_all # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    def fetch_all # rubocop:disable Metrics/MethodLength
       page = 0
       next_page = true
       while next_page
-        res = fetch_page page
-        if res.code == "401"
-          @access_token = nil
-          res = fetch_page page
-        end
+        res = fetch_page_token page
         unless res.code == "200"
           warn "[relaton-iec] #{res.body}"
           break
@@ -79,6 +75,22 @@ module RelatonIec
         page += 1
         next_page = res["link"]&.include? "rel=\"last\""
       end
+    end
+
+    #
+    # Fetch page. If response code is 401, then get new access token and try
+    #
+    # @param [Integer] page page number
+    #
+    # @return [Net::HTTP::Response] response
+    #
+    def fetch_page_token(page)
+      res = fetch_page page
+      if res.code == "401"
+        @access_token = nil
+        res = fetch_page page
+      end
+      res
     end
 
     #

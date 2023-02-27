@@ -28,14 +28,12 @@ module RelatonIec
     #
     def add(pubid, file, change = nil)
       item = @index.find { |i| i[:pubid] == pubid }
-      if item
-        item[:file] = file
-        item[:last_change] = change if change
-      else
-        item = { pubid: pubid, file: file }
-        item[:last_change] = change if change
+      unless item
+        item = { pubid: pubid }
         @index << item
       end
+      item[:file] = file
+      item[:last_change] = change if change
     end
 
     #
@@ -58,6 +56,13 @@ module RelatonIec
       @last_change ||= @index.max_by { |i| i[:last_change].to_s }[:last_change]
     end
 
+    #
+    # Find document in index by reference and sort results by document ID
+    #
+    # @param [String] ref reference
+    #
+    # @return [Array<Hash>] search result
+    #
     def search(ref)
       upcase_ref = ref.upcase
       @index.select do |i|
