@@ -6,7 +6,7 @@ require "addressable/uri"
 module RelatonIec
   # Page of hit collection.
   class HitCollection < RelatonBib::HitCollection
-    def_delegators :@array, :detect
+    def_delegators :@array, :detect, :map
 
     # DOMAIN = "https://webstore.iec.ch"
 
@@ -42,8 +42,8 @@ module RelatonIec
       return [] unless text
 
       ref = year && !/:\d{4}$/.match?(text) ? "#{text}:#{year}" : text
-      ref.sub!(/^IEC\s(?=ISO\/IEC\sDIR)/, "")
-      @index.search(ref).map do |row|
+      reference = ref.sub(/^IEC\s(?=ISO\/IEC\sDIR)/, "")
+      @index.search(reference).map do |row|
         # pubid = row[:pubid].is_a?(Array) ? row[:pubid][0] : row[:pubid]
         Hit.new({ code: row[:pubid], file: row[:file] }, self)
       end

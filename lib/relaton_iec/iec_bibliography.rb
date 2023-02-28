@@ -27,7 +27,7 @@ module RelatonIec
       # @param opts [Hash] options; restricted to :all_parts if all-parts
       #   reference is required
       # @return [String] Relaton XML serialisation of reference
-      def get(code, year = nil, opts = {}) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
+      def get(code, year = nil, opts = {}) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity
         opts[:all_parts] ||= code.match?(/\s\(all parts\)/)
         ref = code.sub(/\s\(all parts\)/, "")
         year ||= ref_parts(ref)[:year]
@@ -67,8 +67,7 @@ module RelatonIec
 
       # @param ref [String]
       # @return [RelatonIec::HitCollection]
-      def search_filter(ref) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
-        # code = opts[:all_parts] ? ref.split(":").first : ref
+      def search_filter(ref)
         code = ref.split(":").first
         warn "[relaton-iec] (\"#{ref}\") fetching..."
         search(code)
@@ -127,9 +126,13 @@ module RelatonIec
         if opts[:all_parts]
           ret = result.to_all_parts(r_year)
         else
-          ret, missed_years, missed_parts = match_result(result, r_code, r_year, r_amd, opts)
+          ret, missed_parts = match_result(result, r_code, r_year, r_amd)
         end
-        { ret: ret, years: missed_years, missed_parts: missed_parts }
+        { ret: ret, years: missed_years(result, r_year), missed_parts: missed_parts }
+      end
+
+      def missed_years(result, year)
+        result.map { |h| codes_years(h.hit[:code])[1] }.flatten.uniq.reject { |y| y == year}
       end
 
       #
@@ -139,23 +142,23 @@ module RelatonIec
       # @param [String] code code of the document
       # @param [String] year year of the document
       # @param [String] amd amendment of the document
-      # @param [Hash] opts options
       #
-      # @return [Array<RelatonIec::IecBibliographicItem, Array, nil>] result, missed years, missed parts
+      # @return [Array<RelatonIec::IecBibliographicItem, Array, nil>] result, missed parts
       #
-      def match_result(result, code, year, amd, opts) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
-        missed_years = []
+      def match_result(result, code, year, amd) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity
         missed_parts = false
         ret = result.detect do |h|
           h_codes, h_years, h_amds = codes_years h.hit[:code]
           match_code = h_codes.include? code
           match_year = h_years.include?(year)
-          match_amd = (!amd && h_amds.empty?) || h_amds.include?(amd)
-          missed_parts ||= !opts[:all_parts] && !match_code
-          missed_years += h_years if year && !match_year
-          match_code && (!year || match_year) && match_amd
+          missed_parts ||= !match_code
+          match_code && (!year || match_year) && match_amd(amd, h_amds)
         end&.fetch
-        [ret, missed_years.uniq, missed_parts]
+        [ret, missed_parts]
+      end
+
+      def match_amd(amd, h_amds)
+        (!amd && h_amds.empty?) || h_amds.include?(amd)
       end
 
       # @param ref [String]
@@ -186,7 +189,7 @@ module RelatonIec
         result = search_filter(ref) || return
         ret = results_filter(result, ref, year, opts)
         if ret[:ret]
-          if ret[:missed_parts]
+          if ret[:missed_parts] && !opts[:all_parts]
             warn "[relaton-iec] WARNING: #{ref} found as #{ret[:ret].docidentifier.first.id} "\
                  "but also contain parts. If you wanted to cite all document parts for the reference, use "\
                  "\"#{ref} (all parts)\""
