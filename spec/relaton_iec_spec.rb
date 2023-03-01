@@ -246,8 +246,8 @@ RSpec.describe RelatonIec do
       end
 
       it "consolidation of amedments & deliverable" do
-        ref = RelatonIec.urn_to_code "urn:iec:std:iec:60034-1:1969::csv:en-fr:plus:amd:1:1977:"\
-          "plus:amd:2:1979:plus:amd:3:1980"
+        ref = RelatonIec.urn_to_code "urn:iec:std:iec:60034-1:1969::csv:en-fr:plus:amd:1:1977:" \
+                                     "plus:amd:2:1979:plus:amd:3:1980"
         expect(ref).to eq ["IEC 60034-1:1969+AMD1:1977+AMD2:1979+AMD3:1980 CSV", "en-fr"]
       end
 

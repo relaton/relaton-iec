@@ -141,7 +141,7 @@ describe RelatonIec::DataParser do
             abbreviation: "ISO",
             name: "International Organization for Standardization",
             url: "www.iso.org",
-          }
+          },
         ]
       )
     end

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # require 'isobib/iso_bibliographic_item'
-require "relaton_iec/scrapper"
 require "relaton_iec/hit_collection"
 require "date"
 
@@ -47,19 +46,19 @@ module RelatonIec
       # @param missed_years [Array<String>]
       def fetch_ref_err(code, year, missed_years) # rubocop:disable Metrics/MethodLength
         id = year ? "#{code}:#{year}" : code
-        warn "[relaton-iec] WARNING: no match found online for #{id}. "\
+        warn "[relaton-iec] WARNING: no match found online for #{id}. " \
              "The code must be exactly like it is on the standards website."
         unless missed_years.empty?
-          warn "[relaton-iec] (There was no match for #{year}, though there "\
+          warn "[relaton-iec] (There was no match for #{year}, though there " \
                "were matches found for #{missed_years.join(', ')}.)"
         end
         if /\d-\d/.match? code
-          warn "[relaton-iec] The provided document part may not exist, or "\
+          warn "[relaton-iec] The provided document part may not exist, or " \
                "the document may no longer be published in parts."
         else
-          warn "[relaton-iec] If you wanted to cite all document parts for "\
-               "the reference, use \"#{code} (all parts)\".\nIf the document "\
-               "is not a standard, use its document type abbreviation (TS, "\
+          warn "[relaton-iec] If you wanted to cite all document parts for " \
+               "the reference, use \"#{code} (all parts)\".\nIf the document " \
+               "is not a standard, use its document type abbreviation (TS, " \
                "TR, PAS, Guide)."
         end
         nil
@@ -132,13 +131,13 @@ module RelatonIec
       end
 
       def missed_years(result, year)
-        result.map { |h| codes_years(h.hit[:code])[1] }.flatten.uniq.reject { |y| y == year}
+        result.map { |h| codes_years(h.hit[:code])[1] }.flatten.uniq.reject { |y| y == year }
       end
 
       #
       # Find a match in the search results
       #
-      # @param [RelatonIec::HitCollection] result <description>
+      # @param [RelatonIec::HitCollection] result search results
       # @param [String] code code of the document
       # @param [String] year year of the document
       # @param [String] amd amendment of the document
@@ -190,9 +189,9 @@ module RelatonIec
         ret = results_filter(result, ref, year, opts)
         if ret[:ret]
           if ret[:missed_parts] && !opts[:all_parts]
-            warn "[relaton-iec] WARNING: #{ref} found as #{ret[:ret].docidentifier.first.id} "\
-                 "but also contain parts. If you wanted to cite all document parts for the reference, use "\
-                 "\"#{ref} (all parts)\""
+            warn "[relaton-iec] WARNING: #{ref} found as #{ret[:ret].docidentifier.first.id} " \
+                 "but also contain parts. If you wanted to cite all document " \
+                 "parts for the reference, use \"#{ref} (all parts)\""
           else
             warn "[relaton-iec] (\"#{ref}\") found #{ret[:ret].docidentifier.first.id}"
           end

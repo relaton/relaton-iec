@@ -1,4 +1,4 @@
-lib = File.expand_path("../lib", __FILE__)
+lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "relaton_iec/version"
 
@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Ribose Inc."]
   spec.email         = ["open.source@ribose.com"]
 
-  spec.summary       = "RelatonIec: retrieve IEC Standards for bibliographic "\
+  spec.summary       = "RelatonIec: retrieve IEC Standards for bibliographic " \
                        "use using the IecBibliographicItem model"
-  spec.description   = "RelatonIec: retrieve IEC Standards for bibliographic "\
+  spec.description   = "RelatonIec: retrieve IEC Standards for bibliographic " \
                        "use using the IecBibliographicItem model"
   spec.homepage      = "https://github.com/metanorma/relaton-iec"
   spec.license       = "MIT"

@@ -1,9 +1,19 @@
 module RelatonIec
   class DataParser
+    DOMAIN = "https://webstore.iec.ch"
+
     ATTRS = %i[
       docid structuredidentifier language script title doctype
       ics date contributor editorialgroup abstract copyright link relation
     ].freeze
+
+    ABBREVS = {
+      "ISO" => ["International Organization for Standardization", "www.iso.org"],
+      "IEC" => ["International Electrotechnical Commission", "www.iec.ch"],
+      "IEEE" => ["Institute of Electrical and Electronics Engineers", "www.ieee.org"],
+      "ASTM" => ["American Society of Testing Materials", "www.astm.org"],
+      "CISPR" => ["International special committee on radio interference", "www.iec.ch"],
+    }.freeze
 
     #
     # Initialize new instance.
@@ -142,7 +152,7 @@ module RelatonIec
 
       abbreviation = @pub["reference"].match(/.*?(?=\s)/).to_s
       owner = abbreviation.split("/").map do |abbrev|
-        name, url = Scrapper::ABBREVS[abbrev]
+        name, url = ABBREVS[abbrev]
         { name: name, abbreviation: abbrev, url: url }
       end
       [{ owner: owner, from: from }]
@@ -184,7 +194,7 @@ module RelatonIec
     #
     def contributor
       @pub["reference"].sub(/\s.*/, "").split("/").map do |abbrev|
-        name, url = Scrapper::ABBREVS[abbrev]
+        name, url = ABBREVS[abbrev]
         { entity: { name: name, url: url, abbreviation: abbrev },
           role: [type: "publisher"] }
       end
@@ -196,12 +206,12 @@ module RelatonIec
     # @return [Array<RelatonBib::TypedUri>] links
     #
     def link
-      url = "#{Scrapper::DOMAIN}/publication/#{urn_id}"
+      url = "#{DOMAIN}/publication/#{urn_id}"
       l = [RelatonBib::TypedUri.new(content: url, type: "src")]
       RelatonBib.array(@pub["releaseItems"]).each_with_object(l) do |r, a|
         next unless r["type"] == "PREVIEW"
 
-        url = "#{Scrapper::DOMAIN}/preview/#{r['contentRef']['fileName']}"
+        url = "#{DOMAIN}/preview/#{r['contentRef']['fileName']}"
         a << RelatonBib::TypedUri.new(content: url, type: "obp")
       end
     end
@@ -239,7 +249,7 @@ module RelatonIec
     def relation # rubocop:disable Metrics/MethodLength
       try = 0
       begin
-        uri = URI "#{Scrapper::DOMAIN}/webstore/webstore.nsf/AjaxRequestXML?" \
+        uri = URI "#{DOMAIN}/webstore/webstore.nsf/AjaxRequestXML?" \
                   "Openagent&url=#{urn_id}"
         resp = Net::HTTP.get_response uri
         doc = Nokogiri::XML resp.body
