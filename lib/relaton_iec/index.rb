@@ -67,7 +67,7 @@ module RelatonIec
       upcase_ref = ref.upcase
       @index.select do |i|
         RelatonBib.array(i[:pubid]).detect { |r| r.include? upcase_ref }
-      end.sort_by { |r| r[:pubid] }
+      end.sort_by { |r| r[:pubid].is_a?(Array) ? r[:pubid].min : r[:pubid] }
     end
 
     #
