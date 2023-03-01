@@ -1,15 +1,18 @@
+require "digest/md5"
+require "net/http"
+require "nokogiri"
+require "zip"
+require "open-uri"
 require "relaton_iso_bib"
 require "relaton_iec/hit"
-require "nokogiri"
-require "net/http"
-require "open-uri"
-require "jing"
 require "relaton_iec/version"
 require "relaton_iec/iec_bibliography"
 require "relaton_iec/iec_bibliographic_item"
 require "relaton_iec/xml_parser"
 require "relaton_iec/hash_converter"
-require "digest/md5"
+require "relaton_iec/index"
+require "relaton_iec/data_fetcher"
+require "relaton_iec/data_parser"
 
 module RelatonIec
   class << self
@@ -73,7 +76,7 @@ module RelatonIec
     # @return [Array<String, nil>]
     def ajunct_to_urn(rest)
       r = rest.sub(%r{
-        (?<pl>\+|\/)(?(<pl>)(?<adjunct>(amd|cor|ish))(?<adjnum>\d+)\s?)
+        (?<pl>\+|/)(?(<pl>)(?<adjunct>(?:amd|cor|ish))(?<adjnum>\d+)\s?)
         (?<_d2>:)?(?(<_d2>)(?<adjdt>[\d-]+)\s?)
       }x, "")
       m = $~ || {}

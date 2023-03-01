@@ -1,4 +1,5 @@
 ---
+schema-version: v1.2.1
 id: IEC61058-2-4-1995+AMD1-2003CSV
 schema-version: v1.2.1
 title:
@@ -45,7 +46,8 @@ contributor:
       content: IEC
     url: www.iec.ch
   role:
-  - type: publisher
+  - type:
+      publisher
 edition:
   content: '1.1'
 revdate: '2003-03-18'

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://raw.githubusercontent.com/relaton/relaton-data-iec/main/data/ISO_IEC_DIR_IEC_SUP.yaml
+    uri: https://raw.githubusercontent.com/relaton/relaton-data-iec/main/static/iso_iec_dir_iec_sup.yaml
     body:
       encoding: US-ASCII
       string: ''
@@ -23,7 +23,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '342'
+      - '350'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -31,7 +31,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"1162b0697542ef28970677991d5b6427633293a25db61bf210699c81c1c88d60"
+      - W/"8e79bba890376fe1785e4f2c996290cd8ee71cb15910cfd1028ca676aadc1c96"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -41,29 +41,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - BDDA:7EE1:1AADF7:2400EC:63A3537C
+      - 3136:12DE:234BCE:37E514:63F6C70C
       Accept-Ranges:
       - bytes
       Date:
-      - Wed, 21 Dec 2022 18:42:04 GMT
+      - Thu, 23 Feb 2023 01:53:16 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-atl18423-ATL
+      - cache-iad-kjyo7100044-IAD
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1671648125.860902,VS0,VE113
+      - S1677117196.174720,VS0,VE85
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 9317c560b6b085ae94b3bf564b7116be962ed249
+      - 12509c1fea359ce4f8326f0242d9e630979fcc19
       Expires:
-      - Wed, 21 Dec 2022 18:47:04 GMT
+      - Thu, 23 Feb 2023 01:58:16 GMT
       Source-Age:
       - '0'
     body:
@@ -90,7 +90,8 @@ http_interactions:
           type: published
           value: '2019-05-01'
 
-        edition: "13"
+        edition:
+          content: "13"
 
         language: en
 
@@ -98,9 +99,11 @@ http_interactions:
 
         copyright:
           owner:
-            name: International Electrotechnical Commission
-            abbreviation: IEC
+            name:
+              content: International Electrotechnical Commission
+            abbreviation:
+              content: IEC
             url: iec.ch
           from: '2019'
-  recorded_at: Wed, 21 Dec 2022 18:42:04 GMT
+  recorded_at: Thu, 23 Feb 2023 01:53:16 GMT
 recorded_with: VCR 6.1.0

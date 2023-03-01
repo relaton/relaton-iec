@@ -47,25 +47,24 @@ hit_collection = RelatonIec::IecBibliography.search("60050")
 => <RelatonIec::HitCollection:0x007fe0d7126f28 @ref=60050 @fetched=false>
 
 hit_collection.first
-=> <RelatonIec::Hit:0x007fe1068b4d10 @text="60050" @fetched="false" @fullIdentifier="" @title="IEC 60050-102:2007">
+=> <RelatonIec::Hit:0x000000000003e8 @text="60050" @fetched="false" @fullIdentifier="" @title="IEC 60050-05:1935">
 
 item = hit_collection[2].fetch
 => #<RelatonIec::IecBibliographicItem:0x007fe1171a06f8
 ...
 
 item.docidentifier
-=> [#<RelatonBib::DocumentIdentifier:0x00007f876539d1b0 @id="IEC 60050-112:2010", @language=nil, @primary=true, @scope=nil, @script=nil, @type="IEC">,
- #<RelatonBib::DocumentIdentifier:0x00007f876539d070
-  @id="urn:iec:std:iec:60050-112:2010:::en",
+=> [#<RelatonBib::DocumentIdentifier:0x00007ff1b52a2b60 @id="IEC 60050-07:1956", @language=nil, @primary=true, @scope=nil, @script=nil, @type="IEC">,
+ #<RelatonBib::DocumentIdentifier:0x00007ff1b52a2a98
+  @id="urn:iec:std:iec:60050-07:1956-01:::",
   @language=nil,
   @primary=nil,
   @scope=nil,
   @script=nil,
   @type="URN">]
-[6] pry(main)> 
 
 item.docidentifier.detect { |di| di.type == "URN" }.id
-=> "urn:iec:std:iec:60050-112:2010:::en"
+=> "urn:iec:std:iec:60050-07:1956-01:::"
 ----
 
 === Fetch document by keywords
@@ -79,8 +78,8 @@ item.docidentifier.detect { |di| di.type == "URN" }.id
 [source,ruby]
 ----
 item = RelatonIec::IecBibliography.get("IEC 60050-112:2010")
-[relaton-iec] ("IEC 60050-112") fetching...
-[relaton-iec] ("IEC 60050-112") found IEC 60050-112:2010
+[relaton-iec] ("IEC 60050-112:2010") fetching...
+[relaton-iec] ("IEC 60050-112:2010") found IEC 60050-112:2010
 => #<RelatonIec::IecBibliographicItem:0x00007f876525e8d0
 ...
 
@@ -104,15 +103,12 @@ item.docidentifier.first
 
 === Search for ISO/IEC Directives
 
-The ISO/IEC Directives are stored in a static cache in a relaton gem. It needs to use the relaton gem to fetch the ISO/IEC Directives. The following references are allowed to fetch:
+The following references are allowed to fetch:
 
-- ISO/IEC DIR 1 - Procedures for the technical work
-- ISO/IEC DIR 1 IEC SUP - Procedures for the technical work – Procedures specific to IEC
-- ISO/IEC DIR 1 ISO SUP - Consolidated ISO Supplement -- Procedures specific to ISO
-- ISO/IEC DIR 2 IEC - Principles and rules for the structure and drafting of ISO and IEC documents
-- ISO/IEC DIR 2 ISO - Principles and rules for the structure and drafting of ISO and IEC documents
-- ISO/IEC DIR IEC SUP - Procedures specific to IEC
-- ISO/IEC DIR JTC 1 SUP - Procedures specific to JTC 1
+- `IEC 61360-4 DB` - IEC/SC 3D - Common Data Dictionary (CDD - V2.0015.0001)
+- `ISO/IEC DIR 1 IEC SUP` - Procedures for the technical work - Procedures specific to IEC
+- `ISO/IEC DIR 2 IEC` - Principles and rules for the structure and drafting of ISO and IEC documents
+- 'ISO/IEC DIR IEC SUP' - Procedures specific to IEC
 
 === XML serialization
 
@@ -125,22 +121,22 @@ Possible options:
 ----
 item.to_xml
 => "<bibitem id="IEC60050-112-2010" type="standard" schema-version="v1.2.1">
-      <fetched>2022-12-03</fetched>
-      <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
-      <title type="title-part" format="text/plain" language="en" script="Latn">Part 112: Quantities and units</title>
+      <fetched>2023-03-01</fetched>
       <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) - Part 112: Quantities and units</title>
+      <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV) - Partie 112: Grandeurs et unités</title>
+      <title type="main" format="text/plain" language="es" script="Latn">Versión Oficial En español - Vocabulario Electrotécnico Internacional. Parte 112: Magnitudes y unidades.</title>
       <uri type="src">https://webstore.iec.ch/publication/162</uri>
       ...
     </bibitem>"
 
 item.to_xml bibdata: true
 => "<bibdata type="standard" schema-version="v1.2.1">
-      <fetched>2022-12-03</fetched>
-      <title type="title-main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV)</title>
-      <title type="title-part" format="text/plain" language="en" script="Latn">Part 112: Quantities and units</title>
+      <fetched>2023-03-01</fetched>
       <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) - Part 112: Quantities and units</title>
+      <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV) - Partie 112: Grandeurs et unités</title>
+      <title type="main" format="text/plain" language="es" script="Latn">Versión Oficial En español - Vocabulario Electrotécnico Internacional. Parte 112: Magnitudes y unidades.</title>
       <uri type="src">https://webstore.iec.ch/publication/162</uri>
-      <uri type="obp">/preview/info_iec60050-112%7Bed1.0%7Db.pdf</uri>
+      <uri type="obp">https://webstore.iec.ch/preview/info_iec60050-112{ed1.0}b.pdf</uri>
       ...
       <ext schema-version="v1.0.0">
         <doctype>international-standard</doctype>
@@ -163,8 +159,16 @@ Each IEC document has `src` type link and optional `obp` type link.
 [source,ruby]
 ----
 item.link
-=> [#<RelatonBib::TypedUri:0x00007ffe9d9b6420 @content=#<Addressable::URI:0x80c URI:https://webstore.iec.ch/publication/162>, @type="src">,
- #<RelatonBib::TypedUri:0x00007ffe9d9af080 @content=#<Addressable::URI:0x820 URI:/preview/info_iec60050-112%7Bed1.0%7Db.pdf>, @type="obp">]
+=> [#<RelatonBib::TypedUri:0x00007ff1d50e9e20
+  @content=#<Addressable::URI:0x2260 URI:https://webstore.iec.ch/publication/162>,
+  @language=nil,
+  @script=nil,
+  @type="src">,
+ #<RelatonBib::TypedUri:0x00007ff1d50e9498
+  @content=#<Addressable::URI:0x2274 URI:https://webstore.iec.ch/preview/info_iec60050-112{ed1.0}b.pdf>,
+  @language=nil,
+  @script=nil,
+  @type="obp">]
 ----
 
 === Create bibliographic item from Hash
@@ -172,7 +176,8 @@ item.link
 [source,ruby]
 ----
 hash = YAML.load_file "spec/examples/hit.yaml"
-=> {"id"=>"IEC61058-2-4-1995+AMD1-2003CSV",
+=> {"schema-version"=>"v1.2.1",
+ "id"=>"IEC61058-2-4-1995+AMD1-2003CSV",
 ...
 
 RelatonIec::IecBibliographicItem.from_hash hash

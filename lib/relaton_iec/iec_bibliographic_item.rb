@@ -26,6 +26,8 @@ module RelatonIec
     # @option args [String, nil] :function function
     # @option args [String, nil] :updates_document_type updates document type
     # @option args [String, nil] :price_code price code
+    # @option args [Boolean, nil] :cen_processing
+    # @option args [String, nil] :secretary
     # @option args [String, nil] :secretary secretary
     # @option args [String, nil] :interest_to_committees interest to committees
     # @option args [Boolean, nil] :accessibility_color_inside accessibility color inside
@@ -103,7 +105,7 @@ module RelatonIec
     end
 
     # @return [Hash]
-    def to_hash # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
+    def to_hash(embedded: false) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
       hash = super
       hash["function"] = function if function
       if updates_document_type
