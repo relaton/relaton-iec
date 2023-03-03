@@ -18,7 +18,8 @@ describe RelatonIec::DataParser do
         { "type" => "ICS", "value" => "01.040.35" },
         { "type" => "ICS", "value" => "35.020" },
       ],
-      "publicationDate" => "2019-01-01", "confirmationDate" => "2019-01-01",
+      "publicationDate" => "2019-03-04", "confirmationDate" => "2020-02-03",
+      "stabilityDate" => "2021-12-31", "dateOfWithdrawal" => "2022-11-21",
       "releaseItems" => [
         { "type" => "PREVIEW", "contentRef" => { "fileName" => "file.pdf" } },
       ]
@@ -166,13 +167,19 @@ describe RelatonIec::DataParser do
     it "#date" do
       d = subject.date
       expect(d).to be_instance_of Array
-      expect(d.size).to eq 2
+      expect(d.size).to eq 4
       expect(d[0]).to be_instance_of RelatonBib::BibliographicDate
-      expect(d[0].on).to eq "2019-01-01"
+      expect(d[0].on).to eq "2019-03-04"
       expect(d[0].type).to eq "published"
       expect(d[1]).to be_instance_of RelatonBib::BibliographicDate
-      expect(d[0].on).to eq "2019-01-01"
-      expect(d[1].type).to eq "confirmed"
+      expect(d[1].on).to eq "2021-12-31"
+      expect(d[1].type).to eq "stable-until"
+      expect(d[2]).to be_instance_of RelatonBib::BibliographicDate
+      expect(d[2].on).to eq "2020-02-03"
+      expect(d[2].type).to eq "confirmed"
+      expect(d[3]).to be_instance_of RelatonBib::BibliographicDate
+      expect(d[3].on).to eq "2022-11-21"
+      expect(d[3].type).to eq "obsoleted"
     end
 
     it "#contributor" do

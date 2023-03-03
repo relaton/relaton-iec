@@ -177,14 +177,16 @@ module RelatonIec
     # @return [Array<RelatonBib::BibliographicDate>] dates
     #
     def date
-      date = []
-      date << create_date("published", @pub["releaseDate"]) if @pub["releaseDate"]
-      date << create_date("confirmed", @pub["confirmationDate"]) if @pub["confirmationDate"]
-      date
-    end
+      {
+        "published" => "publicationDate",
+        "stable-until" => "stabilityDate",
+        "confirmed" => "confirmationDate",
+        "obsoleted" => "dateOfWithdrawal",
+      }.reduce([]) do |a, (k, v)|
+        next a unless @pub[v]
 
-    def create_date(type, date)
-      RelatonBib::BibliographicDate.new(type: type, on: date)
+        a << RelatonBib::BibliographicDate.new(type: k, on: @pub[v])
+      end
     end
 
     #
