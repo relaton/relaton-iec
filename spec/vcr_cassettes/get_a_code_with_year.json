@@ -1,0 +1,111 @@
+{
+  "http_interactions": [
+    {
+      "request": {
+        "method": "get",
+        "uri": "https://raw.githubusercontent.com/relaton/relaton-data-iec/main/data/iec_60050-102_2007.yaml",
+        "body": {
+          "encoding": "US-ASCII",
+          "string": ""
+        },
+        "headers": {
+          "Accept-Encoding": [
+            "gzip;q=1.0,deflate;q=0.6,identity;q=0.3"
+          ],
+          "Accept": [
+            "*/*"
+          ],
+          "User-Agent": [
+            "Ruby"
+          ],
+          "Host": [
+            "raw.githubusercontent.com"
+          ]
+        }
+      },
+      "response": {
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "headers": {
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "2777"
+          ],
+          "Cache-Control": [
+            "max-age=300"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+          ],
+          "Content-Type": [
+            "text/plain; charset=utf-8"
+          ],
+          "Etag": [
+            "W/\"5dc65197513cf8655c0cfc654c69a2494b1c240cfaacd407fed6a76eed652f02\""
+          ],
+          "Strict-Transport-Security": [
+            "max-age=31536000"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Frame-Options": [
+            "deny"
+          ],
+          "X-Xss-Protection": [
+            "1; mode=block"
+          ],
+          "X-Github-Request-Id": [
+            "1586:72EA:179E0F:1BEE06:644C6C21"
+          ],
+          "Accept-Ranges": [
+            "bytes"
+          ],
+          "Date": [
+            "Sat, 29 Apr 2023 01:00:18 GMT"
+          ],
+          "Via": [
+            "1.1 varnish"
+          ],
+          "X-Served-By": [
+            "cache-iad-kcgs7200089-IAD"
+          ],
+          "X-Cache": [
+            "HIT"
+          ],
+          "X-Cache-Hits": [
+            "1"
+          ],
+          "X-Timer": [
+            "S1682730018.496981,VS0,VE1"
+          ],
+          "Vary": [
+            "Authorization,Accept-Encoding,Origin"
+          ],
+          "Access-Control-Allow-Origin": [
+            "*"
+          ],
+          "X-Fastly-Request-Id": [
+            "a33089e1493749b1b0223b188c1c4851cf371171"
+          ],
+          "Expires": [
+            "Sat, 29 Apr 2023 01:05:18 GMT"
+          ],
+          "Source-Age": [
+            "1"
+          ]
+        },
+        "body": {
+          "encoding": "ASCII-8BIT",
+          "string": "---\nschema-version: v1.2.3\nid: IEC60050-102-2007\ntitle:\n- content: 'International Electrotechnical Vocabulary (IEV) - Part 102: Mathematics\n    - General concepts and linear algebra'\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain\n  type: main\n- content: 'Vocabulaire Electrotechnique International (IEV) - Partie 102: Mathématiques\n    - Concepts généraux et algèbre linéaire'\n  language:\n  - fr\n  script:\n  - Latn\n  format: text/plain\n  type: main\nlink:\n- content: https://webstore.iec.ch/publication/160\n  type: src\n- content: https://webstore.iec.ch/preview/info_iec60050-102{ed1.0}b.pdf\n  type: obp\ntype: standard\ndocid:\n- id: IEC 60050-102:2007\n  type: IEC\n  primary: true\n- id: 'urn:iec:std:iec:60050-102:2007-08:::'\n  type: URN\ndate:\n- type: published\n  value: '2007-08-27'\ncontributor:\n- organization:\n    name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  role:\n  - type: publisher\nedition:\n  content: '1'\nrevdate: '2007-08-27'\nlanguage:\n- en\n- fr\nscript:\n- Latn\nabstract:\n- content: \"This part of IEC 60050 gives the general mathematical terminology used\n    in the fields of electricity, electronics and telecommunications, together with\n    basic concepts in linear algebra. It maintains a clear distinction between mathematical\n    concepts and physical concepts, even if some terms are used in both cases. Another\n    part will deal with functions.<br />\\r\\nIt has the status of a horizontal standard\n    in accordance with IEC Guide 108.\"\n  language:\n  - en\n  script:\n  - Latn\n  format: text/html\n- content: \"Cette partie de la CEI 60050 donne la terminologie mathématique générale\n    utilisée dans les domaines de l'électricité, de l'électronique et des télécommunications,\n    ainsi que les concepts fondamentaux d'algèbre linéaire. Elle maintient une distinction\n    nette entre les concepts mathématiques et les concepts physiques, même si certains\n    termes sont employés dans les deux cas. Une autre partie traitera des fonctions.<br\n    />\\r\\nElle a le statut de norme horizontale conformément au Guide IEC 108.\"\n  language:\n  - fr\n  script:\n  - Latn\n  format: text/html\ndocstatus:\n  stage:\n    value: PUBLISHED\ncopyright:\n- owner:\n  - name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  from: '2007'\nplace:\n- Geneva\ndoctype: international-standard\neditorialgroup:\n  technical_committee:\n  - name: TC 1\n    number: 1\n    type: technicalCommittee\nics:\n- code: 01.040.07\n  text: Natural and applied sciences (Vocabularies)\n- code: '07.020'\n  text: Mathematics\nstructuredidentifier:\n  project_number: '60050'\n  part: '102'\n  type: IEC\next:\n  schema-version: v1.0.0\nprice_code: iec:L\n"
+        }
+      },
+      "recorded_at": "Sat, 29 Apr 2023 01:00:18 GMT"
+    }
+  ],
+  "recorded_with": "VCR 6.1.0"
+}

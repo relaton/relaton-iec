@@ -2,6 +2,7 @@ module RelatonIec
   class DataFetcher
     ENTRYPOINT = "https://api.iec.ch/harmonized/publications?size=100&sortBy=urn&page=".freeze
     CREDENTIAL = "https://api.iec.ch/oauth/client_credential/accesstoken?grant_type=client_credentials".freeze
+    LAST_CHANGE_FILE = "last_change.txt".freeze
 
     #
     # Initialize new instance.
@@ -15,8 +16,20 @@ module RelatonIec
       @format = format
       @ext = format.sub(/^bib/, "")
       @files = []
-      @index = Index.new "index.yaml"
+      # @index = Index.new "index.yaml"
+      @last_change = File.read(LAST_CHANGE_FILE, encoding: "UTF-8") if File.exist? LAST_CHANGE_FILE
+      @last_change_max = @last_change.to_s
       @all = source == "iec-harmonised-all"
+    end
+
+    def last_change_max(date)
+      @last_change_max = date if @last_change_max < date
+    end
+
+    def save_last_change
+      return if @last_change_max.empty?
+
+      File.write LAST_CHANGE_FILE, @last_change_max, encoding: "UTF-8"
     end
 
     #
@@ -26,14 +39,13 @@ module RelatonIec
       t1 = Time.now
       puts "Started at: #{t1}"
 
-      FileUtils.mkdir_p @output
       if @all
-        FileUtils.rm Dir[File.join(@output, "*.#{@ext}")]
-        @index.clear
+        FileUtils.rm_rf @output
       end
+      FileUtils.mkdir_p @output
       fetch_all
-      add_static_files_to_index
-      @index.save
+      create_index
+      save_last_change
 
       t2 = Time.now
       puts "Stopped at: #{t2}"
@@ -43,18 +55,29 @@ module RelatonIec
       warn e.backtrace.join("\n")
     end
 
+    def create_index
+      index = Relaton::Index.find_or_create :IEC, file: "index1.yaml"
+      index.remove_all
+      Dir["{#{@output},static}/*.yaml"].each do |file|
+        item = YAML.load_file file
+        id = item["docid"].detect { |i| i["primary"] }["id"]
+        index.add_or_update id, file
+      end
+      index.save
+    end
+
     #
     # Add static files to index.
     #
     # @return [void]
     #
-    def add_static_files_to_index
-      Dir["static/*.yaml"].each do |file|
-        pub = RelatonBib.parse_yaml File.read(file, encoding: "UTF-8")
-        pubid = RelatonBib.array(pub["docid"]).detect { |id| id["primary"] }["id"]
-        @index.add pubid, file
-      end
-    end
+    # def add_static_files_to_index
+    #   Dir["static/*.yaml"].each do |file|
+    #     pub = RelatonBib.parse_yaml File.read(file, encoding: "UTF-8")
+    #     pubid = RelatonBib.array(pub["docid"]).detect { |id| id["primary"] }["id"]
+    #     @index.add pubid, file
+    #   end
+    # end
 
     #
     # Fetch documents from IEC API.
@@ -102,8 +125,8 @@ module RelatonIec
     #
     def fetch_page(page)
       url = "#{ENTRYPOINT}#{page}"
-      if !@all && @index.last_change
-        url += "&lastChangeTimestampFrom=#{@index.last_change}"
+      if !@all && @last_change
+        url += "&lastChangeTimestampFrom=#{@last_change}"
       end
       uri = URI url
       req = Net::HTTP::Get.new uri
@@ -142,8 +165,9 @@ module RelatonIec
       if @files.include? file then warn "File #{file} exists."
       else
         @files << file
-        @index.add index_id(pub), file, pub["lastChangeTimestamp"]
+        # @index.add index_id(pub), file, pub["lastChangeTimestamp"]
       end
+      last_change_max pub["lastChangeTimestamp"]
       content = case @format
                 when "xml" then bib.to_xml bibdata: true
                 when "yaml", "yml" then bib.to_hash.to_yaml

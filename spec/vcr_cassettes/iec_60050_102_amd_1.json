@@ -1,0 +1,111 @@
+{
+  "http_interactions": [
+    {
+      "request": {
+        "method": "get",
+        "uri": "https://raw.githubusercontent.com/relaton/relaton-data-iec/main/data/iec_60050-102_2007_amd1_2017.yaml",
+        "body": {
+          "encoding": "US-ASCII",
+          "string": ""
+        },
+        "headers": {
+          "Accept-Encoding": [
+            "gzip;q=1.0,deflate;q=0.6,identity;q=0.3"
+          ],
+          "Accept": [
+            "*/*"
+          ],
+          "User-Agent": [
+            "Ruby"
+          ],
+          "Host": [
+            "raw.githubusercontent.com"
+          ]
+        }
+      },
+      "response": {
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "headers": {
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "1618"
+          ],
+          "Cache-Control": [
+            "max-age=300"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+          ],
+          "Content-Type": [
+            "text/plain; charset=utf-8"
+          ],
+          "Etag": [
+            "W/\"640a942cc688ba9f63f1083d306c915cc47d0226951cceb485cdb4422ec3ae97\""
+          ],
+          "Strict-Transport-Security": [
+            "max-age=31536000"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Frame-Options": [
+            "deny"
+          ],
+          "X-Xss-Protection": [
+            "1; mode=block"
+          ],
+          "X-Github-Request-Id": [
+            "3A74:2029:17687E:1BB888:644C6C21"
+          ],
+          "Accept-Ranges": [
+            "bytes"
+          ],
+          "Date": [
+            "Sat, 29 Apr 2023 01:00:21 GMT"
+          ],
+          "Via": [
+            "1.1 varnish"
+          ],
+          "X-Served-By": [
+            "cache-iad-kjyo7100041-IAD"
+          ],
+          "X-Cache": [
+            "HIT"
+          ],
+          "X-Cache-Hits": [
+            "1"
+          ],
+          "X-Timer": [
+            "S1682730021.023990,VS0,VE1"
+          ],
+          "Vary": [
+            "Authorization,Accept-Encoding,Origin"
+          ],
+          "Access-Control-Allow-Origin": [
+            "*"
+          ],
+          "X-Fastly-Request-Id": [
+            "3f7e04b1875ff89f4c5cdc9d4f97c6a603292b53"
+          ],
+          "Expires": [
+            "Sat, 29 Apr 2023 01:05:21 GMT"
+          ],
+          "Source-Age": [
+            "4"
+          ]
+        },
+        "body": {
+          "encoding": "ASCII-8BIT",
+          "string": "---\nschema-version: v1.2.3\nid: IEC60050-102-2007/AMD1-2017\ntitle:\n- content: 'Amendment 1 - International Electrotechnical Vocabulary (IEV) - Part 102:\n    Mathematics - General concepts and linear algebra'\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain\n  type: main\n- content: 'Amendement 1 - Vocabulaire Electrotechnique International (IEV) - Partie\n    102: Mathématiques - Concepts généraux et algèbre linéaire'\n  language:\n  - fr\n  script:\n  - Latn\n  format: text/plain\n  type: main\nlink:\n- content: https://webstore.iec.ch/publication/61315\n  type: src\ntype: standard\ndocid:\n- id: IEC 60050-102:2007/AMD1:2017\n  type: IEC\n  primary: true\n- id: urn:iec:std:iec:60050-102:2007-08:::||amd:1:2017-08\n  type: URN\ndate:\n- type: published\n  value: '2017-08-31'\ncontributor:\n- organization:\n    name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  role:\n  - type: publisher\nedition:\n  content: '1'\nrevdate: '2017-08-31'\nlanguage:\n- en\n- fr\nscript:\n- Latn\ndocstatus:\n  stage:\n    value: PUBLISHED\ncopyright:\n- owner:\n  - name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  from: '2007'\nplace:\n- Geneva\ndoctype: international-standard\neditorialgroup:\n  technical_committee:\n  - name: TC 1\n    number: 1\n    type: technicalCommittee\nics:\n- code: 01.040.07\n  text: Natural and applied sciences (Vocabularies)\n- code: '07.020'\n  text: Mathematics\nstructuredidentifier:\n  project_number: '60050'\n  part: '102'\n  type: IEC\next:\n  schema-version: v1.0.0\nprice_code: iec:C\n"
+        }
+      },
+      "recorded_at": "Sat, 29 Apr 2023 01:00:20 GMT"
+    }
+  ],
+  "recorded_with": "VCR 6.1.0"
+}

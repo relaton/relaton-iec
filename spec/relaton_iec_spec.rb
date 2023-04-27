@@ -69,7 +69,7 @@ RSpec.describe RelatonIec do
     it "a code" do
       VCR.use_cassette "get_a_code" do
         results = RelatonIec::IecBibliography.get("IEC 60050-102:2007").to_xml
-        expect(results).to include '<bibitem id="IEC60050-102-2007" type="standard" schema-version="v1.2.1">'
+        expect(results).to include '<bibitem id="IEC60050-102-2007" type="standard" schema-version="v1.2.3">'
         # expect(results).to include %(<on>2007-08-27</on>)
         # expect(results.gsub(/<relation.*<\/relation>/m, "")).not_to include(
         #   %(<on>2007-08-27</on>),
@@ -154,7 +154,7 @@ RSpec.describe RelatonIec do
     it "gets a frozen reference for IEV" do
       results = RelatonIec::IecBibliography.get("IEV", nil, {})
       expect(results.to_xml).to include '<bibitem id="IEC60050-2011" ' \
-                                        'type="standard" schema-version="v1.2.1">'
+                                        'type="standard" schema-version="v1.2.3">'
     end
 
     it "packaged standard" do

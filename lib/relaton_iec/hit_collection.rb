@@ -14,7 +14,7 @@ module RelatonIec
     # @param year [String, nil]
     def initialize(ref, year = nil)
       super ref, year
-      @index = Index.new
+      @index = Relaton::Index.find_or_create :IEC, url: "#{Hit::GHURL}index1.zip" , file: "index1.yaml"
       @array = fetch_from_gh
     end
 
@@ -43,9 +43,11 @@ module RelatonIec
 
       ref = year && !/:\d{4}$/.match?(text) ? "#{text}:#{year}" : text
       reference = ref.sub(/^IEC\s(?=ISO\/IEC\sDIR)/, "")
-      @index.search(reference).map do |row|
+      @index.search do |row|
+        row[:id].include? reference
+      end.sort_by { |row| row[:id] }.map do |row|
         # pubid = row[:pubid].is_a?(Array) ? row[:pubid][0] : row[:pubid]
-        Hit.new({ code: row[:pubid], file: row[:file] }, self)
+        Hit.new({ code: row[:id], file: row[:file] }, self)
       end
     end
   end

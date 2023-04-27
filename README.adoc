@@ -238,6 +238,28 @@ RelatonIec.urn_to_code "urn:iec:std:iec:60034-1:1969::csv:en-fr:plus:amd:1:1977:
 => ["IEC 60034-1:1969+AMD1:1977+AMD2:1979+AMD3:1980 CSV", "en-fr"]
 ----
 
+=== Fetch data
+
+This gem uses the https://bitbucket.org/sdo-hapi/api-specifications/wiki/Guidelines[Harmonized API] as a data source. The following options are available:
+- `iec-harmonized-all` - fetches all the documents using the API
+- `iec-harmonized-latest` - fetches the latest documents using the API
+
+The method `RelatonIec::DataFetcher.new(source, output: "data", format: "yaml").fetch` fetches IEC documents from the dataset and saves them to the `./data` folder in YAML format.
+Arguments:
+
+- `source` - data source. Possible values: `iec-harmonized-all`, `iec-harmonized-latest` (default `iec-harmonized-latest`).
+- `output` - folder to save documents (default './data').
+- `format` - the format in which the documents are saved. Possible formats are: `yaml`, `xml`, `bibxxml` (default `yaml`).
+
+[source,ruby]
+----
+RelatonIec::DataFetcher.new.fetch
+Started at: 2022-06-23 09:36:55 +0200
+Stopped at: 2022-06-23 09:36:58 +0200
+Done in: 752 sec.
+=> nil
+----
+
 == Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

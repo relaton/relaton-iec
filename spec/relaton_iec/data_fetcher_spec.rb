@@ -23,8 +23,6 @@ describe RelatonIec::DataFetcher do
   # end
 
   context "instance methods" do
-    let(:index) { subject.instance_variable_get(:@index) }
-
     context "#fetch" do
       before do
         expect(FileUtils).to receive(:mkdir_p).with("data")
@@ -32,19 +30,17 @@ describe RelatonIec::DataFetcher do
 
       it "all" do
         df = described_class.new "iec-harmonised-all"
-        expect(FileUtils).to receive(:rm).with Dir["data/*.yaml"]
-        idx = df.instance_variable_get(:@index)
-        expect(idx).to receive(:clear).with no_args
-        expect(idx).to receive(:save).with no_args
+        df.instance_variable_set :@all, true
+        expect(FileUtils).to receive(:rm_rf).with "data"
         expect(df).to receive(:fetch_all).with(no_args)
-        expect(df).to receive(:add_static_files_to_index).with no_args
+        expect(df).to receive(:create_index).with(no_args)
         df.fetch
       end
 
       it "latest" do
-        expect(index).to receive(:save).with no_args
+        expect(FileUtils).not_to receive(:rm_rf)
         expect(subject).to receive(:fetch_all).with no_args
-        expect(subject).to receive(:add_static_files_to_index).with no_args
+        expect(subject).to receive(:create_index).with no_args
         subject.fetch
       end
 
@@ -54,15 +50,15 @@ describe RelatonIec::DataFetcher do
       end
     end
 
-    it "#add_static_files_to_index" do
-      file = "static/iec_123.yaml"
-      expect(Dir).to receive(:[]).with("static/*.yaml").and_return [file]
-      expect(File).to receive(:read).with(file, encoding: "UTF-8").and_return :yaml
-      pub = { "docid" => [{ "id" => "IEC 123", "primary" => true }] }
-      expect(RelatonBib).to receive(:parse_yaml).with(:yaml).and_return pub
-      subject.add_static_files_to_index
-      expect(index.instance_variable_get(:@index)).to eq [{ pubid: "IEC 123", file: file }]
-    end
+    # it "#add_static_files_to_index" do
+    #   file = "static/iec_123.yaml"
+    #   expect(Dir).to receive(:[]).with("static/*.yaml").and_return [file]
+    #   expect(File).to receive(:read).with(file, encoding: "UTF-8").and_return :yaml
+    #   pub = { "docid" => [{ "id" => "IEC 123", "primary" => true }] }
+    #   expect(RelatonBib).to receive(:parse_yaml).with(:yaml).and_return pub
+    #   subject.add_static_files_to_index
+    #   expect(index.instance_variable_get(:@index)).to eq [{ pubid: "IEC 123", file: file }]
+    # end
 
     shared_examples "fetch_all" do |code|
       it "#fetch_all" do
@@ -91,7 +87,9 @@ describe RelatonIec::DataFetcher do
       it "#fetch_page" do
         url = "#{RelatonIec::DataFetcher::ENTRYPOINT}0"
         if last_change
-          expect(index).to receive(:last_change).with(no_args).and_return(last_change).twice
+          # expect(subject).to receive(:last_change).with(no_args).and_return(last_change).twice
+          subject.instance_variable_set :@last_change, last_change
+          subject.instance_variable_set :@last_change_max, last_change
           subject.instance_variable_set :@fetch_all, false
           url += "&lastChangeTimestampFrom=#{last_change}"
         end
@@ -143,9 +141,9 @@ describe RelatonIec::DataFetcher do
       it "and save YAML" do
         expect(bib).to receive(:to_hash).and_return({ id: "id" })
         expect(File).to receive(:write).with("data/cispr_11_2009_amd1_2010.yaml", /id: id/, encoding: "UTF-8")
-        expect(subject).to receive(:index_id).with(pub).and_return "CISPR 11:2009/AMD1:2010"
-        index = subject.instance_variable_get :@index
-        expect(index).to receive(:add).with("CISPR 11:2009/AMD1:2010", "data/cispr_11_2009_amd1_2010.yaml", pub["lastChangeTimestamp"])
+        # expect(subject).to receive(:index_id).with(pub).and_return "CISPR 11:2009/AMD1:2010"
+        # index = subject.instance_variable_get :@index
+        # expect(index).to receive(:add).with("CISPR 11:2009/AMD1:2010", "data/cispr_11_2009_amd1_2010.yaml", pub["lastChangeTimestamp"])
         subject.fetch_pub pub
         expect(subject.instance_variable_get(:@files)).to eq ["data/cispr_11_2009_amd1_2010.yaml"]
       end

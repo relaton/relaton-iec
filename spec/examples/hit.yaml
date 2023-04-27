@@ -1,7 +1,6 @@
 ---
-schema-version: v1.2.1
+schema-version: v1.2.3
 id: IEC61058-2-4-1995+AMD1-2003CSV
-schema-version: v1.2.1
 title:
 - type: title-intro
   content: Switches for appliances

@@ -22,5 +22,13 @@ module RelatonIec
     def part
       @part ||= hit[:code].match(/(?<=-)[\w-]+/)&.to_s
     end
+
+    def inspect
+      "<#{self.class}:#{format('%<id>#.14x', id: object_id << 1)} " \
+        "@text=\"#{@hit_collection&.text}\" " \
+        "@fetched=\"#{!@fetch.nil?}\" " \
+        "@fullIdentifier=\"#{@fetch&.shortref(nil, no_year: true)}\" " \
+        "@title=\"#{@hit[:code]}\">"
+    end
   end
 end
