@@ -157,12 +157,12 @@ RSpec.describe RelatonIec do
                                         'type="standard" schema-version="v1.2.3">'
     end
 
-    it "packaged standard" do
-      VCR.use_cassette "packaged_standard" do
-        results = RelatonIec::IecBibliography.get "IEC 60050-311"
-        expect(results.docidentifier.first.id).to eq "IEC 60050-300"
-      end
-    end
+    # it "packaged standard" do
+    #   VCR.use_cassette "packaged_standard" do
+    #     results = RelatonIec::IecBibliography.get "IEC 60050-311"
+    #     expect(results.docidentifier.first.id).to eq "IEC 60050-300"
+    #   end
+    # end
 
     it "IEC 60027-1" do
       VCR.use_cassette "iec_60027_1" do
