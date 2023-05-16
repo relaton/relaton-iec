@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
 
   spec.add_dependency "addressable"
-  spec.add_dependency "relaton-index", "~> 0.1.6"
+  spec.add_dependency "relaton-index", "~> 0.2.0"
   spec.add_dependency "relaton-iso-bib", "~> 1.14.0"
   spec.add_dependency "rubyzip"
 end

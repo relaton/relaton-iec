@@ -8,13 +8,13 @@ module RelatonIec
   class HitCollection < RelatonBib::HitCollection
     def_delegators :@array, :detect, :map
 
-    # DOMAIN = "https://webstore.iec.ch"
+    INDEX_FILE = "index1.yaml"
 
     # @param ref [String]
     # @param year [String, nil]
     def initialize(ref, year = nil)
       super ref, year
-      @index = Relaton::Index.find_or_create :IEC, url: "#{Hit::GHURL}index1.zip" , file: "index1.yaml"
+      @index = Relaton::Index.find_or_create :IEC, url: "#{Hit::GHURL}index1.zip" , file: INDEX_FILE
       @array = fetch_from_gh
     end
 

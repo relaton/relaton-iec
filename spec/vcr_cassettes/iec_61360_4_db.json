@@ -60,19 +60,19 @@
             "1; mode=block"
           ],
           "X-Github-Request-Id": [
-            "9816:2DE6:19DA6D:1E2AE6:644C6C27"
+            "9ED4:47DE:850F46:9DFFFC:6463AFA5"
           ],
           "Accept-Ranges": [
             "bytes"
           ],
           "Date": [
-            "Sat, 29 Apr 2023 01:00:23 GMT"
+            "Tue, 16 May 2023 16:30:29 GMT"
           ],
           "Via": [
             "1.1 varnish"
           ],
           "X-Served-By": [
-            "cache-iad-kcgs7200035-IAD"
+            "cache-atl18492-ATL"
           ],
           "X-Cache": [
             "MISS"
@@ -81,7 +81,7 @@
             "0"
           ],
           "X-Timer": [
-            "S1682730024.749236,VS0,VE102"
+            "S1684254630.802924,VS0,VE86"
           ],
           "Vary": [
             "Authorization,Accept-Encoding,Origin"
@@ -90,10 +90,10 @@
             "*"
           ],
           "X-Fastly-Request-Id": [
-            "3c95c469212a7259cb152c7ed5fc00a11e8da531"
+            "05d4941677272894da544c52185970ef7d2b8fb9"
           ],
           "Expires": [
-            "Sat, 29 Apr 2023 01:05:23 GMT"
+            "Tue, 16 May 2023 16:35:29 GMT"
           ],
           "Source-Age": [
             "0"
@@ -104,7 +104,7 @@
           "string": "id: IEC61360-4DB\ntitle:\n- type: title-intro\n  content: IEC/SC 3D\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain\n- type: title-main\n  content: Common Data Dictionary (CDD - V2.0015.0001)\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain\n- type: main\n  content: IEC/SC 3D - Common Data Dictionary (CDD - V2.0015.0001)\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain\nlink:\n- content: https://cdd.iec.ch\n  type: src\ntype: standard\ndocid:\n- id: IEC 61360-4 DB\n  type: IEC\n  primary: true\ncontributor:\n- organization:\n    name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  role:\n  - type: publisher\nedition:\n  content: V2.0015.0001\nlanguage:\n- en\nscript:\n- Latn\nabstract:\n- content: |\n    Business processes in all domains and especially in electric/ electronic industries are increasingly being conducted electronically;\n    a situation which applies to internal processes as well as to the interaction with external partners.\n    To support the necessary information transfer the use of common concepts based on information/classification models is inevitable.\n\n    Concepts specified on a global basis support error-free information sharing. In addition, the dictionaries of concepts may be used as\n    reference collections for setting up master data repositories for product data that serve as company internal information backbones.\n    Thus, costly interpretation and conversion errors may be minimized.\n\n    From the market side, pressure is increasingly being exerted to supply product data in electronic form using commonly agreed concepts\n    and as this pressure grows, it will have a considerable impact on all business processes. For this reason, a seamless exchange of\n    product data, i.e., an exchange that is free from media discontinuities requires a unified, joint approach both for exchanging product\n    data internally within a company or for exchanging product data with suppliers or customers.\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain"
         }
       },
-      "recorded_at": "Sat, 29 Apr 2023 01:00:23 GMT"
+      "recorded_at": "Tue, 16 May 2023 16:30:29 GMT"
     }
   ],
   "recorded_with": "VCR 6.1.0"

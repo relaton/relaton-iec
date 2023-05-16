@@ -60,19 +60,19 @@
             "1; mode=block"
           ],
           "X-Github-Request-Id": [
-            "35CA:24E0:190BBC:1D5BD6:644C6C22"
+            "E4F8:6FCC:8E71C3:A76290:6463AFA4"
           ],
           "Accept-Ranges": [
             "bytes"
           ],
           "Date": [
-            "Sat, 29 Apr 2023 01:00:18 GMT"
+            "Tue, 16 May 2023 16:30:28 GMT"
           ],
           "Via": [
             "1.1 varnish"
           ],
           "X-Served-By": [
-            "cache-iad-kcgs7200126-IAD"
+            "cache-atl18483-ATL"
           ],
           "X-Cache": [
             "MISS"
@@ -81,7 +81,7 @@
             "0"
           ],
           "X-Timer": [
-            "S1682730018.080887,VS0,VE113"
+            "S1684254628.359436,VS0,VE117"
           ],
           "Vary": [
             "Authorization,Accept-Encoding,Origin"
@@ -90,10 +90,10 @@
             "*"
           ],
           "X-Fastly-Request-Id": [
-            "1cf401b39dca2bc51378172a83f1d79ee9436cec"
+            "a7de37e4fce61502b6b31673fa140e6c64749c8b"
           ],
           "Expires": [
-            "Sat, 29 Apr 2023 01:05:18 GMT"
+            "Tue, 16 May 2023 16:35:28 GMT"
           ],
           "Source-Age": [
             "0"
@@ -104,7 +104,7 @@
           "string": "---\nschema-version: v1.2.3\nid: IEC60050-101-1998\ntitle:\n- content: 'International Electrotechnical Vocabulary (IEV) - Part 101: Mathematics'\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain\n  type: main\n- content: 'Vocabulaire Electrotechnique International (IEV) - Partie 101: Mathématiques'\n  language:\n  - fr\n  script:\n  - Latn\n  format: text/plain\n  type: main\n- content: 'Versión oficial en español - Vocabulario electrotécnico internacional\n    - Parte 101: Matemáticas'\n  language:\n  - es\n  script:\n  - Latn\n  format: text/plain\n  type: main\nlink:\n- content: https://webstore.iec.ch/publication/159\n  type: src\n- content: https://webstore.iec.ch/preview/info_iec60050-101{ed2.0}b.pdf\n  type: obp\ntype: standard\ndocid:\n- id: IEC 60050-101:1998\n  type: IEC\n  primary: true\n- id: 'urn:iec:std:iec:60050-101:1998-04:::'\n  type: URN\ndate:\n- type: published\n  value: '1998-04-30'\ncontributor:\n- organization:\n    name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  role:\n  - type: publisher\nedition:\n  content: '2'\nrevdate: '1998-04-30'\nlanguage:\n- en\n- fr\n- es\nscript:\n- Latn\nabstract:\n- content: It has the status of a horizontal standard in accordance with IEC Guide\n    108.\n  language:\n  - en\n  script:\n  - Latn\n  format: text/html\n- content: Elle a le statut de norme horizontale conformément au Guide IEC 108.\n  language:\n  - fr\n  script:\n  - Latn\n  format: text/html\ndocstatus:\n  stage:\n    value: REPLACED\ncopyright:\n- owner:\n  - name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  from: '1998'\nrelation:\n- type: updates\n  bibitem:\n    id: IEC60050-101-1977\n    type: standard\n    docid:\n    - id: IEC 60050-101:1977\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 60050-101:1977\n      format: text/plain\nplace:\n- Geneva\ndoctype: international-standard\neditorialgroup:\n  technical_committee:\n  - name: TC 1\n    number: 1\n    type: technicalCommittee\nics:\n- code: 01.040.07\n  text: Natural and applied sciences (Vocabularies)\nstructuredidentifier:\n  project_number: '60050'\n  part: '101'\n  type: IEC\next:\n  schema-version: v1.0.0\nprice_code: iec:K\n"
         }
       },
-      "recorded_at": "Sat, 29 Apr 2023 01:00:18 GMT"
+      "recorded_at": "Tue, 16 May 2023 16:30:28 GMT"
     }
   ],
   "recorded_with": "VCR 6.1.0"
