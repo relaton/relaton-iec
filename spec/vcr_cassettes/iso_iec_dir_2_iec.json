@@ -1,0 +1,114 @@
+{
+  "http_interactions": [
+    {
+      "request": {
+        "method": "get",
+        "uri": "https://raw.githubusercontent.com/relaton/relaton-data-iec/main/static/iso_iec_dir_2_iec.yaml",
+        "body": {
+          "encoding": "US-ASCII",
+          "string": ""
+        },
+        "headers": {
+          "Accept-Encoding": [
+            "gzip;q=1.0,deflate;q=0.6,identity;q=0.3"
+          ],
+          "Accept": [
+            "*/*"
+          ],
+          "User-Agent": [
+            "Ruby"
+          ],
+          "Host": [
+            "raw.githubusercontent.com"
+          ]
+        }
+      },
+      "response": {
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "headers": {
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "598"
+          ],
+          "Cache-Control": [
+            "max-age=300"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+          ],
+          "Content-Type": [
+            "text/plain; charset=utf-8"
+          ],
+          "Etag": [
+            "W/\"54ac4b0a94d51cbc1a3f0ebecc163e2994887acca0bf152fc910bd131f5798b8\""
+          ],
+          "Strict-Transport-Security": [
+            "max-age=31536000"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Frame-Options": [
+            "deny"
+          ],
+          "X-Xss-Protection": [
+            "1; mode=block"
+          ],
+          "X-Github-Request-Id": [
+            "FBC4:1493:8BDC32:A1F533:64AF0181"
+          ],
+          "Accept-Ranges": [
+            "bytes"
+          ],
+          "Date": [
+            "Wed, 12 Jul 2023 19:43:52 GMT"
+          ],
+          "Via": [
+            "1.1 varnish"
+          ],
+          "X-Served-By": [
+            "cache-atl18461-ATL"
+          ],
+          "X-Cache": [
+            "HIT"
+          ],
+          "X-Cache-Hits": [
+            "1"
+          ],
+          "X-Timer": [
+            "S1689191033.988598,VS0,VE7"
+          ],
+          "Vary": [
+            "Authorization,Accept-Encoding,Origin"
+          ],
+          "Access-Control-Allow-Origin": [
+            "*"
+          ],
+          "Cross-Origin-Resource-Policy": [
+            "cross-origin"
+          ],
+          "X-Fastly-Request-Id": [
+            "52378bb9321583fb6084de9d8c871f93d3bbcc0b"
+          ],
+          "Expires": [
+            "Wed, 12 Jul 2023 19:48:52 GMT"
+          ],
+          "Source-Age": [
+            "247"
+          ]
+        },
+        "body": {
+          "encoding": "ASCII-8BIT",
+          "string": "title:\n- type: title-main\n  content: Principles and rules for the structure and drafting of ISO and IEC documents\n  language: en\n  script: Latn\n\nlink:\n- type: obp\n  content: https://www.iec.ch/members_experts/refdocs/iec/isoiecdir2%7Bed8.0.RLV%7Den.pdf\n\ntype: international-standard\n\ndocid:\n- id: ISO/IEC DIR 2 IEC\n  type: IEC\n  primary: true\n\ndate:\n  type: published\n  value: '2018-05-01'\n\nedition:\n  content: \"8\"\n\nlanguage: en\n\nscript: Latn\n\ncopyright:\n  owner:\n    name:\n      content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: iec.ch\n  from: '2019'"
+        }
+      },
+      "recorded_at": "Wed, 12 Jul 2023 19:43:52 GMT"
+    }
+  ],
+  "recorded_with": "VCR 6.2.0"
+}

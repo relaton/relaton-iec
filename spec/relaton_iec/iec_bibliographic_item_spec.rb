@@ -19,4 +19,10 @@ RSpec.describe RelatonIec::IecBibliographicItem do
       RelatonIec::IecBibliographicItem.new updates_document_type: "invalid"
     end.to output(/invalid updates_document_type "invalid"/).to_stderr
   end
+
+  it "not warn if doctype is valid" do
+    expect do
+      RelatonIec::IecBibliographicItem.new doctype: "system-reference-deliverable"
+    end.not_to output.to_stderr
+  end
 end

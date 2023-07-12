@@ -1,0 +1,114 @@
+{
+  "http_interactions": [
+    {
+      "request": {
+        "method": "get",
+        "uri": "https://raw.githubusercontent.com/relaton/relaton-data-iec/main/data/iec_60027-1_1992.yaml",
+        "body": {
+          "encoding": "US-ASCII",
+          "string": ""
+        },
+        "headers": {
+          "Accept-Encoding": [
+            "gzip;q=1.0,deflate;q=0.6,identity;q=0.3"
+          ],
+          "Accept": [
+            "*/*"
+          ],
+          "User-Agent": [
+            "Ruby"
+          ],
+          "Host": [
+            "raw.githubusercontent.com"
+          ]
+        }
+      },
+      "response": {
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "headers": {
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "3463"
+          ],
+          "Cache-Control": [
+            "max-age=300"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+          ],
+          "Content-Type": [
+            "text/plain; charset=utf-8"
+          ],
+          "Etag": [
+            "W/\"162dfb6dfd29ff573b50f2a2220bbaec4b27a0d9c5608bab444bad2d7a61a816\""
+          ],
+          "Strict-Transport-Security": [
+            "max-age=31536000"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Frame-Options": [
+            "deny"
+          ],
+          "X-Xss-Protection": [
+            "1; mode=block"
+          ],
+          "X-Github-Request-Id": [
+            "5ACC:80DE:936852:A981FB:64AF0180"
+          ],
+          "Accept-Ranges": [
+            "bytes"
+          ],
+          "Date": [
+            "Wed, 12 Jul 2023 19:43:51 GMT"
+          ],
+          "Via": [
+            "1.1 varnish"
+          ],
+          "X-Served-By": [
+            "cache-atl18428-ATL"
+          ],
+          "X-Cache": [
+            "HIT"
+          ],
+          "X-Cache-Hits": [
+            "1"
+          ],
+          "X-Timer": [
+            "S1689191032.901285,VS0,VE4"
+          ],
+          "Vary": [
+            "Authorization,Accept-Encoding,Origin"
+          ],
+          "Access-Control-Allow-Origin": [
+            "*"
+          ],
+          "Cross-Origin-Resource-Policy": [
+            "cross-origin"
+          ],
+          "X-Fastly-Request-Id": [
+            "3df1430064df33a6503230f72b21f198b6c0e1b2"
+          ],
+          "Expires": [
+            "Wed, 12 Jul 2023 19:48:51 GMT"
+          ],
+          "Source-Age": [
+            "248"
+          ]
+        },
+        "body": {
+          "encoding": "ASCII-8BIT",
+          "string": "---\nschema-version: v1.2.3\nid: IEC60027-1-1992\ntitle:\n- content: 'Letters symbols to be used in electrical technology - Part 1: General'\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain\n  type: main\n- content: 'Symboles littéraux à utiliser en électrotechnique - Partie 1: Généralités'\n  language:\n  - fr\n  script:\n  - Latn\n  format: text/plain\n  type: main\nlink:\n- content: https://webstore.iec.ch/publication/91\n  type: src\n- content: https://webstore.iec.ch/preview/info_iec60027-1{ed6.0}b.img.pdf\n  type: obp\ntype: standard\ndocid:\n- id: IEC 60027-1:1992\n  type: IEC\n  primary: true\n- id: 'urn:iec:std:iec:60027-1:1992-01:::'\n  type: URN\ndate:\n- type: published\n  value: '1992-01-01'\n- type: stable-until\n  value: '2023-12-31'\ncontributor:\n- organization:\n    name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  role:\n  - type: publisher\nedition:\n  content: '6'\nrevdate: '1992-01-01'\nlanguage:\n- en\n- fr\nscript:\n- Latn\nabstract:\n- content: \"Corrected and reprinted 1995-03-31.<br />\\r\\nThe contents of the corrigendum\n    of April 1993 have been included in this copy.\"\n  language:\n  - en\n  script:\n  - Latn\n  format: text/html\n- content: \"Corrigée et réimprimée 1995-03-31.<br />\\r\\nLe contenu du corrigendum\n    d'avril 1993 a été pris en considération dans cet exemplaire.\"\n  language:\n  - fr\n  script:\n  - Latn\n  format: text/html\ndocstatus:\n  stage:\n    value: PUBLISHED\ncopyright:\n- owner:\n  - name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  from: '1992'\nrelation:\n- type: updates\n  bibitem:\n    id: IEC60027-1-1971/AMD4-1983\n    type: standard\n    docid:\n    - id: IEC 60027-1:1971/AMD4:1983\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 60027-1:1971/AMD4:1983\n      format: text/plain\n- type: updates\n  bibitem:\n    id: IEC60027-1-1971/AMD3-1981\n    type: standard\n    docid:\n    - id: IEC 60027-1:1971/AMD3:1981\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 60027-1:1971/AMD3:1981\n      format: text/plain\n- type: updates\n  bibitem:\n    id: IEC60027-1-1971+AMD1-1974+AMD2-1977CSV\n    type: standard\n    docid:\n    - id: IEC 60027-1:1971+AMD1:1974+AMD2:1977 CSV\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 60027-1:1971+AMD1:1974+AMD2:1977 CSV\n      format: text/plain\n- type: updates\n  bibitem:\n    id: IEC60027-1-1971/AMD2-1977\n    type: standard\n    docid:\n    - id: IEC 60027-1:1971/AMD2:1977\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 60027-1:1971/AMD2:1977\n      format: text/plain\n- type: updates\n  bibitem:\n    id: IEC60027-1-1971/AMD1-1974\n    type: standard\n    docid:\n    - id: IEC 60027-1:1971/AMD1:1974\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 60027-1:1971/AMD1:1974\n      format: text/plain\n- type: updates\n  bibitem:\n    id: IEC60027-1-1971\n    type: standard\n    docid:\n    - id: IEC 60027-1:1971\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 60027-1:1971\n      format: text/plain\nplace:\n- Geneva\ndoctype: international-standard\neditorialgroup:\n  technical_committee:\n  - name: TC 25\n    number: 25\n    type: technicalCommittee\nics:\n- code: '01.060'\n  text: Quantities and units\nstructuredidentifier:\n  project_number: '60027'\n  part: '1'\n  type: IEC\next:\n  schema-version: v1.0.0\nprice_code: iec:K\n"
+        }
+      },
+      "recorded_at": "Wed, 12 Jul 2023 19:43:51 GMT"
+    }
+  ],
+  "recorded_with": "VCR 6.2.0"
+}

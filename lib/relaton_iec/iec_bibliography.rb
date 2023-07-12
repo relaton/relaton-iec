@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # require 'isobib/iso_bibliographic_item'
-require "relaton_iec/scrapper"
 require "relaton_iec/hit_collection"
 require "date"
 
@@ -10,37 +9,27 @@ module RelatonIec
   class IecBibliography
     class << self
       ##
-      # Search for standards entries. To seach packaged document it needs to
-      # pass part parametr.
+      # Search for standards entries.
       #
-      # @example Search for packaged standard
-      #   RelatonIec::IecBibliography.search 'IEC 60050-311', nil, '311'
-      #
-      # @param text [String]
+      # @param ref [String]
       # @param year [String, nil]
-      # @param part [String, nil] search for packaged stndard if not nil
       # @return [RelatonIec::HitCollection]
-      def search(text, year = nil, part = nil)
-        HitCollection.new text&.sub(/(^\w+)\//, '\1 '), year&.strip, part
-      rescue SocketError, OpenURI::HTTPError, OpenSSL::SSL::SSLError
-        raise RelatonBib::RequestError, "Could not access http://www.iec.ch"
+      def search(ref, year = nil)
+        # HitCollection.new text&.sub(/(^\w+)\//, '\1 '), year&.strip
+        HitCollection.new ref, year&.strip
+      rescue SocketError, OpenURI::HTTPError, OpenSSL::SSL::SSLError => e
+        raise RelatonBib::RequestError, e.message
       end
 
-      # @param code [String] the ISO standard Code to look up (e..g "ISO 9000")
+      # @param code [String] the IEC standard code to look up (e..g "IEC 8000")
       # @param year [String] the year the standard was published (optional)
       # @param opts [Hash] options; restricted to :all_parts if all-parts
       #   reference is required
       # @return [String] Relaton XML serialisation of reference
-      def get(code, year = nil, opts = {}) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
+      def get(code, year = nil, opts = {}) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity
         opts[:all_parts] ||= code.match?(/\s\(all parts\)/)
         ref = code.sub(/\s\(all parts\)/, "")
-        if year.nil?
-          /^(?<code1>[^:]+):(?<year1>[^:]+)/ =~ ref
-          unless code1.nil?
-            ref = code1
-            year = year1
-          end
-        end
+        year ||= ref_parts(ref)[:year]
         return iev if ref.casecmp("IEV").zero?
 
         ret = iecbib_get(ref, year, opts)
@@ -102,17 +91,6 @@ module RelatonIec
         nil
       end
 
-      # @param hits [Array<RelatonIec::Hit>]
-      # @param threads [Integer]
-      # @return [Array<RelatonIec::Hit>]
-      # def fetch_pages(hits, threads)
-      #   workers = RelatonBib::WorkersPool.new threads
-      #   workers.worker { |w| { i: w[:i], hit: w[:hit].fetch } }
-      #   hits.each_with_index { |hit, i| workers << { i: i, hit: hit } }
-      #   workers.end
-      #   workers.result.sort_by { |a| a[:i] }.map { |x| x[:hit] }
-      # end
-
       # @param ref [String]
       # @param year [String]
       # @return [String]
@@ -123,33 +101,38 @@ module RelatonIec
       # @param ref [String]
       # @param year [String, nil]
       # @return [RelatonIec::HitCollection]
-      def search_filter(ref, year) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
-        rp1 = ref_parts ref.upcase
-        year ||= rp1[:year]
-        corr = rp1[:corr]&.sub " ", ""
+      # def search_filter(ref, year) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+      #   rp1 = ref_parts ref.upcase
+      #   year ||= rp1[:year]
+      #   corr = rp1[:corr]&.sub " ", ""
+      #   warn "[relaton-iec] (\"#{ref_with_year(ref, year)}\") Fetching from IEC..."
+      #   result = search(rp1[:code], year)
+      #   code = result.text.dup
+      #   if result.empty? && /(?<=\d-)(?<part>[\w-]+)/ =~ rp1[:code]
+      #     # try to search packaged standard
+      #     result = search rp1[:code], year, part
+      #     pkg_std = result.any?
+      #   end
+      #   result = search rp1[:code] if result.empty?
+      #   if pkg_std
+      #     code.sub!(/(?<=\d-)#{part}/, part[0])
+      #   else
+      #     code.sub!(/-[-\d]+/, "")
+      #   end
+      #   result.select do |i|
+      #     rp2 = ref_parts i.hit[:code]
+      #     code2 = if pkg_std
+      #               rp2[:code].sub(/(?<=\d-\d)\d+/, "")
+      #             else
+      #               rp2[:code].sub(/-[-\d]+/, "")
+      #             end
+      #     code == code2 && rp1[:bundle] == rp2[:bundle] && corr == rp2[:corr]
+      #   end
+      # @return [RelatonIec::HitCollection]
+      def search_filter(ref, year)
+        code = ref.split(":").first
         warn "[relaton-iec] (\"#{ref_with_year(ref, year)}\") Fetching from IEC..."
-        result = search(rp1[:code], year)
-        code = result.text.dup
-        if result.empty? && /(?<=\d-)(?<part>[\w-]+)/ =~ rp1[:code]
-          # try to search packaged standard
-          result = search rp1[:code], year, part
-          pkg_std = result.any?
-        end
-        result = search rp1[:code] if result.empty?
-        if pkg_std
-          code.sub!(/(?<=\d-)#{part}/, part[0])
-        else
-          code.sub!(/-[-\d]+/, "")
-        end
-        result.select do |i|
-          rp2 = ref_parts i.hit[:code]
-          code2 = if pkg_std
-                    rp2[:code].sub(/(?<=\d-\d)\d+/, "")
-                  else
-                    rp2[:code].sub(/-[-\d]+/, "")
-                  end
-          code == code2 && rp1[:bundle] == rp2[:bundle] && corr == rp2[:corr]
-        end
+        search(code)
       end
 
       def ref_parts(ref)
@@ -194,61 +177,79 @@ module RelatonIec
         XML
       end
 
-      # Sort through the results from Isobib, fetching them three at a time,
+      # Look for a code in the search results
       # and return the first result that matches the code,
-      # matches the year (if provided), and which
+      # matches the year (if provided), and which a part
       # has a title (amendments do not).
-      # Only expects the first page of results to be populated.
-      # Does not match corrigenda etc (e.g. ISO 3166-1:2006/Cor 1:2007)
-      # If no match, returns any years which caused mismatch, for error
-      # reporting
-      def results_filter(result, year, opts) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
-        r_code, r_year = code_year result.text, result.part
+      # If no match, returns any years which caused mismatch, for error reporting
+      def results_filter(result, ref, year, opts)
+        r_code, r_year, r_amd = code_year ref
         r_year ||= year
-        missed_years = []
+        if opts[:all_parts]
+          ret = result.to_all_parts(r_year)
+        else
+          ret, missed_parts = match_result(result, r_code, r_year, r_amd)
+        end
+        { ret: ret, years: missed_years(result, r_year), missed_parts: missed_parts }
+      end
+
+      def missed_years(result, year)
+        result.map { |h| codes_years(h.hit[:code])[1] }.flatten.uniq.reject { |y| y == year }
+      end
+
+      #
+      # Find a match in the search results
+      #
+      # @param [RelatonIec::HitCollection] result search results
+      # @param [String] code code of the document
+      # @param [String] year year of the document
+      # @param [String] amd amendment of the document
+      #
+      # @return [Array<RelatonIec::IecBibliographicItem, Array, nil>] result, missed parts
+      #
+      def match_result(result, code, year, amd) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity
         missed_parts = false
-        # result.each_slice(3) do |s| # ISO website only allows 3 connections
-        ret = if opts[:all_parts]
-                result.to_all_parts
-              else
-                result.detect do |h|
-                  h_code, h_year = code_year h.hit[:code], result.part
-                  missed_parts ||= !opts[:all_parts] && r_code != h_code
-                  missed_years << h_year unless !r_year || h_year == r_year
-                  r_code == h_code && (!year || h_year == r_year)
-                  # fetch_pages(s, 3).each_with_index do |r, _i|
-                  # return { ret: r } if !year
+        ret = result.detect do |h|
+          h_codes, h_years, h_amds = codes_years h.hit[:code]
+          match_code = h_codes.include? code
+          match_year = h_years.include?(year)
+          missed_parts ||= !match_code
+          match_code && (!year || match_year) && match_amd(amd, h_amds)
+        end&.fetch
+        [ret, missed_parts]
+      end
 
-                  # r.date.select { |d| d.type == "published" }.each do |d|
-                  # return { ret: r } if year.to_i == d.on(:year)
-
-                  # missed_years << d.on(:year)
-                  # end
-                  # end
-                end&.fetch
-              end
-        { ret: ret, years: missed_years, missed_parts: missed_parts }
+      def match_amd(amd, h_amds)
+        (!amd && h_amds.empty?) || h_amds.include?(amd)
       end
 
       # @param ref [String]
-      # @param part [String, nil]
-      # @return [Array<String, nil>]
-      def code_year(ref, part)
+      # @return [Array<Stringl, nil>] code, year, amd
+      def code_year(ref)
         %r{
-          ^(?<code>\S+[^\d]*\s\d+(?:-\w+)*)
+          # ^(?<code>\S+[^\d]*\s\d+(?:-\w+)*)
+          ^(?<code>\S+\s[^:/]+)
           (?::(?<year>\d{4}))?
+          (?:/(?<amd>\w+)(?::\d{4})?)?
         }x =~ ref
-        code.sub!(/-\d+/, "") if part
-        [code, year]
+        [code, year, amd&.upcase]
       end
 
-      # @param code [String]
+      # @param ref [String]
+      # @return [Array<Array<Stringl>>] codes, years, amds
+      def codes_years(refs)
+        RelatonBib.array(refs).map do |r|
+          code_year r
+        end.transpose.map { |a| a.compact.uniq }
+      end
+
+      # @param ref [String]
       # @param year [String, nil]
       # @param opts [Hash]
       # @return [RelatonIec::IecBibliographicItem, nil]
       def iecbib_get(code, year, opts) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
         result = search_filter(code, year) || return
-        ret = results_filter(result, year, opts)
+        ret = results_filter(result, code, year, opts)
 
         return fetch_ref_err(code, year, ret[:years]) unless ret[:ret]
 

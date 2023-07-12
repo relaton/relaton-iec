@@ -1,0 +1,114 @@
+{
+  "http_interactions": [
+    {
+      "request": {
+        "method": "get",
+        "uri": "https://raw.githubusercontent.com/relaton/relaton-data-iec/main/static/iso_iec_dir_iec_sup.yaml",
+        "body": {
+          "encoding": "US-ASCII",
+          "string": ""
+        },
+        "headers": {
+          "Accept-Encoding": [
+            "gzip;q=1.0,deflate;q=0.6,identity;q=0.3"
+          ],
+          "Accept": [
+            "*/*"
+          ],
+          "User-Agent": [
+            "Ruby"
+          ],
+          "Host": [
+            "raw.githubusercontent.com"
+          ]
+        }
+      },
+      "response": {
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "headers": {
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "555"
+          ],
+          "Cache-Control": [
+            "max-age=300"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+          ],
+          "Content-Type": [
+            "text/plain; charset=utf-8"
+          ],
+          "Etag": [
+            "W/\"81534172e3ca5de1a78656d5ab1023e0d75b0f603665d6673dce6e6ccd34536a\""
+          ],
+          "Strict-Transport-Security": [
+            "max-age=31536000"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Frame-Options": [
+            "deny"
+          ],
+          "X-Xss-Protection": [
+            "1; mode=block"
+          ],
+          "X-Github-Request-Id": [
+            "231C:0CA0:90B38E:A6CBA1:64AF0181"
+          ],
+          "Accept-Ranges": [
+            "bytes"
+          ],
+          "Date": [
+            "Wed, 12 Jul 2023 19:43:53 GMT"
+          ],
+          "Via": [
+            "1.1 varnish"
+          ],
+          "X-Served-By": [
+            "cache-atl18467-ATL"
+          ],
+          "X-Cache": [
+            "HIT"
+          ],
+          "X-Cache-Hits": [
+            "1"
+          ],
+          "X-Timer": [
+            "S1689191033.106582,VS0,VE1"
+          ],
+          "Vary": [
+            "Authorization,Accept-Encoding,Origin"
+          ],
+          "Access-Control-Allow-Origin": [
+            "*"
+          ],
+          "Cross-Origin-Resource-Policy": [
+            "cross-origin"
+          ],
+          "X-Fastly-Request-Id": [
+            "978a3edfe61319ce0e6b3c63c5736739ec600fd5"
+          ],
+          "Expires": [
+            "Wed, 12 Jul 2023 19:48:53 GMT"
+          ],
+          "Source-Age": [
+            "247"
+          ]
+        },
+        "body": {
+          "encoding": "ASCII-8BIT",
+          "string": "title:\n- type: title-main\n  content: Procedures specific to IEC\n  language: en\n  script: Latn\n\nlink:\n- type: obp\n  content: https://www.iec.ch/members_experts/refdocs/iec/isoiecdir1-iecsup%7bed13.0%7den.pdf\n\ntype: international-standard\n\ndocid:\n- id: ISO/IEC DIR IEC SUP\n  type: IEC\n  primary: true\n\ndate:\n  type: published\n  value: '2019-05-01'\n\nedition:\n  content: \"13\"\n\nlanguage: en\n\nscript: Latn\n\ncopyright:\n  owner:\n    name:\n      content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: iec.ch\n  from: '2019'"
+        }
+      },
+      "recorded_at": "Wed, 12 Jul 2023 19:43:53 GMT"
+    }
+  ],
+  "recorded_with": "VCR 6.2.0"
+}

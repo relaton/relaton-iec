@@ -1,0 +1,114 @@
+{
+  "http_interactions": [
+    {
+      "request": {
+        "method": "get",
+        "uri": "https://raw.githubusercontent.com/relaton/relaton-data-iec/main/static/iec_61360-4_db.yaml",
+        "body": {
+          "encoding": "US-ASCII",
+          "string": ""
+        },
+        "headers": {
+          "Accept-Encoding": [
+            "gzip;q=1.0,deflate;q=0.6,identity;q=0.3"
+          ],
+          "Accept": [
+            "*/*"
+          ],
+          "User-Agent": [
+            "Ruby"
+          ],
+          "Host": [
+            "raw.githubusercontent.com"
+          ]
+        }
+      },
+      "response": {
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "headers": {
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "2075"
+          ],
+          "Cache-Control": [
+            "max-age=300"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+          ],
+          "Content-Type": [
+            "text/plain; charset=utf-8"
+          ],
+          "Etag": [
+            "W/\"5321ddd9c71ada4a39e0a748e466a99c8db5c7b36491d297ffcf14ce614e1e13\""
+          ],
+          "Strict-Transport-Security": [
+            "max-age=31536000"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Frame-Options": [
+            "deny"
+          ],
+          "X-Xss-Protection": [
+            "1; mode=block"
+          ],
+          "X-Github-Request-Id": [
+            "6256:7850:9468DC:AA81C3:64AF0181"
+          ],
+          "Accept-Ranges": [
+            "bytes"
+          ],
+          "Date": [
+            "Wed, 12 Jul 2023 19:43:52 GMT"
+          ],
+          "Via": [
+            "1.1 varnish"
+          ],
+          "X-Served-By": [
+            "cache-atl18491-ATL"
+          ],
+          "X-Cache": [
+            "HIT"
+          ],
+          "X-Cache-Hits": [
+            "1"
+          ],
+          "X-Timer": [
+            "S1689191033.626696,VS0,VE2"
+          ],
+          "Vary": [
+            "Authorization,Accept-Encoding,Origin"
+          ],
+          "Access-Control-Allow-Origin": [
+            "*"
+          ],
+          "Cross-Origin-Resource-Policy": [
+            "cross-origin"
+          ],
+          "X-Fastly-Request-Id": [
+            "9130a8a930d03b1b5e7c7ed5aa7cf31eb7781876"
+          ],
+          "Expires": [
+            "Wed, 12 Jul 2023 19:48:52 GMT"
+          ],
+          "Source-Age": [
+            "247"
+          ]
+        },
+        "body": {
+          "encoding": "ASCII-8BIT",
+          "string": "id: IEC61360-4DB\ntitle:\n- type: title-intro\n  content: IEC/SC 3D\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain\n- type: title-main\n  content: Common Data Dictionary (CDD - V2.0015.0001)\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain\n- type: main\n  content: IEC/SC 3D - Common Data Dictionary (CDD - V2.0015.0001)\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain\nlink:\n- content: https://cdd.iec.ch\n  type: src\ntype: standard\ndocid:\n- id: IEC 61360-4 DB\n  type: IEC\n  primary: true\ncontributor:\n- organization:\n    name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  role:\n  - type: publisher\nedition:\n  content: V2.0015.0001\nlanguage:\n- en\nscript:\n- Latn\nabstract:\n- content: |\n    Business processes in all domains and especially in electric/ electronic industries are increasingly being conducted electronically;\n    a situation which applies to internal processes as well as to the interaction with external partners.\n    To support the necessary information transfer the use of common concepts based on information/classification models is inevitable.\n\n    Concepts specified on a global basis support error-free information sharing. In addition, the dictionaries of concepts may be used as\n    reference collections for setting up master data repositories for product data that serve as company internal information backbones.\n    Thus, costly interpretation and conversion errors may be minimized.\n\n    From the market side, pressure is increasingly being exerted to supply product data in electronic form using commonly agreed concepts\n    and as this pressure grows, it will have a considerable impact on all business processes. For this reason, a seamless exchange of\n    product data, i.e., an exchange that is free from media discontinuities requires a unified, joint approach both for exchanging product\n    data internally within a company or for exchanging product data with suppliers or customers.\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain"
+        }
+      },
+      "recorded_at": "Wed, 12 Jul 2023 19:43:52 GMT"
+    }
+  ],
+  "recorded_with": "VCR 6.2.0"
+}
