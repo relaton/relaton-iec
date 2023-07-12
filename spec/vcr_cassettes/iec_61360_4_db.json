@@ -60,28 +60,28 @@
             "1; mode=block"
           ],
           "X-Github-Request-Id": [
-            "9ED4:47DE:850F46:9DFFFC:6463AFA5"
+            "6256:7850:9468DC:AA81C3:64AF0181"
           ],
           "Accept-Ranges": [
             "bytes"
           ],
           "Date": [
-            "Tue, 16 May 2023 16:30:29 GMT"
+            "Wed, 12 Jul 2023 19:43:52 GMT"
           ],
           "Via": [
             "1.1 varnish"
           ],
           "X-Served-By": [
-            "cache-atl18492-ATL"
+            "cache-atl18491-ATL"
           ],
           "X-Cache": [
-            "MISS"
+            "HIT"
           ],
           "X-Cache-Hits": [
-            "0"
+            "1"
           ],
           "X-Timer": [
-            "S1684254630.802924,VS0,VE86"
+            "S1689191033.626696,VS0,VE2"
           ],
           "Vary": [
             "Authorization,Accept-Encoding,Origin"
@@ -89,14 +89,17 @@
           "Access-Control-Allow-Origin": [
             "*"
           ],
+          "Cross-Origin-Resource-Policy": [
+            "cross-origin"
+          ],
           "X-Fastly-Request-Id": [
-            "05d4941677272894da544c52185970ef7d2b8fb9"
+            "9130a8a930d03b1b5e7c7ed5aa7cf31eb7781876"
           ],
           "Expires": [
-            "Tue, 16 May 2023 16:35:29 GMT"
+            "Wed, 12 Jul 2023 19:48:52 GMT"
           ],
           "Source-Age": [
-            "0"
+            "247"
           ]
         },
         "body": {
@@ -104,8 +107,8 @@
           "string": "id: IEC61360-4DB\ntitle:\n- type: title-intro\n  content: IEC/SC 3D\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain\n- type: title-main\n  content: Common Data Dictionary (CDD - V2.0015.0001)\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain\n- type: main\n  content: IEC/SC 3D - Common Data Dictionary (CDD - V2.0015.0001)\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain\nlink:\n- content: https://cdd.iec.ch\n  type: src\ntype: standard\ndocid:\n- id: IEC 61360-4 DB\n  type: IEC\n  primary: true\ncontributor:\n- organization:\n    name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  role:\n  - type: publisher\nedition:\n  content: V2.0015.0001\nlanguage:\n- en\nscript:\n- Latn\nabstract:\n- content: |\n    Business processes in all domains and especially in electric/ electronic industries are increasingly being conducted electronically;\n    a situation which applies to internal processes as well as to the interaction with external partners.\n    To support the necessary information transfer the use of common concepts based on information/classification models is inevitable.\n\n    Concepts specified on a global basis support error-free information sharing. In addition, the dictionaries of concepts may be used as\n    reference collections for setting up master data repositories for product data that serve as company internal information backbones.\n    Thus, costly interpretation and conversion errors may be minimized.\n\n    From the market side, pressure is increasingly being exerted to supply product data in electronic form using commonly agreed concepts\n    and as this pressure grows, it will have a considerable impact on all business processes. For this reason, a seamless exchange of\n    product data, i.e., an exchange that is free from media discontinuities requires a unified, joint approach both for exchanging product\n    data internally within a company or for exchanging product data with suppliers or customers.\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain"
         }
       },
-      "recorded_at": "Tue, 16 May 2023 16:30:29 GMT"
+      "recorded_at": "Wed, 12 Jul 2023 19:43:52 GMT"
     }
   ],
-  "recorded_with": "VCR 6.1.0"
+  "recorded_with": "VCR 6.2.0"
 }

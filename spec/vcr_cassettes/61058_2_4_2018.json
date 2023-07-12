@@ -60,28 +60,28 @@
             "1; mode=block"
           ],
           "X-Github-Request-Id": [
-            "31E0:7182:81F000:9ACE25:6463AFA3"
+            "BC3A:72EA:8CDE04:A21972:64AEFB71"
           ],
           "Accept-Ranges": [
             "bytes"
           ],
           "Date": [
-            "Tue, 16 May 2023 16:30:27 GMT"
+            "Wed, 12 Jul 2023 19:43:50 GMT"
           ],
           "Via": [
             "1.1 varnish"
           ],
           "X-Served-By": [
-            "cache-atl18476-ATL"
+            "cache-atl18463-ATL"
           ],
           "X-Cache": [
-            "MISS"
+            "HIT"
           ],
           "X-Cache-Hits": [
-            "0"
+            "1"
           ],
           "X-Timer": [
-            "S1684254628.593958,VS0,VE126"
+            "S1689191031.517556,VS0,VE106"
           ],
           "Vary": [
             "Authorization,Accept-Encoding,Origin"
@@ -89,11 +89,14 @@
           "Access-Control-Allow-Origin": [
             "*"
           ],
+          "Cross-Origin-Resource-Policy": [
+            "cross-origin"
+          ],
           "X-Fastly-Request-Id": [
-            "b67ba15f238fdb52e59707b1cf252c1b4f1bee77"
+            "9f0b718c0cd0c8080281ba90c1dffa00f83f3a4e"
           ],
           "Expires": [
-            "Tue, 16 May 2023 16:35:27 GMT"
+            "Wed, 12 Jul 2023 19:48:50 GMT"
           ],
           "Source-Age": [
             "0"
@@ -104,8 +107,8 @@
           "string": "---\nschema-version: v1.2.3\nid: IEC61058-2-4-2018\ntitle:\n- content: 'Switches for appliances - Part 2-4: Particular requirements for independently\n    mounted switches'\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain\n  type: main\n- content: 'Interrupteurs pour appareils - Partie 2-4: Exigences particulières pour\n    les interrupteurs à montage indépendant'\n  language:\n  - fr\n  script:\n  - Latn\n  format: text/plain\n  type: main\nlink:\n- content: https://webstore.iec.ch/publication/59516\n  type: src\n- content: https://webstore.iec.ch/preview/info_iec61058-2-4{ed2.0}b.pdf\n  type: obp\ntype: standard\ndocid:\n- id: IEC 61058-2-4:2018\n  type: IEC\n  primary: true\n- id: 'urn:iec:std:iec:61058-2-4:2018-10:::'\n  type: URN\ndate:\n- type: published\n  value: '2018-10-12'\n- type: stable-until\n  value: '2025-12-31'\ncontributor:\n- organization:\n    name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  role:\n  - type: publisher\nedition:\n  content: '2'\nrevdate: '2018-10-12'\nlanguage:\n- en\n- fr\nscript:\n- Latn\nabstract:\n- content: \"<!-- NEW! -->IEC 61058-2-4:2018 is available as IEC 61058-2-4:2018 RLV\n    which contains the International Standard and its Redline version, showing all\n    changes of the technical content compared to the previous edition.<br /><p>IEC\n    61058-2-4:2018 applies to independently mounted switches for appliances (mechanical\n    or electronic) actuated by hand, by foot or by other human activity, to operate\n    or control electrical appliances and other equipment for household or similar\n    purposes with a rated voltage not exceeding 480 V and a rated current not exceeding\n    63 A. This second edition cancels and replaces the first edition published in\n    1995 and constitutes a technical revision. This edition includes the following\n    significant technical changes with respect to the previous edition:<br />\\r\\n-\n    overall format modified to support the revised structure of the series;<br />\\r\\n-\n    Annexes K and M have been included as an integral part of this document;<br />\\r\\n-\n    Annex L has been included for information purposes only.<br />\\r\\nThis document\n    is to be used in conjunction with IEC 61058-1:2016.</p>\"\n  language:\n  - en\n  script:\n  - Latn\n  format: text/html\n- content: \"<!-- NEW! -->IEC 61058-2-4:2018 est disponible sous forme de IEC 61058-2-4:2018\n    RLV qui contient la Norme internationale et sa version Redline, illustrant les\n    modifications du contenu technique depuis l'édition précédente.<br /><p>L'IEC\n    61058-2-4:2018 s'applique aux interrupteurs à montage indépendant (mécaniques\n    ou électriques) pour appareils manœuvrés à la main, au pied ou par d'autres activités\n    humaines, pour actionner ou commander des appareils électriques et autres matériels\n    pour usage domestique et analogue, de tension assignée ne dépassant pas 480 V\n    et de courant assigné ne dépassant pas 63 A. Cette deuxième édition annule et\n    remplace la première édition parue en 1995, dont elle constitue une révision technique.\n    Cette édition inclut les modifications techniques majeures suivantes par rapport\n    à l'édition précédente:<br />\\r\\n- format global a été modifié pour être compatible\n    avec la structure révisée de la série;<br />\\r\\n- les Annexes K et M ont été ajoutés\n    pour faire partie intégrante du présent document;<br />\\r\\n- l'Annexe L est donnée\n    à titre d'information uniquement.<br />\\r\\nCe document doit être utilisé conjointement\n    avec l'IEC 61058-1:2016.</p>\"\n  language:\n  - fr\n  script:\n  - Latn\n  format: text/html\ndocstatus:\n  stage:\n    value: PUBLISHED\ncopyright:\n- owner:\n  - name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  from: '2018'\nrelation:\n- type: updates\n  bibitem:\n    id: IEC61058-2-4-1995+AMD1-2003CSV\n    type: standard\n    docid:\n    - id: IEC 61058-2-4:1995+AMD1:2003 CSV\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 61058-2-4:1995+AMD1:2003 CSV\n      format: text/plain\n- type: updates\n  bibitem:\n    id: IEC61058-2-4-1995/AMD1-2003\n    type: standard\n    docid:\n    - id: IEC 61058-2-4:1995/AMD1:2003\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 61058-2-4:1995/AMD1:2003\n      format: text/plain\n- type: updates\n  bibitem:\n    id: IEC61058-2-4-1995\n    type: standard\n    docid:\n    - id: IEC 61058-2-4:1995\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 61058-2-4:1995\n      format: text/plain\nplace:\n- Geneva\ndoctype: international-standard\neditorialgroup:\n  technical_committee:\n  - name: TC 23/SC 23J\n    number: 23\n    type: technicalCommittee\nics:\n- code: 29.120.40\n  text: Switches\nstructuredidentifier:\n  project_number: '61058'\n  part: '2'\n  subpart: '4'\n  type: IEC\next:\n  schema-version: v1.0.0\nprice_code: iec:F\n"
         }
       },
-      "recorded_at": "Tue, 16 May 2023 16:30:27 GMT"
+      "recorded_at": "Wed, 12 Jul 2023 19:43:50 GMT"
     }
   ],
-  "recorded_with": "VCR 6.1.0"
+  "recorded_with": "VCR 6.2.0"
 }

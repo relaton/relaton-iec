@@ -60,28 +60,28 @@
             "1; mode=block"
           ],
           "X-Github-Request-Id": [
-            "315E:7182:81F0C7:9ACF00:6463AFA6"
+            "FBC4:1493:8BDC32:A1F533:64AF0181"
           ],
           "Accept-Ranges": [
             "bytes"
           ],
           "Date": [
-            "Tue, 16 May 2023 16:30:30 GMT"
+            "Wed, 12 Jul 2023 19:43:52 GMT"
           ],
           "Via": [
             "1.1 varnish"
           ],
           "X-Served-By": [
-            "cache-atl18421-ATL"
+            "cache-atl18461-ATL"
           ],
           "X-Cache": [
-            "MISS"
+            "HIT"
           ],
           "X-Cache-Hits": [
-            "0"
+            "1"
           ],
           "X-Timer": [
-            "S1684254630.235340,VS0,VE100"
+            "S1689191033.988598,VS0,VE7"
           ],
           "Vary": [
             "Authorization,Accept-Encoding,Origin"
@@ -89,14 +89,17 @@
           "Access-Control-Allow-Origin": [
             "*"
           ],
+          "Cross-Origin-Resource-Policy": [
+            "cross-origin"
+          ],
           "X-Fastly-Request-Id": [
-            "671b37b4bcd9bb87a6bb24fba1ca96a658cbe2b1"
+            "52378bb9321583fb6084de9d8c871f93d3bbcc0b"
           ],
           "Expires": [
-            "Tue, 16 May 2023 16:35:30 GMT"
+            "Wed, 12 Jul 2023 19:48:52 GMT"
           ],
           "Source-Age": [
-            "0"
+            "247"
           ]
         },
         "body": {
@@ -104,8 +107,8 @@
           "string": "title:\n- type: title-main\n  content: Principles and rules for the structure and drafting of ISO and IEC documents\n  language: en\n  script: Latn\n\nlink:\n- type: obp\n  content: https://www.iec.ch/members_experts/refdocs/iec/isoiecdir2%7Bed8.0.RLV%7Den.pdf\n\ntype: international-standard\n\ndocid:\n- id: ISO/IEC DIR 2 IEC\n  type: IEC\n  primary: true\n\ndate:\n  type: published\n  value: '2018-05-01'\n\nedition:\n  content: \"8\"\n\nlanguage: en\n\nscript: Latn\n\ncopyright:\n  owner:\n    name:\n      content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: iec.ch\n  from: '2019'"
         }
       },
-      "recorded_at": "Tue, 16 May 2023 16:30:30 GMT"
+      "recorded_at": "Wed, 12 Jul 2023 19:43:52 GMT"
     }
   ],
-  "recorded_with": "VCR 6.1.0"
+  "recorded_with": "VCR 6.2.0"
 }
