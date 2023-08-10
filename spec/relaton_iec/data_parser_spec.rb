@@ -238,7 +238,7 @@ describe RelatonIec::DataParser do
 
       it "SRD" do
         subject.instance_variable_get(:@pub)["stdType"] = "SRD"
-        expect(subject.doctype).to eq "system-reference-delivrabble"
+        expect(subject.doctype).to eq "system-reference-delivrable"
       end
 
       it "other" do

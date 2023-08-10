@@ -60,28 +60,28 @@
             "1; mode=block"
           ],
           "X-Github-Request-Id": [
-            "8746:4110:93BC8F:A9D5C7:64AF0180"
+            "0FCA:51C7:494461:553DAB:64D5356B"
           ],
           "Accept-Ranges": [
             "bytes"
           ],
           "Date": [
-            "Wed, 12 Jul 2023 19:43:52 GMT"
+            "Thu, 10 Aug 2023 19:07:23 GMT"
           ],
           "Via": [
             "1.1 varnish"
           ],
           "X-Served-By": [
-            "cache-atl18494-ATL"
+            "cache-iad-kjyo7100041-IAD"
           ],
           "X-Cache": [
-            "HIT"
+            "MISS"
           ],
           "X-Cache-Hits": [
-            "1"
+            "0"
           ],
           "X-Timer": [
-            "S1689191032.482148,VS0,VE1"
+            "S1691694444.726806,VS0,VE107"
           ],
           "Vary": [
             "Authorization,Accept-Encoding,Origin"
@@ -93,13 +93,13 @@
             "cross-origin"
           ],
           "X-Fastly-Request-Id": [
-            "4cc6c504337cd2eea0a061f528a7fe4f3d44b7b9"
+            "19c68fd387edf182b5ca49ec3b5d867c6710dc86"
           ],
           "Expires": [
-            "Wed, 12 Jul 2023 19:48:52 GMT"
+            "Thu, 10 Aug 2023 19:12:23 GMT"
           ],
           "Source-Age": [
-            "248"
+            "0"
           ]
         },
         "body": {
@@ -107,7 +107,7 @@
           "string": "---\nschema-version: v1.2.3\nid: IECTR62547-2009\ntitle:\n- content: Guidelines for the measurement of high-power damage sensitivity of single-mode\n    fibres to bends - Guidance for the interpretation of results\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain\n  type: main\nlink:\n- content: https://webstore.iec.ch/publication/20506\n  type: src\n- content: https://webstore.iec.ch/preview/info_iec62547{ed1.0}en.pdf\n  type: obp\ntype: standard\ndocid:\n- id: IEC TR 62547:2009\n  type: IEC\n  primary: true\n- id: 'urn:iec:std:iec:62547:2009-03:tr::'\n  type: URN\ndate:\n- type: published\n  value: '2009-03-17'\ncontributor:\n- organization:\n    name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  role:\n  - type: publisher\nedition:\n  content: '1'\nrevdate: '2009-03-17'\nlanguage:\n- en\nscript:\n- Latn\nabstract:\n- content: \"IEC/TR 62547:2009(E) is a technical report that describes two methods\n    for the measurement of the sensitivity of single-mode optical fibres to high-power\n    damage at bends.<br /> \\n- Method 1 - Failure time characterization as a function\n    of the launch power and bend conditions (bend angle and bend diameter).<br />\\n-\n    Method 2 - Equilibrium temperature measurement.\"\n  language:\n  - en\n  script:\n  - Latn\n  format: text/html\ndocstatus:\n  stage:\n    value: REVISED\ncopyright:\n- owner:\n  - name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  from: '2009'\nplace:\n- Geneva\ndoctype: technical-report\neditorialgroup:\n  technical_committee:\n  - name: TC 86/SC 86A\n    number: 86\n    type: technicalCommittee\nics:\n- code: 33.180.10\n  text: Fibres and cables\nstructuredidentifier:\n  project_number: TR\n  type: IEC\next:\n  schema-version: v1.0.0\nprice_code: iec:H\n"
         }
       },
-      "recorded_at": "Wed, 12 Jul 2023 19:43:52 GMT"
+      "recorded_at": "Thu, 10 Aug 2023 19:07:23 GMT"
     }
   ],
   "recorded_with": "VCR 6.2.0"

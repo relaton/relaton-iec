@@ -60,28 +60,28 @@
             "1; mode=block"
           ],
           "X-Github-Request-Id": [
-            "FBC4:1493:8BDC32:A1F533:64AF0181"
+            "4FAA:9EFA:44012B:50029E:64D5356C"
           ],
           "Accept-Ranges": [
             "bytes"
           ],
           "Date": [
-            "Wed, 12 Jul 2023 19:43:52 GMT"
+            "Thu, 10 Aug 2023 19:07:24 GMT"
           ],
           "Via": [
             "1.1 varnish"
           ],
           "X-Served-By": [
-            "cache-atl18461-ATL"
+            "cache-iad-kcgs7200089-IAD"
           ],
           "X-Cache": [
-            "HIT"
+            "MISS"
           ],
           "X-Cache-Hits": [
-            "1"
+            "0"
           ],
           "X-Timer": [
-            "S1689191033.988598,VS0,VE7"
+            "S1691694444.394882,VS0,VE68"
           ],
           "Vary": [
             "Authorization,Accept-Encoding,Origin"
@@ -93,13 +93,13 @@
             "cross-origin"
           ],
           "X-Fastly-Request-Id": [
-            "52378bb9321583fb6084de9d8c871f93d3bbcc0b"
+            "2b955791179c08d0ad7b1c07e9638f8576bf6e4e"
           ],
           "Expires": [
-            "Wed, 12 Jul 2023 19:48:52 GMT"
+            "Thu, 10 Aug 2023 19:12:24 GMT"
           ],
           "Source-Age": [
-            "247"
+            "0"
           ]
         },
         "body": {
@@ -107,7 +107,7 @@
           "string": "title:\n- type: title-main\n  content: Principles and rules for the structure and drafting of ISO and IEC documents\n  language: en\n  script: Latn\n\nlink:\n- type: obp\n  content: https://www.iec.ch/members_experts/refdocs/iec/isoiecdir2%7Bed8.0.RLV%7Den.pdf\n\ntype: international-standard\n\ndocid:\n- id: ISO/IEC DIR 2 IEC\n  type: IEC\n  primary: true\n\ndate:\n  type: published\n  value: '2018-05-01'\n\nedition:\n  content: \"8\"\n\nlanguage: en\n\nscript: Latn\n\ncopyright:\n  owner:\n    name:\n      content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: iec.ch\n  from: '2019'"
         }
       },
-      "recorded_at": "Wed, 12 Jul 2023 19:43:52 GMT"
+      "recorded_at": "Thu, 10 Aug 2023 19:07:24 GMT"
     }
   ],
   "recorded_with": "VCR 6.2.0"

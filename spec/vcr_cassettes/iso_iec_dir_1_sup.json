@@ -60,28 +60,28 @@
             "1; mode=block"
           ],
           "X-Github-Request-Id": [
-            "B0B8:8541:92527F:A86BDB:64AF0181"
+            "48A2:51C7:494486:553DCF:64D5356B"
           ],
           "Accept-Ranges": [
             "bytes"
           ],
           "Date": [
-            "Wed, 12 Jul 2023 19:43:52 GMT"
+            "Thu, 10 Aug 2023 19:07:24 GMT"
           ],
           "Via": [
             "1.1 varnish"
           ],
           "X-Served-By": [
-            "cache-atl18494-ATL"
+            "cache-iad-kcgs7200115-IAD"
           ],
           "X-Cache": [
-            "HIT"
+            "MISS"
           ],
           "X-Cache-Hits": [
-            "1"
+            "0"
           ],
           "X-Timer": [
-            "S1689191033.826486,VS0,VE5"
+            "S1691694444.179686,VS0,VE99"
           ],
           "Vary": [
             "Authorization,Accept-Encoding,Origin"
@@ -93,13 +93,13 @@
             "cross-origin"
           ],
           "X-Fastly-Request-Id": [
-            "a89f2547b600eb3bd8fda1572041a0c1a61c36b6"
+            "4fae8c93a574c16f4dfd6e781385bb71ae72bc47"
           ],
           "Expires": [
-            "Wed, 12 Jul 2023 19:48:52 GMT"
+            "Thu, 10 Aug 2023 19:12:24 GMT"
           ],
           "Source-Age": [
-            "247"
+            "0"
           ]
         },
         "body": {
@@ -107,7 +107,7 @@
           "string": "title:\n- type: title-main\n  content: Procedures for the technical work – Procedures specific to IEC\n  language: en\n  script: Latn\n\nlink:\n- type: obp\n  content: https://www.iec.ch/members_experts/refdocs/iec/isoiecdir1-consolidatediecsup%7bed15.0.RLV%7den.pdf\n\ntype: international-standard\n\ndocid:\n- id: ISO/IEC DIR 1 IEC SUP\n  type: IEC\n  primary: true\n\ndate:\n  type: published\n  value: '2019-05-01'\n\nedition:\n  content: \"15\"\n\nlanguage: en\n\nscript: Latn\n\ncopyright:\n  owner:\n    name:\n      content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: iec.ch\n  from: '2019'"
         }
       },
-      "recorded_at": "Wed, 12 Jul 2023 19:43:52 GMT"
+      "recorded_at": "Thu, 10 Aug 2023 19:07:24 GMT"
     }
   ],
   "recorded_with": "VCR 6.2.0"

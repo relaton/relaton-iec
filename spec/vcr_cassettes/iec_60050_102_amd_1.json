@@ -60,19 +60,19 @@
             "1; mode=block"
           ],
           "X-Github-Request-Id": [
-            "94B6:6CCF:93C65A:A9AA63:64AEFB71"
+            "BA0E:1ABE:36D8A5:4247F4:64D53569"
           ],
           "Accept-Ranges": [
             "bytes"
           ],
           "Date": [
-            "Wed, 12 Jul 2023 19:43:52 GMT"
+            "Thu, 10 Aug 2023 19:07:23 GMT"
           ],
           "Via": [
             "1.1 varnish"
           ],
           "X-Served-By": [
-            "cache-atl18423-ATL"
+            "cache-iad-kjyo7100078-IAD"
           ],
           "X-Cache": [
             "HIT"
@@ -81,7 +81,7 @@
             "1"
           ],
           "X-Timer": [
-            "S1689191032.174571,VS0,VE1"
+            "S1691694443.315580,VS0,VE17"
           ],
           "Vary": [
             "Authorization,Accept-Encoding,Origin"
@@ -93,13 +93,13 @@
             "cross-origin"
           ],
           "X-Fastly-Request-Id": [
-            "7b7e3b2d894e43c15d837916b90dee5281f5db62"
+            "18e660337f385a8e4378c3a687583192222c43dc"
           ],
           "Expires": [
-            "Wed, 12 Jul 2023 19:48:52 GMT"
+            "Thu, 10 Aug 2023 19:12:23 GMT"
           ],
           "Source-Age": [
-            "248"
+            "2"
           ]
         },
         "body": {
@@ -107,7 +107,7 @@
           "string": "---\nschema-version: v1.2.3\nid: IEC60050-102-2007/AMD1-2017\ntitle:\n- content: 'Amendment 1 - International Electrotechnical Vocabulary (IEV) - Part 102:\n    Mathematics - General concepts and linear algebra'\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain\n  type: main\n- content: 'Amendement 1 - Vocabulaire Electrotechnique International (IEV) - Partie\n    102: Mathématiques - Concepts généraux et algèbre linéaire'\n  language:\n  - fr\n  script:\n  - Latn\n  format: text/plain\n  type: main\nlink:\n- content: https://webstore.iec.ch/publication/61315\n  type: src\ntype: standard\ndocid:\n- id: IEC 60050-102:2007/AMD1:2017\n  type: IEC\n  primary: true\n- id: urn:iec:std:iec:60050-102:2007-08:::||amd:1:2017-08\n  type: URN\ndate:\n- type: published\n  value: '2017-08-31'\ncontributor:\n- organization:\n    name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  role:\n  - type: publisher\nedition:\n  content: '1'\nrevdate: '2017-08-31'\nlanguage:\n- en\n- fr\nscript:\n- Latn\ndocstatus:\n  stage:\n    value: PUBLISHED\ncopyright:\n- owner:\n  - name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  from: '2007'\nplace:\n- Geneva\ndoctype: international-standard\neditorialgroup:\n  technical_committee:\n  - name: TC 1\n    number: 1\n    type: technicalCommittee\nics:\n- code: 01.040.07\n  text: Natural and applied sciences (Vocabularies)\n- code: '07.020'\n  text: Mathematics\nstructuredidentifier:\n  project_number: '60050'\n  part: '102'\n  type: IEC\next:\n  schema-version: v1.0.0\nprice_code: iec:C\n"
         }
       },
-      "recorded_at": "Wed, 12 Jul 2023 19:43:52 GMT"
+      "recorded_at": "Thu, 10 Aug 2023 19:07:23 GMT"
     }
   ],
   "recorded_with": "VCR 6.2.0"

@@ -6,7 +6,7 @@ module RelatonIec
       guide industry-technical-agreement system-reference-deliverable
     ].freeze
 
-    DOCSUBTYPES = %w[specification method-of-test vocabulary code-of-practice].freeze
+    SUBDOCTYPES = %w[specification method-of-test vocabulary code-of-practice].freeze
 
     FUNCTION = %w[emc safety enviroment quality-assurance].freeze
 
@@ -39,9 +39,9 @@ module RelatonIec
       end
       if args[:updates_document_type] &&
           !DOCTYPES.include?(args[:updates_document_type])
-        warn "[relaton-iec] WARNING: invalid updates_document_type "\
+        warn "[relaton-iec] WARNING: invalid updates_document_type " \
              "\"#{args[:updates_document_type]}\""
-        warn "[relaton-iec] allowed updates_document_type values are: "\
+        warn "[relaton-iec] allowed updates_document_type values are: " \
              "#{DOCTYPES.join(', ')}"
       end
       @function = args.delete :function

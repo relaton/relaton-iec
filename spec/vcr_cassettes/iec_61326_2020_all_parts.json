@@ -60,28 +60,28 @@
             "1; mode=block"
           ],
           "X-Github-Request-Id": [
-            "2A50:7850:94692F:AA8225:64AF0182"
+            "4D0E:3AAC:43BD41:4F8297:64D5356D"
           ],
           "Accept-Ranges": [
             "bytes"
           ],
           "Date": [
-            "Wed, 12 Jul 2023 19:43:53 GMT"
+            "Thu, 10 Aug 2023 19:07:25 GMT"
           ],
           "Via": [
             "1.1 varnish"
           ],
           "X-Served-By": [
-            "cache-atl18450-ATL"
+            "cache-iad-kjyo7100158-IAD"
           ],
           "X-Cache": [
-            "HIT"
+            "MISS"
           ],
           "X-Cache-Hits": [
-            "1"
+            "0"
           ],
           "X-Timer": [
-            "S1689191033.441872,VS0,VE6"
+            "S1691694445.131427,VS0,VE97"
           ],
           "Vary": [
             "Authorization,Accept-Encoding,Origin"
@@ -93,13 +93,13 @@
             "cross-origin"
           ],
           "X-Fastly-Request-Id": [
-            "da919f0d4afaaeeb863ee2e1b82cf645c50b36aa"
+            "49892cafae3657de3b1be6fde4279c2451faeaf2"
           ],
           "Expires": [
-            "Wed, 12 Jul 2023 19:48:53 GMT"
+            "Thu, 10 Aug 2023 19:12:25 GMT"
           ],
           "Source-Age": [
-            "247"
+            "0"
           ]
         },
         "body": {
@@ -107,7 +107,7 @@
           "string": "---\nschema-version: v1.2.3\nid: IEC61326-1-2020\ntitle:\n- content: 'Electrical equipment for measurement, control and laboratory use - EMC\n    requirements - Part 1: General requirements'\n  language:\n  - en\n  script:\n  - Latn\n  format: text/plain\n  type: main\n- content: 'Matériel électrique de mesure, de commande et de laboratoire - Exigences\n    relatives à la CEM - Partie 1: Exigences générales'\n  language:\n  - fr\n  script:\n  - Latn\n  format: text/plain\n  type: main\nlink:\n- content: https://webstore.iec.ch/publication/62793\n  type: src\n- content: https://webstore.iec.ch/preview/info_iec61326-1{ed3.0}b.pdf\n  type: obp\ntype: standard\ndocid:\n- id: IEC 61326-1:2020\n  type: IEC\n  primary: true\n- id: 'urn:iec:std:iec:61326-1:2020-10:::'\n  type: URN\ndate:\n- type: published\n  value: '2020-10-26'\n- type: stable-until\n  value: '2023-12-31'\ncontributor:\n- organization:\n    name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  role:\n  - type: publisher\nedition:\n  content: '3'\nrevdate: '2020-10-26'\nlanguage:\n- en\n- fr\nscript:\n- Latn\nabstract:\n- content: \"<!-- NEW! -->IEC 61326-1:2020 is available as IEC 61326-1:2020 RLV which\n    contains the International Standard and its Redline version, showing all changes\n    of the technical content compared to the previous edition.<br /><br />\\r\\nIEC\n    61326:2020 specifies requirements for immunity and emissions regarding electro¬magnetic\n    compatibility (EMC) for electrical equipment, operating from a supply or battery\n    of less than 1 000 V AC or 1 500 V DC or from the circuit being measured. Equipment\n    intended for professional, industrial-process, industrial-manufacturing and educational\n    use is covered by this part. It includes equipment and computing devices for<br\n    />\\r\\n- measurement and test;<br />\\r\\n- control;<br />\\r\\n- LABORATORY use;<br\n    />\\r\\n- accessories intended for use with the above (such as sample handling equipment),<br\n    />\\r\\nintended to be used in industrial and non-industrial locations.\"\n  language:\n  - en\n  script:\n  - Latn\n  format: text/html\n- content: \"<!-- NEW! -->IEC 61326-1:2020 est disponible sous forme de IEC 61326-1:2020\n    RLV qui contient la Norme internationale et sa version Redline, illustrant les\n    modifications du contenu technique depuis l'édition précédente.<br /><br />\\r\\nL’IEC\n    61326:2020 spécifie les exigences relatives à l'immunité et aux émissions concernant\n    la compatibilité électromagnétique (CEM) pour les matériels électriques fonctionnant\n    à partir d'une source d'alimentation ou d'une batterie inférieure à 1 000 V en\n    courant alternatif ou 1 500 V en courant continu ou à partir du circuit mesuré.\n    Elle concerne les matériels prévus pour un usage professionnel, pour les processus\n    industriels et pour l'enseignement. Cela comprend les matériels et les dispositifs\n    informatiques pour<br />\\r\\n- le mesurage et les essais;<br />\\r\\n- la commande;<br\n    />\\r\\n- les applications en LABORATOIRE;<br />\\r\\n- les accessoires prévus pour\n    être utilisés dans les cas susmentionnés (par exemple, matériel de manipulation\n    d’échantillons),<br />\\r\\ndans un usage en milieu industriel ou non industriel.\"\n  language:\n  - fr\n  script:\n  - Latn\n  format: text/html\ndocstatus:\n  stage:\n    value: PUBLISHED\ncopyright:\n- owner:\n  - name:\n    - content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: www.iec.ch\n  from: '2020'\nrelation:\n- type: updates\n  bibitem:\n    id: IEC61326-1-2012RLV\n    type: standard\n    docid:\n    - id: IEC 61326-1:2012 RLV\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 61326-1:2012 RLV\n      format: text/plain\n- type: updates\n  bibitem:\n    id: IEC61326-1-2012\n    type: standard\n    docid:\n    - id: IEC 61326-1:2012\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 61326-1:2012\n      format: text/plain\n- type: updates\n  bibitem:\n    id: IEC61326-1-2005/COR2-2010\n    type: standard\n    docid:\n    - id: IEC 61326-1:2005/COR2:2010\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 61326-1:2005/COR2:2010\n      format: text/plain\n- type: updates\n  bibitem:\n    id: IEC61326-1-2005/COR1-2008\n    type: standard\n    docid:\n    - id: IEC 61326-1:2005/COR1:2008\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 61326-1:2005/COR1:2008\n      format: text/plain\n- type: updates\n  bibitem:\n    id: IEC61326-1-2005\n    type: standard\n    docid:\n    - id: IEC 61326-1:2005\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 61326-1:2005\n      format: text/plain\n- type: updates\n  bibitem:\n    id: IEC61326-1-1997+AMD1-1998+AMD2-2000CSV\n    type: standard\n    docid:\n    - id: IEC 61326-1:1997+AMD1:1998+AMD2:2000 CSV\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 61326-1:1997+AMD1:1998+AMD2:2000 CSV\n      format: text/plain\n- type: updates\n  bibitem:\n    id: IEC61326-1-1997/AMD2-2000\n    type: standard\n    docid:\n    - id: IEC 61326-1:1997/AMD2:2000\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 61326-1:1997/AMD2:2000\n      format: text/plain\n- type: updates\n  bibitem:\n    id: IEC61326-1-1997+AMD1-1998CSV\n    type: standard\n    docid:\n    - id: IEC 61326-1:1997+AMD1:1998 CSV\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 61326-1:1997+AMD1:1998 CSV\n      format: text/plain\n- type: updates\n  bibitem:\n    id: IEC61326-1-1997/AMD1-1998\n    type: standard\n    docid:\n    - id: IEC 61326-1:1997/AMD1:1998\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 61326-1:1997/AMD1:1998\n      format: text/plain\n- type: updates\n  bibitem:\n    id: IEC61326-1-1997\n    type: standard\n    docid:\n    - id: IEC 61326-1:1997\n      type: IEC\n      primary: true\n    formattedref:\n      content: IEC 61326-1:1997\n      format: text/plain\nplace:\n- Geneva\ndoctype: international-standard\neditorialgroup:\n  technical_committee:\n  - name: TC 65/SC 65A\n    number: 65\n    type: technicalCommittee\nics:\n- code: 17.220.20\n  text: Measurement of electrical and magnetic quantities\n- code: 25.040.40\n  text: Industrial process measurement and control\n- code: 33.100.20\n  text: Immunity\nstructuredidentifier:\n  project_number: '61326'\n  part: '1'\n  type: IEC\next:\n  schema-version: v1.0.0\nprice_code: iec:F\n"
         }
       },
-      "recorded_at": "Wed, 12 Jul 2023 19:43:53 GMT"
+      "recorded_at": "Thu, 10 Aug 2023 19:07:25 GMT"
     }
   ],
   "recorded_with": "VCR 6.2.0"

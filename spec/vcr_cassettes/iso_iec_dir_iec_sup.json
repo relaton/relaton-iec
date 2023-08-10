@@ -60,28 +60,28 @@
             "1; mode=block"
           ],
           "X-Github-Request-Id": [
-            "231C:0CA0:90B38E:A6CBA1:64AF0181"
+            "457C:2C44:422ED0:4E2934:64D5356C"
           ],
           "Accept-Ranges": [
             "bytes"
           ],
           "Date": [
-            "Wed, 12 Jul 2023 19:43:53 GMT"
+            "Thu, 10 Aug 2023 19:07:24 GMT"
           ],
           "Via": [
             "1.1 varnish"
           ],
           "X-Served-By": [
-            "cache-atl18467-ATL"
+            "cache-iad-kjyo7100178-IAD"
           ],
           "X-Cache": [
-            "HIT"
+            "MISS"
           ],
           "X-Cache-Hits": [
-            "1"
+            "0"
           ],
           "X-Timer": [
-            "S1689191033.106582,VS0,VE1"
+            "S1691694445.600995,VS0,VE89"
           ],
           "Vary": [
             "Authorization,Accept-Encoding,Origin"
@@ -93,13 +93,13 @@
             "cross-origin"
           ],
           "X-Fastly-Request-Id": [
-            "978a3edfe61319ce0e6b3c63c5736739ec600fd5"
+            "a008c6dcbd2aa2d1c73b4b1e7435bbca01c4ff0a"
           ],
           "Expires": [
-            "Wed, 12 Jul 2023 19:48:53 GMT"
+            "Thu, 10 Aug 2023 19:12:24 GMT"
           ],
           "Source-Age": [
-            "247"
+            "0"
           ]
         },
         "body": {
@@ -107,7 +107,7 @@
           "string": "title:\n- type: title-main\n  content: Procedures specific to IEC\n  language: en\n  script: Latn\n\nlink:\n- type: obp\n  content: https://www.iec.ch/members_experts/refdocs/iec/isoiecdir1-iecsup%7bed13.0%7den.pdf\n\ntype: international-standard\n\ndocid:\n- id: ISO/IEC DIR IEC SUP\n  type: IEC\n  primary: true\n\ndate:\n  type: published\n  value: '2019-05-01'\n\nedition:\n  content: \"13\"\n\nlanguage: en\n\nscript: Latn\n\ncopyright:\n  owner:\n    name:\n      content: International Electrotechnical Commission\n    abbreviation:\n      content: IEC\n    url: iec.ch\n  from: '2019'"
         }
       },
-      "recorded_at": "Wed, 12 Jul 2023 19:43:53 GMT"
+      "recorded_at": "Thu, 10 Aug 2023 19:07:24 GMT"
     }
   ],
   "recorded_with": "VCR 6.2.0"

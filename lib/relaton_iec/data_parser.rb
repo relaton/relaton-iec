@@ -238,7 +238,7 @@ module RelatonIec
       when "TR" then "technical-report"
       when "TS" then "technical-specification"
       when "PAS" then "publicly-available-specification"
-      when "SRD" then "system-reference-delivrabble"
+      when "SRD" then "system-reference-delivrable"
       else @pub["stdType"].downcase
       end
     end
