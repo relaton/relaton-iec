@@ -29,6 +29,7 @@ module RelatonIec
       def get(code, year = nil, opts = {}) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity
         opts[:all_parts] ||= code.match?(/\s\(all parts\)/)
         ref = code.sub(/\s\(all parts\)/, "")
+        # pubref = Pubid::Iec::Identifier.parse ref
         year ||= ref_parts(ref)[:year]
         return iev if ref.casecmp("IEV").zero?
 
