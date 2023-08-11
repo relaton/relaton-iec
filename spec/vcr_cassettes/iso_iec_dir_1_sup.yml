@@ -1,0 +1,89 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://raw.githubusercontent.com/relaton/relaton-data-iec/main/static/iso_iec_dir_1_iec_sup.yaml
+    body:
+      encoding: US-ASCII
+      base64_string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - raw.githubusercontent.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '611'
+      Cache-Control:
+      - max-age=300
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Etag:
+      - W/"809912af521a5ebc885a30e0ad3a533759ee4dff5797b88bbbb9c897848711cb"
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Github-Request-Id:
+      - 4296:0462:42B3B6:4EE58D:64D659EC
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Fri, 11 Aug 2023 15:58:44 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - cache-iad-kjyo7100166-IAD
+      X-Cache:
+      - HIT
+      X-Cache-Hits:
+      - '1'
+      X-Timer:
+      - S1691769524.110686,VS0,VE2
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Access-Control-Allow-Origin:
+      - "*"
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      X-Fastly-Request-Id:
+      - 77b5c246c80e1308e63877895b30ff54b2fc2f21
+      Expires:
+      - Fri, 11 Aug 2023 16:03:44 GMT
+      Source-Age:
+      - '198'
+    body:
+      encoding: ASCII-8BIT
+      base64_string: |
+        dGl0bGU6Ci0gdHlwZTogdGl0bGUtbWFpbgogIGNvbnRlbnQ6IFByb2NlZHVy
+        ZXMgZm9yIHRoZSB0ZWNobmljYWwgd29yayDigJMgUHJvY2VkdXJlcyBzcGVj
+        aWZpYyB0byBJRUMKICBsYW5ndWFnZTogZW4KICBzY3JpcHQ6IExhdG4KCmxp
+        bms6Ci0gdHlwZTogb2JwCiAgY29udGVudDogaHR0cHM6Ly93d3cuaWVjLmNo
+        L21lbWJlcnNfZXhwZXJ0cy9yZWZkb2NzL2llYy9pc29pZWNkaXIxLWNvbnNv
+        bGlkYXRlZGllY3N1cCU3YmVkMTUuMC5STFYlN2Rlbi5wZGYKCnR5cGU6IGlu
+        dGVybmF0aW9uYWwtc3RhbmRhcmQKCmRvY2lkOgotIGlkOiBJU08vSUVDIERJ
+        UiAxIElFQyBTVVAKICB0eXBlOiBJRUMKICBwcmltYXJ5OiB0cnVlCgpkYXRl
+        OgogIHR5cGU6IHB1Ymxpc2hlZAogIHZhbHVlOiAnMjAxOS0wNS0wMScKCmVk
+        aXRpb246CiAgY29udGVudDogIjE1IgoKbGFuZ3VhZ2U6IGVuCgpzY3JpcHQ6
+        IExhdG4KCmNvcHlyaWdodDoKICBvd25lcjoKICAgIG5hbWU6CiAgICAgIGNv
+        bnRlbnQ6IEludGVybmF0aW9uYWwgRWxlY3Ryb3RlY2huaWNhbCBDb21taXNz
+        aW9uCiAgICBhYmJyZXZpYXRpb246CiAgICAgIGNvbnRlbnQ6IElFQwogICAg
+        dXJsOiBpZWMuY2gKICBmcm9tOiAnMjAxOSc=
+  recorded_at: Fri, 11 Aug 2023 15:58:43 GMT
+recorded_with: VCR 6.2.0

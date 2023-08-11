@@ -1,0 +1,137 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://raw.githubusercontent.com/relaton/relaton-data-iec/main/data/iec_60050-102_2007.yaml
+    body:
+      encoding: US-ASCII
+      base64_string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - raw.githubusercontent.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2777'
+      Cache-Control:
+      - max-age=300
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Etag:
+      - W/"5dc65197513cf8655c0cfc654c69a2494b1c240cfaacd407fed6a76eed652f02"
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Github-Request-Id:
+      - C762:3A0A:88E506:9FA861:64D659E9
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Fri, 11 Aug 2023 15:58:43 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - cache-iad-kjyo7100092-IAD
+      X-Cache:
+      - HIT
+      X-Cache-Hits:
+      - '1'
+      X-Timer:
+      - S1691769523.270772,VS0,VE1
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Access-Control-Allow-Origin:
+      - "*"
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      X-Fastly-Request-Id:
+      - ffa8d628f585ffdf2c4c7a1174a1e2352d85b5c7
+      Expires:
+      - Fri, 11 Aug 2023 16:03:43 GMT
+      Source-Age:
+      - '200'
+    body:
+      encoding: ASCII-8BIT
+      base64_string: |
+        LS0tCnNjaGVtYS12ZXJzaW9uOiB2MS4yLjMKaWQ6IElFQzYwMDUwLTEwMi0y
+        MDA3CnRpdGxlOgotIGNvbnRlbnQ6ICdJbnRlcm5hdGlvbmFsIEVsZWN0cm90
+        ZWNobmljYWwgVm9jYWJ1bGFyeSAoSUVWKSAtIFBhcnQgMTAyOiBNYXRoZW1h
+        dGljcwogICAgLSBHZW5lcmFsIGNvbmNlcHRzIGFuZCBsaW5lYXIgYWxnZWJy
+        YScKICBsYW5ndWFnZToKICAtIGVuCiAgc2NyaXB0OgogIC0gTGF0bgogIGZv
+        cm1hdDogdGV4dC9wbGFpbgogIHR5cGU6IG1haW4KLSBjb250ZW50OiAnVm9j
+        YWJ1bGFpcmUgRWxlY3Ryb3RlY2huaXF1ZSBJbnRlcm5hdGlvbmFsIChJRVYp
+        IC0gUGFydGllIDEwMjogTWF0aMOpbWF0aXF1ZXMKICAgIC0gQ29uY2VwdHMg
+        Z8OpbsOpcmF1eCBldCBhbGfDqGJyZSBsaW7DqWFpcmUnCiAgbGFuZ3VhZ2U6
+        CiAgLSBmcgogIHNjcmlwdDoKICAtIExhdG4KICBmb3JtYXQ6IHRleHQvcGxh
+        aW4KICB0eXBlOiBtYWluCmxpbms6Ci0gY29udGVudDogaHR0cHM6Ly93ZWJz
+        dG9yZS5pZWMuY2gvcHVibGljYXRpb24vMTYwCiAgdHlwZTogc3JjCi0gY29u
+        dGVudDogaHR0cHM6Ly93ZWJzdG9yZS5pZWMuY2gvcHJldmlldy9pbmZvX2ll
+        YzYwMDUwLTEwMntlZDEuMH1iLnBkZgogIHR5cGU6IG9icAp0eXBlOiBzdGFu
+        ZGFyZApkb2NpZDoKLSBpZDogSUVDIDYwMDUwLTEwMjoyMDA3CiAgdHlwZTog
+        SUVDCiAgcHJpbWFyeTogdHJ1ZQotIGlkOiAndXJuOmllYzpzdGQ6aWVjOjYw
+        MDUwLTEwMjoyMDA3LTA4Ojo6JwogIHR5cGU6IFVSTgpkYXRlOgotIHR5cGU6
+        IHB1Ymxpc2hlZAogIHZhbHVlOiAnMjAwNy0wOC0yNycKY29udHJpYnV0b3I6
+        Ci0gb3JnYW5pemF0aW9uOgogICAgbmFtZToKICAgIC0gY29udGVudDogSW50
+        ZXJuYXRpb25hbCBFbGVjdHJvdGVjaG5pY2FsIENvbW1pc3Npb24KICAgIGFi
+        YnJldmlhdGlvbjoKICAgICAgY29udGVudDogSUVDCiAgICB1cmw6IHd3dy5p
+        ZWMuY2gKICByb2xlOgogIC0gdHlwZTogcHVibGlzaGVyCmVkaXRpb246CiAg
+        Y29udGVudDogJzEnCnJldmRhdGU6ICcyMDA3LTA4LTI3JwpsYW5ndWFnZToK
+        LSBlbgotIGZyCnNjcmlwdDoKLSBMYXRuCmFic3RyYWN0OgotIGNvbnRlbnQ6
+        ICJUaGlzIHBhcnQgb2YgSUVDIDYwMDUwIGdpdmVzIHRoZSBnZW5lcmFsIG1h
+        dGhlbWF0aWNhbCB0ZXJtaW5vbG9neSB1c2VkCiAgICBpbiB0aGUgZmllbGRz
+        IG9mIGVsZWN0cmljaXR5LCBlbGVjdHJvbmljcyBhbmQgdGVsZWNvbW11bmlj
+        YXRpb25zLCB0b2dldGhlciB3aXRoCiAgICBiYXNpYyBjb25jZXB0cyBpbiBs
+        aW5lYXIgYWxnZWJyYS4gSXQgbWFpbnRhaW5zIGEgY2xlYXIgZGlzdGluY3Rp
+        b24gYmV0d2VlbiBtYXRoZW1hdGljYWwKICAgIGNvbmNlcHRzIGFuZCBwaHlz
+        aWNhbCBjb25jZXB0cywgZXZlbiBpZiBzb21lIHRlcm1zIGFyZSB1c2VkIGlu
+        IGJvdGggY2FzZXMuIEFub3RoZXIKICAgIHBhcnQgd2lsbCBkZWFsIHdpdGgg
+        ZnVuY3Rpb25zLjxiciAvPlxyXG5JdCBoYXMgdGhlIHN0YXR1cyBvZiBhIGhv
+        cml6b250YWwgc3RhbmRhcmQKICAgIGluIGFjY29yZGFuY2Ugd2l0aCBJRUMg
+        R3VpZGUgMTA4LiIKICBsYW5ndWFnZToKICAtIGVuCiAgc2NyaXB0OgogIC0g
+        TGF0bgogIGZvcm1hdDogdGV4dC9odG1sCi0gY29udGVudDogIkNldHRlIHBh
+        cnRpZSBkZSBsYSBDRUkgNjAwNTAgZG9ubmUgbGEgdGVybWlub2xvZ2llIG1h
+        dGjDqW1hdGlxdWUgZ8OpbsOpcmFsZQogICAgdXRpbGlzw6llIGRhbnMgbGVz
+        IGRvbWFpbmVzIGRlIGwnw6lsZWN0cmljaXTDqSwgZGUgbCfDqWxlY3Ryb25p
+        cXVlIGV0IGRlcyB0w6lsw6ljb21tdW5pY2F0aW9ucywKICAgIGFpbnNpIHF1
+        ZSBsZXMgY29uY2VwdHMgZm9uZGFtZW50YXV4IGQnYWxnw6hicmUgbGluw6lh
+        aXJlLiBFbGxlIG1haW50aWVudCB1bmUgZGlzdGluY3Rpb24KICAgIG5ldHRl
+        IGVudHJlIGxlcyBjb25jZXB0cyBtYXRow6ltYXRpcXVlcyBldCBsZXMgY29u
+        Y2VwdHMgcGh5c2lxdWVzLCBtw6ptZSBzaSBjZXJ0YWlucwogICAgdGVybWVz
+        IHNvbnQgZW1wbG95w6lzIGRhbnMgbGVzIGRldXggY2FzLiBVbmUgYXV0cmUg
+        cGFydGllIHRyYWl0ZXJhIGRlcyBmb25jdGlvbnMuPGJyCiAgICAvPlxyXG5F
+        bGxlIGEgbGUgc3RhdHV0IGRlIG5vcm1lIGhvcml6b250YWxlIGNvbmZvcm3D
+        qW1lbnQgYXUgR3VpZGUgSUVDIDEwOC4iCiAgbGFuZ3VhZ2U6CiAgLSBmcgog
+        IHNjcmlwdDoKICAtIExhdG4KICBmb3JtYXQ6IHRleHQvaHRtbApkb2NzdGF0
+        dXM6CiAgc3RhZ2U6CiAgICB2YWx1ZTogUFVCTElTSEVECmNvcHlyaWdodDoK
+        LSBvd25lcjoKICAtIG5hbWU6CiAgICAtIGNvbnRlbnQ6IEludGVybmF0aW9u
+        YWwgRWxlY3Ryb3RlY2huaWNhbCBDb21taXNzaW9uCiAgICBhYmJyZXZpYXRp
+        b246CiAgICAgIGNvbnRlbnQ6IElFQwogICAgdXJsOiB3d3cuaWVjLmNoCiAg
+        ZnJvbTogJzIwMDcnCnBsYWNlOgotIEdlbmV2YQpkb2N0eXBlOiBpbnRlcm5h
+        dGlvbmFsLXN0YW5kYXJkCmVkaXRvcmlhbGdyb3VwOgogIHRlY2huaWNhbF9j
+        b21taXR0ZWU6CiAgLSBuYW1lOiBUQyAxCiAgICBudW1iZXI6IDEKICAgIHR5
+        cGU6IHRlY2huaWNhbENvbW1pdHRlZQppY3M6Ci0gY29kZTogMDEuMDQwLjA3
+        CiAgdGV4dDogTmF0dXJhbCBhbmQgYXBwbGllZCBzY2llbmNlcyAoVm9jYWJ1
+        bGFyaWVzKQotIGNvZGU6ICcwNy4wMjAnCiAgdGV4dDogTWF0aGVtYXRpY3MK
+        c3RydWN0dXJlZGlkZW50aWZpZXI6CiAgcHJvamVjdF9udW1iZXI6ICc2MDA1
+        MCcKICBwYXJ0OiAnMTAyJwogIHR5cGU6IElFQwpleHQ6CiAgc2NoZW1hLXZl
+        cnNpb246IHYxLjAuMApwcmljZV9jb2RlOiBpZWM6TAo=
+  recorded_at: Fri, 11 Aug 2023 15:58:43 GMT
+recorded_with: VCR 6.2.0
