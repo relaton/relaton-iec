@@ -48,7 +48,7 @@ module RelatonIec
     #
     # Last change date
     #
-    # @return [String] <description>
+    # @return [String, nil] last change date or nil if index is empty
     #
     def last_change
       return unless @index.any?
