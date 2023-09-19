@@ -46,9 +46,9 @@ module RelatonIec
       # @param missed_years [Array<String>]
       def warn_missing_years(pubid, year, missed_years)
         id = ref_with_year(pubid, year)
-        warn "[relaton-iec] (\"#{id}\") TIP: " \
-          "No match for edition year #{year}, " \
-          "but matches exist for #{missed_years.uniq.join(', ')}."
+        warn  "[relaton-iec] (\"#{id}\") TIP: " \
+              "No match for edition year #{year}, " \
+              "but matches exist for #{missed_years.uniq.join(', ')}."
       end
 
       # @param code [String]
