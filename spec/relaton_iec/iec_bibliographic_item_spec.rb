@@ -1,4 +1,6 @@
 RSpec.describe RelatonIec::IecBibliographicItem do
+  before { RelatonIec.instance_variable_set :@configuration, nil }
+
   it "XML serialize" do
     file = "spec/examples/bibdata.xml"
     hash = YAML.load_file "spec/examples/hit.yaml"
@@ -11,13 +13,13 @@ RSpec.describe RelatonIec::IecBibliographicItem do
   it "warn if function is invalid" do
     expect do
       RelatonIec::IecBibliographicItem.new function: "invalid"
-    end.to output(/invalid function "invalid"/).to_stderr
+    end.to output(/invalid function `invalid`/).to_stderr
   end
 
   it "warn if updates_document_type is invalid" do
     expect do
       RelatonIec::IecBibliographicItem.new updates_document_type: "invalid"
-    end.to output(/invalid updates_document_type "invalid"/).to_stderr
+    end.to output(/invalid updates_document_type `invalid`/).to_stderr
   end
 
   it "not warn if doctype is valid" do

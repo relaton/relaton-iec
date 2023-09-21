@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe RelatonIec do
+  before { RelatonIec.instance_variable_set :@configuration, nil }
+
   it "has a version number" do
     expect(RelatonIec::VERSION).not_to be nil
   end
@@ -101,7 +103,7 @@ RSpec.describe RelatonIec do
       VCR.use_cassette "get_a_code_with_incorrect_year" do
         expect do
           RelatonIec::IecBibliography.get("IEC 60050-111:2005")
-        end.to output(/TIP: No match for edition year 2005, but matches exist for 1982, 1984, 1977, 1996./).to_stderr
+        end.to output(/TIP: No match for edition year `2005`, but matches exist for `1982`, `1984`, `1977`, `1996`./).to_stderr
       end
     end
 
@@ -137,8 +139,8 @@ RSpec.describe RelatonIec do
             result = RelatonIec::IecBibliography.get "IEC 61326"
             expect(result.docidentifier[0].id).to eq "IEC 61326"
           end.to output(
-            /TIP: "IEC 61326" also contains other parts, if you want to cite all parts, use \("IEC 61326 \(all parts\)"\)/
-            ).to_stderr
+            /TIP: `IEC 61326` also contains other parts, if you want to cite all parts, use `IEC 61326 \(all parts\)`/,
+          ).to_stderr
         end
       end
     end
