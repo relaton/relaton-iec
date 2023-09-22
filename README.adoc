@@ -31,6 +31,20 @@ Or install it yourself as:
 
 == Usage
 
+=== Configuration
+
+Configuration is optional. The available option is `logger` which is a `Logger` instance. By default, the logger is `Logger.new($stderr)` with `Logger::WARN` level. To change the logger level, use `RelatonIec.configure` block.
+
+[source,ruby]
+----
+require 'relaton_iec'
+=> true
+
+RelatonIec.configure do |config|
+  config.logger.level = Logger::DEBUG
+end
+----
+
 === Search for a standard using keywords
 
 `RelatonIec::IecBibliography.search(ref, year)` method returns hits collection. Each hit can be used to fetch a document.
@@ -40,9 +54,6 @@ Or install it yourself as:
 
 [source,ruby]
 ----
-require 'relaton_iec'
-=> true
-
 hit_collection = RelatonIec::IecBibliography.search("60050")
 => <RelatonIec::HitCollection:0x007fe0d7126f28 @ref=60050 @fetched=false>
 
@@ -78,14 +89,14 @@ item.docidentifier.detect { |di| di.type == "URN" }.id
 [source,ruby]
 ----
 item = RelatonIec::IecBibliography.get("IEC 60050-112:2010")
-[relaton-iec] ("IEC 60050-112:2010") fetching...
-[relaton-iec] ("IEC 60050-112:2010") found IEC 60050-112:2010
+[relaton-iec] (IEC 60050-112:2010) fetching...
+[relaton-iec] (IEC 60050-112:2010) found `IEC 60050-112:2010`
 => #<RelatonIec::IecBibliographicItem:0x00007f876525e8d0
 ...
 
 item = RelatonIec::IecBibliography.get("IEC 60050-112", "2010", all_parts: true)
-[relaton-iec] ("IEC 60050-112") fetching...
-[relaton-iec] ("IEC 60050-112") found IEC 60050 (all parts)
+[relaton-iec] (IEC 60050-112) fetching...
+[relaton-iec] (IEC 60050-112) found `IEC 60050 (all parts)`
 => #<RelatonIec::IecBibliographicItem:0x00007f87851888f0
 ...
 
@@ -93,8 +104,8 @@ item.docidentifier.first
 => #<RelatonBib::DocumentIdentifier:0x00007f878518eea8 @id="IEC 60050 (all parts)", @language=nil, @primary=true, @scope=nil, @script=nil, @type="IEC">
 
 item = RelatonIec::IecBibliography.get("IEC 60050-112", "2010")
-[relaton-iec] ("IEC 60050-112") fetching...
-[relaton-iec] ("IEC 60050-112") found IEC 60050-112:2010
+[relaton-iec] (IEC 60050-112) fetching...
+[relaton-iec] (IEC 60050-112) found `IEC 60050-112:2010`
 => #<RelatonIec::IecBibliographicItem:0x007fa69f296da8
 
 item.docidentifier.first
