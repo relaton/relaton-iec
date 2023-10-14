@@ -89,14 +89,14 @@ item.docidentifier.detect { |di| di.type == "URN" }.id
 [source,ruby]
 ----
 item = RelatonIec::IecBibliography.get("IEC 60050-112:2010")
-[relaton-iec] (IEC 60050-112:2010) fetching...
-[relaton-iec] (IEC 60050-112:2010) found `IEC 60050-112:2010`
+[relaton-iec] (IEC 60050-112:2010) Fetching from Relaton repository ...
+[relaton-iec] (IEC 60050-112:2010) Found: `IEC 60050-112:2010`
 => #<RelatonIec::IecBibliographicItem:0x00007f876525e8d0
 ...
 
 item = RelatonIec::IecBibliography.get("IEC 60050-112", "2010", all_parts: true)
-[relaton-iec] (IEC 60050-112) fetching...
-[relaton-iec] (IEC 60050-112) found `IEC 60050 (all parts)`
+[relaton-iec] (IEC 60050-112) Fetching from Relaton repository ...
+[relaton-iec] (IEC 60050-112) Found: `IEC 60050 (all parts)`
 => #<RelatonIec::IecBibliographicItem:0x00007f87851888f0
 ...
 
@@ -104,8 +104,8 @@ item.docidentifier.first
 => #<RelatonBib::DocumentIdentifier:0x00007f878518eea8 @id="IEC 60050 (all parts)", @language=nil, @primary=true, @scope=nil, @script=nil, @type="IEC">
 
 item = RelatonIec::IecBibliography.get("IEC 60050-112", "2010")
-[relaton-iec] (IEC 60050-112) fetching...
-[relaton-iec] (IEC 60050-112) found `IEC 60050-112:2010`
+[relaton-iec] (IEC 60050-112) Fetching from Relaton repository ...
+[relaton-iec] (IEC 60050-112) Found: `IEC 60050-112:2010`
 => #<RelatonIec::IecBibliographicItem:0x007fa69f296da8
 
 item.docidentifier.first

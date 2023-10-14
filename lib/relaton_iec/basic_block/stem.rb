@@ -11,8 +11,8 @@ module BasicBlock
     #
     def initialize(type:, content: [])
       unless TYPES.include? type
-        warn "[relaton-iec] WARNING: invalud type \"#{type}\""
-        warn "[relaton-iec] allowed types are: #{TYPES.join ', '}"
+        warn "[relaton-iec] WARNING: Invalud type: \"#{type}\""
+        warn "[relaton-iec] Allowed types are: #{TYPES.join ', '}"
       end
       @type = type
       @content = content

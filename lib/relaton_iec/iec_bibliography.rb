@@ -56,7 +56,7 @@ module RelatonIec
       def fetch_ref_err(code, year, missed_years) # rubocop:disable Metrics/MethodLength
         id = ref_with_year(code, year)
 
-        Util.warn "(#{id}) Not found. The identifier must be exactly as shown on the IEC Webstore."
+        Util.warn "(#{id}) Not found."
 
         if year && missed_years.any?
           warn_missing_years(code, year, missed_years)
@@ -89,7 +89,7 @@ module RelatonIec
       # @param year [String]
       # @return [String]
       def ref_with_year(ref, year)
-        year ? [ref, year].join(":") : ref
+        year && !ref.match?(/:\d{4}/) ? [ref, year].join(":") : ref
       end
 
       # @param ref [String]
@@ -125,7 +125,7 @@ module RelatonIec
       # @return [RelatonIec::HitCollection]
       def search_filter(ref, year)
         code = ref.split(":").first
-        Util.warn "(#{ref_with_year(ref, year)}) Fetching from IEC..."
+        Util.warn "(#{ref_with_year(ref, year)}) Fetching from Relaton repsitory ..."
         search(code)
       end
 
@@ -250,9 +250,10 @@ module RelatonIec
         id = ref_with_year(code, year)
         docid = ret[:ret].docidentifier.first.id
 
-        if id == docid then Util.warn "(#{id}) Found exact match."
-        else Util.warn "(#{id}) Found `#{docid}`."
-        end
+        # if id == docid then Util.warn "(#{id}) Found exact match."
+        # else
+        Util.warn "(#{id}) Found: `#{docid}`"
+        # end
 
         if ret[:missed_parts]
           Util.warn "(#{id}) TIP: `#{code}` also contains other parts, " \

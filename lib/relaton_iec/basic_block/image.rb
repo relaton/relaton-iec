@@ -13,12 +13,12 @@ module BasicBlock
       @mimetype = mimetype
       @filename = args[:filename]
       if args[:width] && !args[:width].is_a?(Integer) && args[:width] != "auto"
-        warn "[basic-block] WARNING: invalid image width attribute \"#{args[:width]}"
-        warn "[basic-block] image width should be integer or \"auto\""
+        warn "[basic-block] WARNING: Invalid image width attribute: \"#{args[:width]}"
+        warn "[basic-block] Image width should be integer or \"auto\""
       end
       if args[:height] && !args[:height].is_a?(Integer) && args[:height] != "auto"
-        warn "[basic-block] WARNING: invalid image height attribute \"#{args[:height]}"
-        warn "[basic-block] image height should be integer or \"auto\""
+        warn "[basic-block] WARNING: Invalid image height attribute: \"#{args[:height]}"
+        warn "[basic-block] Image height should be integer or \"auto\""
       end
       @width = args[:width]
       @height = args[:height]

@@ -13,13 +13,13 @@ RSpec.describe RelatonIec::IecBibliographicItem do
   it "warn if function is invalid" do
     expect do
       RelatonIec::IecBibliographicItem.new function: "invalid"
-    end.to output(/invalid function `invalid`/).to_stderr
+    end.to output(/Invalid function: `invalid`/).to_stderr
   end
 
   it "warn if updates_document_type is invalid" do
     expect do
       RelatonIec::IecBibliographicItem.new updates_document_type: "invalid"
-    end.to output(/invalid updates_document_type `invalid`/).to_stderr
+    end.to output(/Invalid updates_document_type: `invalid`/).to_stderr
   end
 
   it "not warn if doctype is valid" do

@@ -68,8 +68,8 @@ RSpec.describe RelatonIec do
   end
 
   describe "get" do
-    it "a code" do
-      VCR.use_cassette "get_a_code" do
+    it "a code", vcr: "get_a_code" do
+      expect do
         results = RelatonIec::IecBibliography.get("IEC 60050-102:2007").to_xml
         expect(results).to include '<bibitem id="IEC60050-102-2007" type="standard" schema-version="v1.2.4">'
         # expect(results).to include %(<on>2007-08-27</on>)
@@ -84,7 +84,7 @@ RSpec.describe RelatonIec do
           '<docidentifier type="IEC" primary="true">'\
           "IEC 60050</docidentifier>",
         )
-      end
+      end.to output(/\[relaton-iec\] \(IEC 60050-102:2007\) Fetching from Relaton repsitory .../).to_stderr
     end
 
     it "a reference with an year in a code" do

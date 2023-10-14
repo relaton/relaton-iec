@@ -15,8 +15,8 @@ module RelatonIec
     #
     def initialize(format)
       unless FORMATS.include? format
-        warn "[relaton-iec] WARNING: invalid reference format \"#{format}\""
-        warn "[relaton-iec] alloved reference formats are: #{FORMATS.join ', '}"
+        warn "[relaton-iec] WARNING: Invalid reference format: \"#{format}\""
+        warn "[relaton-iec] Alloved reference formats are: #{FORMATS.join ', '}"
       end
       @format = format
     end
