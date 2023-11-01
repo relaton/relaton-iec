@@ -4,7 +4,7 @@ module RelatonIec
   end
 
   def self.method_missing(_method, *args)
-    ReferenceFormat.new *args
+    ReferenceFormat.new(*args)
   end
 
   class ReferenceFormat

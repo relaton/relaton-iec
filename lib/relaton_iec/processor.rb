@@ -5,7 +5,7 @@ module RelatonIec
     def initialize
       @short = :relaton_iec
       @prefix = "IEC"
-      @defaultprefix = %r{^IEC\s|^IEV($|\s)}
+      @defaultprefix = %r{^(IEC\s|CISPR\s|IEV($|\s))}
       @idtype = "IEC"
       @datasets = %w[iec-harmonized-all iec-harmonized-latest]
     end
