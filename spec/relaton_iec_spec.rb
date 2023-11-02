@@ -107,6 +107,13 @@ RSpec.describe RelatonIec do
       end
     end
 
+    it "latest year when year is not specified", vcr: "get_last_year" do
+      result = RelatonIec::IecBibliography.get("IEC 61332")
+      expect(result.docidentifier.first.id).to eq "IEC 61332"
+      istance = result.relation.detect { |r| r.type == "instanceOf" }
+      expect(istance.bibitem.docidentifier.first.id).to eq "IEC 61332:2016"
+    end
+
     context "all parts" do
       it "by reference" do
         VCR.use_cassette "iec_80000_all_parts" do

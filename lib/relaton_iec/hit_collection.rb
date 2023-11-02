@@ -6,7 +6,7 @@ require "addressable/uri"
 module RelatonIec
   # Page of hit collection.
   class HitCollection < RelatonBib::HitCollection
-    def_delegators :@array, :detect, :map
+    def_delegators :@array, :detect, :map, :last, :[], :max_by
 
     INDEX_FILE = "index1.yaml"
 

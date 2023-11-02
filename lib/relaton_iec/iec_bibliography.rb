@@ -177,12 +177,12 @@ module RelatonIec
       # has a title (amendments do not).
       # If no match, returns any years which caused mismatch, for error reporting
       def results_filter(result, ref, year, opts)
-        r_code, r_year, r_amd = code_year ref
+        r_code, r_year, r_amd, r_consv = code_year ref
         r_year ||= year
         if opts[:all_parts]
           ret = result.to_all_parts(r_year)
         else
-          ret, missed_parts = match_result(result, r_code, r_year, r_amd)
+          ret, missed_parts = match_result(result, r_code, r_year, r_amd, r_consv)
         end
         { ret: ret, years: missed_years(result, r_year), missed_parts: missed_parts }
       end
@@ -198,23 +198,27 @@ module RelatonIec
       # @param [String] code code of the document
       # @param [String] year year of the document
       # @param [String] amd amendment of the document
+      # @param [String] consv consolidated version of the document
       #
       # @return [Array<RelatonIec::IecBibliographicItem, Array, nil>] result, missed parts
       #
-      def match_result(result, code, year, amd) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity
+      def match_result(result, code, year, amd, consv) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity
         missed_parts = false
-        ret = result.detect do |h|
-          h_codes, h_years, h_amds = codes_years h.hit[:code]
+        res = result.select do |h|
+          h_codes, h_years, h_amds, h_consv = codes_years h.hit[:code]
           match_code = h_codes.include? code
           match_year = h_years.include?(year)
           missed_parts ||= !match_code
-          match_code && (!year || match_year) && match_amd(amd, h_amds)
-        end&.fetch
+          match_code && (!year || match_year) && match_amd(amd, h_amds) && h_consv.first == consv
+        end
+        hit = year ? res.first : res.max_by { |h| code_year(h.hit[:code])[1].to_i }
+        ret = hit&.fetch
         [ret, missed_parts]
       end
 
       def match_amd(amd, h_amds)
-        (!amd && h_amds.empty?) || h_amds.include?(amd)
+        # (!amd && h_amds.empty?) || h_amds.include?(amd)
+        h_amds.first == amd
       end
 
       # @param ref [String]
@@ -225,8 +229,9 @@ module RelatonIec
           ^(?<code>\S+\s[^:/]+)
           (?::(?<year>\d{4}))?
           (?:/(?<amd>\w+)(?::\d{4})?)?
+          (?:\+(?<consv>\w+)(?::\d{4})?)?
         }x =~ ref
-        [code, year, amd&.upcase]
+        [code, year, amd&.upcase, consv&.upcase]
       end
 
       # @param ref [String]
