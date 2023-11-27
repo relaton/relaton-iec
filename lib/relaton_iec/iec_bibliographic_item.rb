@@ -1,11 +1,5 @@
 module RelatonIec
   class IecBibliographicItem < RelatonIsoBib::IsoBibliographicItem
-    DOCTYPES = %w[
-      international-standard technical-specification technical-report
-      publicly-available-specification international-workshop-agreement
-      guide industry-technical-agreement system-reference-deliverable
-    ].freeze
-
     SUBDOCTYPES = %w[specification method-of-test vocabulary code-of-practice].freeze
 
     FUNCTION = %w[emc safety enviroment quality-assurance].freeze
@@ -38,9 +32,9 @@ module RelatonIec
         Util.warn "Allowed function values are: `#{FUNCTION.join('`, `')}`"
       end
       if args[:updates_document_type] &&
-          !DOCTYPES.include?(args[:updates_document_type])
+          !DocumentType::DOCTYPES.include?(args[:updates_document_type])
         Util.warn "WARNING: Invalid updates_document_type: `#{args[:updates_document_type]}`"
-        Util.warn "Allowed updates_document_type values are: `#{DOCTYPES.join('`, `')}`"
+        Util.warn "Allowed updates_document_type values are: `#{DocumentType::DOCTYPES.join('`, `')}`"
       end
       @function = args.delete :function
       @updates_document_type = args.delete :updates_document_type
@@ -77,7 +71,7 @@ module RelatonIec
       super(**opts) do |b|
         if opts[:bibdata]
           ext = b.ext do
-            b.doctype doctype if doctype
+            doctype&.to_xml b
             b.horizontal horizontal unless horizontal.nil?
             b.function function if function
             editorialgroup&.to_xml b

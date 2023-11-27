@@ -15,6 +15,14 @@ module RelatonIec
       "CISPR" => ["International special committee on radio interference", "www.iec.ch"],
     }.freeze
 
+    DOCTYPES = {
+      "IS" => "international-standard",
+      "TR" => "technical-report",
+      "TS" => "technical-specification",
+      "PAS" => "publicly-available-specification",
+      "SRD" => "system-reference-deliverable",
+    }
+
     #
     # Initialize new instance.
     #
@@ -233,14 +241,8 @@ module RelatonIec
     # @return [String] document type
     #
     def doctype
-      case @pub["stdType"]
-      when "IS" then "international-standard"
-      when "TR" then "technical-report"
-      when "TS" then "technical-specification"
-      when "PAS" then "publicly-available-specification"
-      when "SRD" then "system-reference-deliverable"
-      else @pub["stdType"].downcase
-      end
+      type = DOCTYPES[@pub["stdType"]] || @pub["stdType"].downcase
+      DocumentType.new type: type
     end
 
     #

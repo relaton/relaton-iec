@@ -218,32 +218,34 @@ describe RelatonIec::DataParser do
 
     context "#doctype" do
       it "IS" do
-        expect(subject.doctype).to eq "international-standard"
+        expect(subject.doctype.type).to eq "international-standard"
       end
 
       it "TR" do
         subject.instance_variable_get(:@pub)["stdType"] = "TR"
-        expect(subject.doctype).to eq "technical-report"
+        doctype = subject.doctype
+        expect(doctype).to be_instance_of RelatonIec::DocumentType
+        expect(doctype.type).to eq "technical-report"
       end
 
       it "TS" do
         subject.instance_variable_get(:@pub)["stdType"] = "TS"
-        expect(subject.doctype).to eq "technical-specification"
+        expect(subject.doctype.type).to eq "technical-specification"
       end
 
       it "PAS" do
         subject.instance_variable_get(:@pub)["stdType"] = "PAS"
-        expect(subject.doctype).to eq "publicly-available-specification"
+        expect(subject.doctype.type).to eq "publicly-available-specification"
       end
 
       it "SRD" do
         subject.instance_variable_get(:@pub)["stdType"] = "SRD"
-        expect(subject.doctype).to eq "system-reference-deliverable"
+        expect(subject.doctype.type).to eq "system-reference-deliverable"
       end
 
       it "other" do
         subject.instance_variable_get(:@pub)["stdType"] = "GUIDE"
-        expect(subject.doctype).to eq "guide"
+        expect(subject.doctype.type).to eq "guide"
       end
     end
 
