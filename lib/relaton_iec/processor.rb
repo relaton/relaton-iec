@@ -37,7 +37,7 @@ module RelatonIec
     end
 
     # @param hash [Hash]
-    # @return [RelatonIsoBib::IecBibliographicItem]
+    # @return [RelatonIec::IecBibliographicItem]
     def hash_to_bib(hash)
       ::RelatonIec::IecBibliographicItem.from_hash hash
     end

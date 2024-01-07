@@ -79,7 +79,7 @@ describe RelatonIec::DataFetcher do
       end
     end
 
-    it_should_behave_like "fetch_all", "200" # fetch 
+    it_should_behave_like "fetch_all", "200" # fetch
     it_should_behave_like "fetch_all", "502" # API error
     it_should_behave_like "fetch_all", "401" # refresh token
 

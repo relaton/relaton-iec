@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
                        "use using the IecBibliographicItem model"
   spec.description   = "RelatonIec: retrieve IEC Standards for bibliographic " \
                        "use using the IecBibliographicItem model"
-  spec.homepage      = "https://github.com/metanorma/relaton-iec"
+  spec.homepage      = "https://github.com/relaton/relaton-iec"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
@@ -25,6 +25,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "addressable"
   spec.add_dependency "relaton-index", "~> 0.2.0"
-  spec.add_dependency "relaton-iso-bib", "~> 1.17.0"
+  spec.add_dependency "relaton-iso-bib", "~> 1.18.0"
   spec.add_dependency "rubyzip"
 end
