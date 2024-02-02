@@ -18,4 +18,11 @@ RSpec.describe RelatonIec::HashConverter do
     item = RelatonIec::IecBibliographicItem.new(**item_hash)
     expect(item.relation.first.bibitem.formattedref.content).to eq "ref"
   end
+
+  it "create_doctype" do
+    expect do
+      expect(RelatonIec::HashConverter.create_doctype(type: "system-reference-deliverable"))
+        .to be_instance_of RelatonIec::DocumentType
+    end.not_to output(/Invalid doctype/).to_stderr_from_any_process
+  end
 end

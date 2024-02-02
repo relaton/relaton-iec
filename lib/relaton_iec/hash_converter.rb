@@ -11,5 +11,9 @@ module RelatonIec
     def bib_item(item)
       IecBibliographicItem.new(**item)
     end
+
+    def create_doctype(**args)
+      DocumentType.new(**args)
+    end
   end
 end
