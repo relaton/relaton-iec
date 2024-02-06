@@ -10,4 +10,7 @@ VCR.configure do |config|
   }
   config.hook_into :webmock
   config.configure_rspec_metadata!
+  config.filter_sensitive_data('<BEARER>') do
+    'Bearer your_actual_token'
+  end
 end
