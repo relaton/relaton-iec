@@ -13,7 +13,7 @@ module RelatonIec
 
     def check_type(type)
       unless DOCTYPES.include? type
-        Util.warn "WARNING: Invalid doctype: `#{type}`"
+        Util.warn "Invalid doctype: `#{type}`"
       end
     end
   end

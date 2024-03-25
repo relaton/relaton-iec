@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe RelatonIec do
-  before { RelatonIec.instance_variable_set :@configuration, nil }
-
   it "has a version number" do
     expect(RelatonIec::VERSION).not_to be nil
   end
@@ -71,20 +69,20 @@ RSpec.describe RelatonIec do
     it "a code", vcr: "get_a_code" do
       expect do
         results = RelatonIec::IecBibliography.get("IEC 60050-102:2007").to_xml
-        expect(results).to include '<bibitem id="IEC60050-102-2007" type="standard" schema-version="v1.2.8">'
+        expect(results).to include '<bibitem id="IEC60050-102-2007" type="standard" schema-version="v1.2.9">'
         # expect(results).to include %(<on>2007-08-27</on>)
         # expect(results.gsub(/<relation.*<\/relation>/m, "")).not_to include(
         #   %(<on>2007-08-27</on>),
         # )
         expect(results).to include(
-          '<docidentifier type="IEC" primary="true">'\
-          "IEC 60050-102:2007</docidentifier>",
+          '<docidentifier type="IEC" primary="true">IEC 60050-102:2007</docidentifier>',
         )
         expect(results).not_to include(
-          '<docidentifier type="IEC" primary="true">'\
-          "IEC 60050</docidentifier>",
+          '<docidentifier type="IEC" primary="true">IEC 60050</docidentifier>',
         )
-      end.to output(/\[relaton-iec\] \(IEC 60050-102:2007\) Fetching from Relaton repsitory .../).to_stderr
+      end.to output(
+        /\[relaton-iec\] INFO: \(IEC 60050-102:2007\) Fetching from Relaton repsitory .../
+      ).to_stderr_from_any_process
     end
 
     it "a reference with an year in a code" do
@@ -103,7 +101,9 @@ RSpec.describe RelatonIec do
       VCR.use_cassette "get_a_code_with_incorrect_year" do
         expect do
           RelatonIec::IecBibliography.get("IEC 60050-111:2005")
-        end.to output(/TIP: No match for edition year `2005`, but matches exist for `1982`, `1984`, `1977`, `1996`./).to_stderr
+        end.to output(
+          /TIP: No match for edition year `2005`, but matches exist for `1982`, `1984`, `1977`, `1996`\./
+        ).to_stderr_from_any_process
       end
     end
 
@@ -152,7 +152,7 @@ RSpec.describe RelatonIec do
             expect(result.docidentifier[0].id).to eq "IEC 61326"
           end.to output(
             /TIP: `IEC 61326` also contains other parts, if you want to cite all parts, use `IEC 61326 \(all parts\)`/,
-          ).to_stderr
+          ).to_stderr_from_any_process
         end
       end
     end
@@ -162,14 +162,14 @@ RSpec.describe RelatonIec do
         expect { RelatonIec::IecBibliography.get("IEC 60050-103", "207", {}) }
           .to output(
             /TIP: If it cannot be found, the document may no longer be published in parts/,
-          ).to_stderr
+          ).to_stderr_from_any_process
       end
     end
 
     it "gets a frozen reference for IEV" do
       results = RelatonIec::IecBibliography.get("IEV", nil, {})
       expect(results.to_xml).to include '<bibitem id="IEC60050-2011" ' \
-                                        'type="standard" schema-version="v1.2.8">'
+                                        'type="standard" schema-version="v1.2.9">'
     end
 
     # it "packaged standard" do
