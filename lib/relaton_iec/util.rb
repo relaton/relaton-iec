@@ -1,9 +1,6 @@
 module RelatonIec
   module Util
     extend RelatonBib::Util
-
-    def self.logger
-      RelatonIec.configuration.logger
-    end
+    PROGNAME = "relaton-iec".freeze
   end
 end

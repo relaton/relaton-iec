@@ -46,7 +46,7 @@ describe RelatonIec::DataFetcher do
 
       it "catch error" do
         expect(subject).to receive(:fetch_all).with(no_args).and_raise "Error"
-        expect { subject.fetch }.to output(/Error/).to_stderr
+        expect { subject.fetch }.to output(/Error/).to_stderr_from_any_process
       end
     end
 
@@ -168,7 +168,9 @@ describe RelatonIec::DataFetcher do
         subject.instance_variable_set :@files, ["data/cispr_11_2009_amd1_2010.yaml"]
         expect(bib).to receive(:to_hash).and_return({ id: "id" })
         expect(File).to receive(:write).with("data/cispr_11_2009_amd1_2010.yaml", /id: id/, encoding: "UTF-8")
-        expect { subject.fetch_pub pub }.to output(/File data\/cispr_11_2009_amd1_2010\.yaml exists/).to_stderr
+        expect { subject.fetch_pub pub }.to output(
+          /File data\/cispr_11_2009_amd1_2010\.yaml exists/
+        ).to_stderr_from_any_process
       end
     end
 

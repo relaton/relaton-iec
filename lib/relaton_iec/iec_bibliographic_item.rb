@@ -28,13 +28,17 @@ module RelatonIec
     #
     def initialize(**args) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       if args[:function] && !FUNCTION.include?(args[:function])
-        Util.warn "WARNING: Invalid function: `#{args[:function]}`"
-        Util.warn "Allowed function values are: `#{FUNCTION.join('`, `')}`"
+        Util.warn do
+          "Invalid function: `#{args[:function]}`\n" \
+          "Allowed function values are: `#{FUNCTION.join('`, `')}`"
+        end
       end
       if args[:updates_document_type] &&
           !DocumentType::DOCTYPES.include?(args[:updates_document_type])
-        Util.warn "WARNING: Invalid updates_document_type: `#{args[:updates_document_type]}`"
-        Util.warn "Allowed updates_document_type values are: `#{DocumentType::DOCTYPES.join('`, `')}`"
+        Util.warn do
+          "WARNING: Invalid updates_document_type: `#{args[:updates_document_type]}`\n" \
+          "Allowed updates_document_type values are: `#{DocumentType::DOCTYPES.join('`, `')}`"
+        end
       end
       @function = args.delete :function
       @updates_document_type = args.delete :updates_document_type

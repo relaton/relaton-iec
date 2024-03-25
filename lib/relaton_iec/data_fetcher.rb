@@ -51,8 +51,9 @@ module RelatonIec
       puts "Stopped at: #{t2}"
       puts "Done in: #{(t2 - t1).round} sec."
     rescue StandardError => e
-      warn e.message
-      warn e.backtrace.join("\n")
+      Util.error do
+        "#{e.message}\n#{e.backtrace.join("\n")}"
+      end
     end
 
     def create_index
@@ -90,7 +91,7 @@ module RelatonIec
       while next_page
         res = fetch_page_token page
         unless res.code == "200"
-          warn "[relaton-iec] #{res.body}"
+          Util.warn "#{res.body}"
           break
         end
         json = JSON.parse res.body
@@ -162,7 +163,7 @@ module RelatonIec
       bib = DataParser.new(pub).parse
       did = bib.docidentifier.detect &:primary
       file = File.join(@output, "#{did.id.downcase.gsub(/[:\s\/]/, '_')}.#{@ext}")
-      if @files.include? file then warn "File #{file} exists."
+      if @files.include? file then Util.warn "File #{file} exists."
       else
         @files << file
         # @index.add index_id(pub), file, pub["lastChangeTimestamp"]

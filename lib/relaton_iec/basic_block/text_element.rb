@@ -10,8 +10,7 @@ module BasicBlock
     #
     def initialize(tag:, content:)
       unless TAGS.include? tag
-        warn "[basic-block] WARNING: invalid tag \"#{tag}\""
-        warn "[basic-block] allowed tags are: #{TAGS.join ', '}"
+        Util.warn "invalid tag `#{tag}`\nallowed tags are: `#{TAGS.join '`, `'}`"
       end
       @tag = tag
       @content = content

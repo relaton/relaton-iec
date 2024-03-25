@@ -74,12 +74,12 @@ module BasicBlock
       # @option args [String, nil] :valign
       def initialize(content, **args) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
         if args[:align] && !ALIGNS.include?(args[:align])
-          warn "[basic-block] WARNING: invalid table/tr/td align \"#{args[:align]}\""
-          warn "[basic-block] alloved aligns are: #{ALIGNS.join ', '}"
+          Util.warn "invalid table/tr/td align `#{args[:align]}`\n" \
+            "alloved aligns are: `#{ALIGNS.join '`, `'}`"
         end
         if args[:valign] && !VALIGNS.include?(args[:valign])
-          warn "[basic-block] WARNING: invalid table/tr/td valign \"#{args[:valign]}\""
-          warn "[basic-block] alloved valigns are: #{VALIGNS.join ', '}"
+          Util.warn "invalid table/tr/td valign `#{args[:valign]}`\n" \
+            "alloved valigns are: `#{VALIGNS.join '`, `'}`"
         end
         @content = content
         @colspan = args[:colspan]
