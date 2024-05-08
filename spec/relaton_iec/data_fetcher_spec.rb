@@ -139,7 +139,7 @@ describe RelatonIec::DataFetcher do
       end
 
       it "and save YAML" do
-        expect(bib).to receive(:to_hash).and_return({ id: "id" })
+        expect(bib).to receive(:to_h).and_return({ id: "id" })
         expect(File).to receive(:write).with("data/cispr_11_2009_amd1_2010.yaml", /id: id/, encoding: "UTF-8")
         # expect(subject).to receive(:index_id).with(pub).and_return "CISPR 11:2009/AMD1:2010"
         # index = subject.instance_variable_get :@index
@@ -166,7 +166,7 @@ describe RelatonIec::DataFetcher do
 
       it "warn if file exists" do
         subject.instance_variable_set :@files, ["data/cispr_11_2009_amd1_2010.yaml"]
-        expect(bib).to receive(:to_hash).and_return({ id: "id" })
+        expect(bib).to receive(:to_h).and_return({ id: "id" })
         expect(File).to receive(:write).with("data/cispr_11_2009_amd1_2010.yaml", /id: id/, encoding: "UTF-8")
         expect { subject.fetch_pub pub }.to output(/File data\/cispr_11_2009_amd1_2010\.yaml exists/).to_stderr
       end

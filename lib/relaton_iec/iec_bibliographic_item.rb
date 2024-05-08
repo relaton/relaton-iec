@@ -97,7 +97,7 @@ module RelatonIec
     end
 
     # @return [Hash]
-    def to_hash(embedded: false) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
+    def to_h(embedded: false) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
       hash = super
       hash["function"] = function if function
       if updates_document_type

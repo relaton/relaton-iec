@@ -170,7 +170,7 @@ module RelatonIec
       last_change_max pub["lastChangeTimestamp"]
       content = case @format
                 when "xml" then bib.to_xml bibdata: true
-                when "yaml", "yml" then bib.to_hash.to_yaml
+                when "yaml", "yml" then bib.to_h.to_yaml
                 when "bibxml" then bib.to_bibxml
                 end
       File.write file, content, encoding: "UTF-8"
