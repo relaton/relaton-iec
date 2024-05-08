@@ -1,8 +1,8 @@
-<bibdata type="standard" schema-version="v1.2.8">
+<bibdata type="standard" schema-version="v1.3.0">
   <fetched>2020-04-24</fetched>
-  <title type="title-intro" format="text/plain" language="en" script="Latn">Switches for appliances</title>
-  <title type="title-main" format="text/plain" language="en" script="Latn">Part 2-4: Particular requirements for independently mounted switches</title>
-  <title type="main" format="text/plain" language="en" script="Latn">Switches for appliances – Part 2-4: Particular requirements for independently mounted switches</title>
+  <title type="title-intro" language="en" script="Latn">Switches for appliances</title>
+  <title type="title-main" language="en" script="Latn">Part 2-4: Particular requirements for independently mounted switches</title>
+  <title type="main" language="en" script="Latn">Switches for appliances – Part 2-4: Particular requirements for independently mounted switches</title>
   <uri type="src">https://webstore.iec.ch/publication/4385</uri>
   <uri type="obp">/preview/info_iec61058-2-4%7Bed1.1%7Db.pdf</uri>
   <docidentifier type="IEC" primary="true">IEC 61058-2-4:1995+AMD1:2003 CSV</docidentifier>
@@ -20,7 +20,7 @@
   <edition>1.1</edition>
   <language>en</language>
   <script>Latn</script>
-  <abstract format="text/plain" language="en" script="Latn">Applies to independently mounted switches for appliances actuated
+  <abstract language="en" script="Latn">Applies to independently mounted switches for appliances actuated
 by hand, by foot or by other human activity for use with
 appliances and other equipment for household and similar purposes,
 with a rated voltage not exceeding 440 V and a rated current not

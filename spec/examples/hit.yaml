@@ -1,5 +1,5 @@
 ---
-schema-version: v1.2.8
+schema-version: v1.3.0
 id: IEC61058-2-4-1995+AMD1-2003CSV
 title:
 - type: title-intro
@@ -8,14 +8,12 @@ title:
   - en
   script:
   - Latn
-  format: text/plain
 - type: title-main
   content: 'Part 2-4: Particular requirements for independently mounted switches'
   language:
   - en
   script:
   - Latn
-  format: text/plain
 - type: main
   content: 'Switches for appliances – Part 2-4: Particular requirements for independently
     mounted switches'
@@ -23,7 +21,6 @@ title:
   - en
   script:
   - Latn
-  format: text/plain
 link:
 - content: https://webstore.iec.ch/publication/4385
   type: src
@@ -55,17 +52,16 @@ language:
 script:
 - Latn
 abstract:
-- content: "Applies to independently mounted switches for appliances actuated\r\nby
-    hand, by foot or by other human activity for use with\r\nappliances and other
-    equipment for household and similar purposes,\r\nwith a rated voltage not exceeding
-    440 V and a rated current not\r\nexceeding 63 A.\r\n\r\nThis consolidated version
-    consists of the first edition (1995)   \r\nand its amendment 1 (2003). Therefore,
-    no need to order amendment in\r\naddition to this publication.                                   \r\n"
+- content: "Applies to independently mounted switches for appliances actuated\nby
+    hand, by foot or by other human activity for use with\nappliances and other
+    equipment for household and similar purposes,\nwith a rated voltage not exceeding
+    440 V and a rated current not\nexceeding 63 A.\n\nThis consolidated version
+    consists of the first edition (1995)   \nand its amendment 1 (2003). Therefore,
+    no need to order amendment in\naddition to this publication.                                   \n"
   language:
   - en
   script:
   - Latn
-  format: text/plain
 docstatus:
   stage:
     value: '60'
@@ -73,11 +69,12 @@ docstatus:
     value: '00'
 copyright:
 - owner:
-  - name:
-    - content: International Electrotechnical Commission
-    abbreviation:
-      content: IEC
-    url: www.iec.ch
+  - organization:
+      name:
+      - content: International Electrotechnical Commission
+      abbreviation:
+        content: IEC
+      url: www.iec.ch
   from: '1995'
 place:
 - Geneva

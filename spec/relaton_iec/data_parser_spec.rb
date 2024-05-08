@@ -94,14 +94,14 @@ describe RelatonIec::DataParser do
       expect(title).to be_instance_of Array
       expect(title.size).to eq 2
       expect(title[0]).to be_instance_of RelatonBib::TypedTitleString
-      expect(title[0].title.content).to eq "Title"
-      expect(title[0].title.language).to eq ["en"]
-      expect(title[0].title.script).to eq ["Latn"]
+      expect(title[0].to_s).to eq "Title"
+      expect(title[0].language).to eq ["en"]
+      expect(title[0].script).to eq ["Latn"]
       expect(title[0].type).to eq "main"
       expect(title[1]).to be_instance_of RelatonBib::TypedTitleString
-      expect(title[1].title.content).to eq "Titre"
-      expect(title[1].title.language).to eq ["fr"]
-      expect(title[1].title.script).to eq ["Latn"]
+      expect(title[1].to_s).to eq "Titre"
+      expect(title[1].language).to eq ["fr"]
+      expect(title[1].script).to eq ["Latn"]
       expect(title[1].type).to eq "main"
     end
 
