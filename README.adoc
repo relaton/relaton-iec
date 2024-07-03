@@ -31,20 +31,6 @@ Or install it yourself as:
 
 == Usage
 
-=== Configuration
-
-Configuration is optional. The available option is `logger` which is a `Logger` instance. By default, the logger is `Logger.new($stderr)` with `Logger::WARN` level. To change the logger level, use `RelatonIec.configure` block.
-
-[source,ruby]
-----
-require 'relaton_iec'
-=> true
-
-RelatonIec.configure do |config|
-  config.logger.level = Logger::DEBUG
-end
-----
-
 === Search for a standard using keywords
 
 `RelatonIec::IecBibliography.search(ref, year)` method returns hits collection. Each hit can be used to fetch a document.
@@ -54,6 +40,9 @@ end
 
 [source,ruby]
 ----
+require 'relaton_iec'
+=> true
+
 hit_collection = RelatonIec::IecBibliography.search("60050")
 => <RelatonIec::HitCollection:0x007fe0d7126f28 @ref=60050 @fetched=false>
 
@@ -270,6 +259,10 @@ Stopped at: 2022-06-23 09:36:58 +0200
 Done in: 752 sec.
 => nil
 ----
+
+=== Logging
+
+RelatonIec uses the relaton-logger gem for logging. By default, it logs to STDOUT. To change the log levels and add other loggers, read the https://github.com/relaton/relaton-logger#usage[relaton-logger] documentation.
 
 == Development
 
