@@ -24,7 +24,8 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = Gem::Requirement.new(">= 2.7.0")
 
   spec.add_dependency "addressable"
+  spec.add_dependency "base64"
   spec.add_dependency "relaton-index", "~> 0.2.0"
-  spec.add_dependency "relaton-iso-bib", "~> 1.18.1"
+  spec.add_dependency "relaton-iso-bib", "~> 1.19.0"
   spec.add_dependency "rubyzip"
 end

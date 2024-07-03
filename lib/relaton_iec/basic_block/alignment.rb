@@ -7,8 +7,7 @@ module BasicBlock
     #
     def initialize(content)
       unless ALIGNS.include?(content)
-        warn "[basic-block] WARNING: invalid alignment \"#{content}\""
-        warn "[basic-block] alloved aligments are: #{ALIGNS.join ', '}"
+        Util.warn "invalid alignment `#{content}`\nalloved aligments are: `#{ALIGNS.join '`, `'}`"
       end
       @content = content
     end

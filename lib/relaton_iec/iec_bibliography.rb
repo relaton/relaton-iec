@@ -46,8 +46,8 @@ module RelatonIec
       # @param missed_years [Array<String>]
       def warn_missing_years(pubid, year, missed_years)
         id = ref_with_year(pubid, year)
-        Util.warn "(#{id}) TIP: No match for edition year `#{year}`, " \
-                  "but matches exist for `#{missed_years.uniq.join('`, `')}`."
+        Util.info "TIP: No match for edition year `#{year}`, " \
+                  "but matches exist for `#{missed_years.uniq.join('`, `')}`.", key: id
       end
 
       # @param code [String]
@@ -56,7 +56,7 @@ module RelatonIec
       def fetch_ref_err(code, year, missed_years) # rubocop:disable Metrics/MethodLength
         id = ref_with_year(code, year)
 
-        Util.warn "(#{id}) Not found."
+        Util.info "Not found.", key: id
 
         if year && missed_years.any?
           warn_missing_years(code, year, missed_years)
@@ -65,11 +65,11 @@ module RelatonIec
         # TODO: change this to pubid-iec
         has_part = /\d-\d/.match?(code)
         if has_part
-          Util.warn "(#{id}) TIP: If it cannot be found, the document may no longer be published in parts."
+          Util.info "TIP: If it cannot be found, the document may no longer be published in parts.", key: id
 
         else
-          Util.warn "(#{id}) TIP: If you wish to cite all document parts for " \
-                    "the reference, use `#{code} (all parts)`."
+          Util.info "TIP: If you wish to cite all document parts for " \
+                    "the reference, use `#{code} (all parts)`.", key: id
         end
 
         # TODO: streamline after integration with pubid-iec
@@ -78,11 +78,9 @@ module RelatonIec
           code.include?("#{t} ")
         end
         unless selected_doctype
-          Util.warn "(#{id}) TIP: If the document is not an International Standard, use its " \
-                    "deliverable type abbreviation `#{doctypes.join('`, `')}`."
+          Util.info "TIP: If the document is not an International Standard, use its " \
+                    "deliverable type abbreviation `#{doctypes.join('`, `')}`.", key: id
         end
-
-        nil
       end
 
       # @param ref [String]
@@ -125,7 +123,7 @@ module RelatonIec
       # @return [RelatonIec::HitCollection]
       def search_filter(ref, year)
         code = ref.split(":").first
-        Util.warn "(#{ref_with_year(ref, year)}) Fetching from Relaton repsitory ..."
+        Util.info "Fetching from Relaton repsitory ...", key: ref_with_year(ref, year)
         search(code)
       end
 
@@ -257,12 +255,12 @@ module RelatonIec
 
         # if id == docid then Util.warn "(#{id}) Found exact match."
         # else
-        Util.warn "(#{id}) Found: `#{docid}`"
+        Util.info "Found: `#{docid}`", key: id
         # end
 
         if ret[:missed_parts]
-          Util.warn "(#{id}) TIP: `#{code}` also contains other parts, " \
-                    "if you want to cite all parts, use `#{code} (all parts)`."
+          Util.info "TIP: `#{code}` also contains other parts, " \
+                    "if you want to cite all parts, use `#{code} (all parts)`.", key: id
         end
 
         ret[:ret]
