@@ -110,12 +110,12 @@ module RelatonIec
     #
     # Parse titles.
     #
-    # @return [Array<RelatonBib::TypedTitleString>] titles
+    # @return [RelatonBib::TypedTitleStringCollection] titles
     #
     def title
-      @pub["title"].map do |t|
-        RelatonBib::TypedTitleString.new(
-          content: t["value"], language: t["lang"], script: lang_to_script(t["lang"]), type: "main",
+      @pub["title"].reduce(RelatonBib::TypedTitleStringCollection.new) do |a, t|
+        a + RelatonBib::TypedTitleString.from_string(
+          t["value"], t["lang"], lang_to_script(t["lang"])
         )
       end
     end

@@ -115,20 +115,16 @@ RSpec.describe RelatonIec do
     end
 
     context "all parts" do
-      it "by reference" do
-        VCR.use_cassette "iec_80000_all_parts" do
-          results = RelatonIec::IecBibliography.get "IEC 80000 (all parts)"
-          expect(results.docidentifier.first.id).to eq "IEC 80000 (all parts)"
-          expect(results.docidentifier.last.id).to eq "urn:iec:std:iec:80000:::ser"
-        end
+      it "by reference", vcr: "iec_80000_all_parts" do
+        results = RelatonIec::IecBibliography.get "IEC 80000 (all parts)"
+        expect(results.docidentifier.first.id).to eq "IEC 80000 (all parts)"
+        expect(results.docidentifier.last.id).to eq "urn:iec:std:iec:80000:::ser"
       end
 
-      it "by options" do
-        VCR.use_cassette "iec_80000_all_parts" do
-          results = RelatonIec::IecBibliography.get("IEC 80000", nil, { all_parts: true })
-          expect(results.docidentifier.first.id).to eq "IEC 80000 (all parts)"
-          expect(results.docidentifier.last.id).to eq "urn:iec:std:iec:80000:::ser"
-        end
+      it "by options", vcr: "iec_80000_all_parts" do
+        results = RelatonIec::IecBibliography.get("IEC 80000", nil, { all_parts: true })
+        expect(results.docidentifier.first.id).to eq "IEC 80000 (all parts)"
+        expect(results.docidentifier.last.id).to eq "urn:iec:std:iec:80000:::ser"
       end
 
       it "IEC 61326:2020" do

@@ -4,8 +4,8 @@ describe RelatonIec::DataParser do
       "urn" => "iec:pub:64772", "reference" => "IEC/ISO 1234-1-2", "edition" => "1",
       "urnAlt" => ["urnId"], "stdType" => "IS",
       "title" => [
-        { "lang" => "en", "value" => "Title" },
-        { "lang" => "fr", "value" => "Titre" },
+        { "lang" => "en", "value" => "Title - Part 05" },
+        { "lang" => "fr", "value" => "Titre - Partie 05" },
       ],
       "priceInfo" => { "priceCode" => "PC" },
       "committee" => { "reference" => "WG1" },
@@ -91,18 +91,32 @@ describe RelatonIec::DataParser do
 
     it "#title" do
       title = subject.title
-      expect(title).to be_instance_of Array
-      expect(title.size).to eq 2
-      expect(title[0]).to be_instance_of RelatonBib::TypedTitleString
+      expect(title).to be_instance_of RelatonBib::TypedTitleStringCollection
+      expect(title.size).to eq 6
       expect(title[0].title.content).to eq "Title"
       expect(title[0].title.language).to eq ["en"]
       expect(title[0].title.script).to eq ["Latn"]
-      expect(title[0].type).to eq "main"
-      expect(title[1]).to be_instance_of RelatonBib::TypedTitleString
-      expect(title[1].title.content).to eq "Titre"
-      expect(title[1].title.language).to eq ["fr"]
+      expect(title[0].type).to eq "title-intro"
+      expect(title[1].title.content).to eq "Part 05"
+      expect(title[1].title.language).to eq ["en"]
       expect(title[1].title.script).to eq ["Latn"]
-      expect(title[1].type).to eq "main"
+      expect(title[1].type).to eq "title-main"
+      expect(title[2].title.content).to eq "Title - Part 05"
+      expect(title[2].title.language).to eq ["en"]
+      expect(title[2].title.script).to eq ["Latn"]
+      expect(title[2].type).to eq "main"
+      expect(title[3].title.content).to eq "Titre"
+      expect(title[3].title.language).to eq ["fr"]
+      expect(title[3].title.script).to eq ["Latn"]
+      expect(title[3].type).to eq "title-intro"
+      expect(title[4].title.content).to eq "Partie 05"
+      expect(title[4].title.language).to eq ["fr"]
+      expect(title[4].title.script).to eq ["Latn"]
+      expect(title[4].type).to eq "title-main"
+      expect(title[5].title.content).to eq "Titre - Partie 05"
+      expect(title[5].title.language).to eq ["fr"]
+      expect(title[5].title.script).to eq ["Latn"]
+      expect(title[5].type).to eq "main"
     end
 
     it "#editorialgroup" do
