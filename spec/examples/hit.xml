@@ -1,6 +1,10 @@
 <bibdata type="standard" schema-version="v1.2.9">
-  <fetched>2023-04-15</fetched>
+  <fetched>2024-07-11</fetched>
+  <title type="title-intro" format="text/plain" language="en" script="Latn">Switches for appliances</title>
+  <title type="title-main" format="text/plain" language="en" script="Latn">Part 2-4: Particular requirements for independently mounted switches</title>
   <title type="main" format="text/plain" language="en" script="Latn">Switches for appliances - Part 2-4: Particular requirements for independently mounted switches</title>
+  <title type="title-intro" format="text/plain" language="fr" script="Latn">Interrupteurs pour appareils</title>
+  <title type="title-main" format="text/plain" language="fr" script="Latn">Partie 2-4: Exigences particulières pour les interrupteurs à montage indépendant</title>
   <title type="main" format="text/plain" language="fr" script="Latn">Interrupteurs pour appareils - Partie 2-4: Exigences particulières pour les interrupteurs à montage indépendant</title>
   <uri type="src">https://webstore.iec.ch/publication/59516</uri>
   <uri type="obp">https://webstore.iec.ch/preview/info_iec61058-2-4{ed2.0}b.pdf</uri>
@@ -47,24 +51,6 @@ Ce document doit être utilisé conjointement avec l'IEC 61058-1:2016.</p></abst
       </organization>
     </owner>
   </copyright>
-  <relation type="updates">
-    <bibitem type="standard">
-      <formattedref format="text/plain">IEC 61058-2-4:1995+AMD1:2003 CSV</formattedref>
-      <docidentifier type="IEC" primary="true">IEC 61058-2-4:1995+AMD1:2003 CSV</docidentifier>
-    </bibitem>
-  </relation>
-  <relation type="updates">
-    <bibitem type="standard">
-      <formattedref format="text/plain">IEC 61058-2-4:1995/AMD1:2003</formattedref>
-      <docidentifier type="IEC" primary="true">IEC 61058-2-4:1995/AMD1:2003</docidentifier>
-    </bibitem>
-  </relation>
-  <relation type="updates">
-    <bibitem type="standard">
-      <formattedref format="text/plain">IEC 61058-2-4:1995</formattedref>
-      <docidentifier type="IEC" primary="true">IEC 61058-2-4:1995</docidentifier>
-    </bibitem>
-  </relation>
   <place>Geneva</place>
   <ext schema-version="v1.0.0">
     <doctype>international-standard</doctype>

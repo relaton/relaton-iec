@@ -81,7 +81,7 @@ RSpec.describe RelatonIec do
           '<docidentifier type="IEC" primary="true">IEC 60050</docidentifier>',
         )
       end.to output(
-        /\[relaton-iec\] INFO: \(IEC 60050-102:2007\) Fetching from Relaton repsitory .../
+        /\[relaton-iec\] INFO: \(IEC 60050-102:2007\) Fetching from Relaton repsitory .../,
       ).to_stderr_from_any_process
     end
 
@@ -92,7 +92,7 @@ RSpec.describe RelatonIec do
         expect(results).to include(
           '<title type="main" format="text/plain" language="en" ' \
           'script="Latn">International Electrotechnical Vocabulary (IEV) - ' \
-          "Part 102: Mathematics - General concepts and linear algebra</title>",
+          "Part 102: Mathematics -- General concepts and linear algebra</title>",
         )
       end
     end
