@@ -5,7 +5,7 @@ module RelatonIec
     FUNCTION = %w[emc safety enviroment quality-assurance].freeze
 
     # @return [String, nil]
-    attr_reader :function, :updates_document_type, :price_code, :secretary,
+    attr_reader :function, :updates_document_type, :secretary,
                 :interest_to_committees
 
     # @return [Boolean, nil]
@@ -43,7 +43,6 @@ module RelatonIec
       @function = args.delete :function
       @updates_document_type = args.delete :updates_document_type
       @accessibility_color_inside = args.delete :accessibility_color_inside
-      @price_code = args.delete :price_code
       @cen_processing = args.delete :cen_processing
       @secretary = args.delete :secretary
       @interest_to_committees = args.delete :interest_to_committees
@@ -103,20 +102,24 @@ module RelatonIec
     # @return [Hash]
     def to_hash(embedded: false) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
       hash = super
-      hash["function"] = function if function
+      hash["ext"]["function"] = function if function
       if updates_document_type
-        hash["updates_document_type"] = updates_document_type
+        hash["ext"]["updates_document_type"] = updates_document_type
       end
       unless accessibility_color_inside.nil?
-        hash["accessibility_color_inside"] = accessibility_color_inside
+        hash["ext"]["accessibility_color_inside"] = accessibility_color_inside
       end
-      hash["price_code"] = price_code if price_code
-      hash["cen_processing"] = cen_processing unless cen_processing.nil?
-      hash["secretary"] = secretary if secretary
+      hash["ext"]["cen_processing"] = cen_processing unless cen_processing.nil?
+      hash["ext"]["secretary"] = secretary if secretary
       if interest_to_committees
-        hash["interest_to_committees"] = interest_to_committees
+        hash["ext"]["interest_to_committees"] = interest_to_committees
       end
       hash
+    end
+
+    def has_ext?
+      super || function || updates_document_type || !accessibility_color_inside.nil? ||
+        !cen_processing.nil? || secretary || interest_to_committees
     end
   end
 end

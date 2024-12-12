@@ -82,25 +82,25 @@ copyright:
 place:
 - Geneva
 fetched: '2020-04-24'
-editorialgroup:
-  technical_committee:
-  - name: TC 23/SC 23J - Switches for appliances
-    type: technicalCommittee
-    number: 23
-ics:
-- code: 29.120.40
-  text: Switches
-structuredidentifier:
-  project_number: '61058'
-  type: IEC
-doctype:
-  type: international-standard
-function: emc
-updates_document_type: guide
-accessibility_color_inside: true
-price_code: pc
-cen_processing: false
-secretary: sec
-interest_to_committees: itc
 ext:
   schema-version: v1.0.0
+  editorialgroup:
+    technical_committee:
+    - name: TC 23/SC 23J - Switches for appliances
+      type: technicalCommittee
+      number: 23
+  ics:
+  - code: 29.120.40
+    text: Switches
+  structuredidentifier:
+    project_number: '61058'
+    type: IEC
+  doctype:
+    type: international-standard
+  function: emc
+  updates_document_type: guide
+  accessibility_color_inside: true
+  price_code: pc
+  cen_processing: false
+  secretary: sec
+  interest_to_committees: itc
