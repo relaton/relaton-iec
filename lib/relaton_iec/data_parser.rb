@@ -64,13 +64,11 @@ module RelatonIec
     # @return [RelatonIsoBib::StructuredIdentifier] structured identifier
     #
     def structuredidentifier
-      m = @pub["reference"].match(
-        /(?<=\s)(?<project>\w+)(?:-(?<part>\w*)(?:-(?<subpart>\w*))?)?/,
-      )
-      RelatonIsoBib::StructuredIdentifier.new(
-        project_number: m[:project], part: m[:part], subpart: m[:subpart],
-        type: "IEC", id: @pub["reference"]
-      )
+      urn = @pub.dig("project", "urn")
+      return unless urn
+
+      pnum = urn.split(":").last
+      RelatonIsoBib::StructuredIdentifier.new(project_number: pnum, type: "IEC")
     end
 
     #

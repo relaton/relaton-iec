@@ -22,7 +22,8 @@ describe RelatonIec::DataParser do
       "stabilityDate" => "2021-12-31", "dateOfWithdrawal" => "2022-11-21",
       "releaseItems" => [
         { "type" => "PREVIEW", "contentRef" => { "fileName" => "file.pdf" } },
-      ]
+      ],
+      "project" => { "urn" => "iec:proj:1234" },
     }
   end
   subject { RelatonIec::DataParser.new(pub) }
@@ -77,8 +78,7 @@ describe RelatonIec::DataParser do
       str_id = subject.structuredidentifier
       expect(str_id).to be_instance_of RelatonIsoBib::StructuredIdentifier
       expect(str_id.project_number).to eq "1234"
-      expect(str_id.part).to eq "1"
-      expect(str_id.subpart).to eq "2"
+      expect(str_id.type).to eq "IEC"
     end
 
     it "#language" do
