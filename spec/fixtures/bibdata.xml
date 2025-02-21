@@ -1,0 +1,82 @@
+<bibdata type="standard" schema-version="v1.2.9">
+  <fetched>2020-04-24</fetched>
+  <title language="en" script="Latn" type="title-intro">Switches for appliances</title>
+  <title language="en" script="Latn" type="title-main">Part 2-4: Particular requirements for independently mounted switches</title>
+  <title language="en" script="Latn" type="main">Switches for appliances – Part 2-4: Particular requirements for independently mounted switches</title>
+  <uri type="src">https://webstore.iec.ch/publication/4385</uri>
+  <uri type="obp">/preview/info_iec61058-2-4%7Bed1.1%7Db.pdf</uri>
+  <docidentifier type="IEC" primary="true">IEC 61058-2-4:1995+AMD1:2003 CSV</docidentifier>
+  <date type="published">
+    <on>2003-03-18</on>
+  </date>
+  <contributor>
+    <role type="publisher"/>
+    <organization>
+      <name>International Electrotechnical Commission</name>
+      <abbreviation>IEC</abbreviation>
+      <uri>www.iec.ch</uri>
+    </organization>
+  </contributor>
+  <edition>1.1</edition>
+  <language>en</language>
+  <script>Latn</script>
+  <abstract language="en" script="Latn">Applies to independently mounted switches for appliances actuated
+by hand, by foot or by other human activity for use with
+appliances and other equipment for household and similar purposes,
+with a rated voltage not exceeding 440 V and a rated current not
+exceeding 63 A.
+
+This consolidated version consists of the first edition (1995)   
+and its amendment 1 (2003). Therefore, no need to order amendment in
+addition to this publication.                                   
+</abstract>
+  <status>
+    <stage>60</stage>
+    <substage>00</substage>
+  </status>
+  <copyright>
+    <from>1995</from>
+    <owner>
+      <organization>
+        <name>International Electrotechnical Commission</name>
+        <abbreviation>IEC</abbreviation>
+        <uri>www.iec.ch</uri>
+      </organization>
+    </owner>
+  </copyright>
+  <place>
+    <city>Geneva</city>
+  </place>
+  <ext schema-version="v1.0.0">
+    <doctype>international-standard</doctype>
+    <subdoctype>code-of-practice</subdoctype>
+    <flavor>iec</flavor>
+    <horizontal>false</horizontal>
+    <function>emc</function>
+    <editorialgroup>
+      <agency>IEC</agency>
+      <technical-committee number="23" type="technicalCommittee" identifier="TC 23" prefix="SC">TC 23/SC 23J - Switches for appliances</technical-committee>
+      <subcommittee number="23" type="subcommittee" identifier="SC 23J" prefix="TC">TC 23/SC 23J - Switches for appliances</subcommittee>
+      <workgroup number="23" type="workgroup" identifier="WG 23J" prefix="TC">TC 23/SC 23J/WG 23J - Switches for appliances</workgroup>
+      <secretariat>IEC/TC 23/SC 23J</secretariat>
+    </editorialgroup>
+    <ics>
+      <code>29.120.40</code>
+      <text>Switches</text>
+    </ics>
+    <structuredidentifier type="IEC">
+      <project-number part="1" subpart="2" amendment="3" corrigendum="4" origyr="1995">61058</project-number>
+      <tc-document-number>2</tc-document-number>
+    </structuredidentifier>
+    <stagename abbreviation="CDV">Committee Draft for Vote</stagename>
+    <updates-document-type>guide</updates-document-type>
+    <price-code>pc</price-code>
+    <accessibility-color-inside>true</accessibility-color-inside>
+    <cen-processing>false</cen-processing>
+    <secretary>sec</secretary>
+    <interest-to-committees>itc</interest-to-committees>
+    <tc-sc-officers-note>
+      <p id="p22">IEC 61058-2-4:1995+AMD1:2003 CSV is a consolidated version of the first edition (1995) and its amendment 1 (2003). Therefore, no need to order amendment in addition to this publication.</p>
+    </tc-sc-officers-note>
+  </ext>
+</bibdata>

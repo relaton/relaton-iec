@@ -1,16 +1,16 @@
 lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "relaton_iec/version"
+require "relaton/iec/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "relaton-iec"
-  spec.version       = RelatonIec::VERSION
+  spec.version       = Relaton::Iec::VERSION
   spec.authors       = ["Ribose Inc."]
   spec.email         = ["open.source@ribose.com"]
 
-  spec.summary       = "RelatonIec: retrieve IEC Standards for bibliographic " \
+  spec.summary       = "Relaton::Iec: retrieve IEC Standards for bibliographic " \
                        "use using the IecBibliographicItem model"
-  spec.description   = "RelatonIec: retrieve IEC Standards for bibliographic " \
+  spec.description   = "Relaton::Iec: retrieve IEC Standards for bibliographic " \
                        "use using the IecBibliographicItem model"
   spec.homepage      = "https://github.com/relaton/relaton-iec"
   spec.license       = "MIT"
@@ -26,6 +26,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "addressable"
   spec.add_dependency "base64"
   spec.add_dependency "relaton-index", "~> 0.2.0"
-  spec.add_dependency "relaton-iso-bib", "~> 1.20.0"
+  spec.add_dependency "relaton-iso", "~> 2.0.0-alpha.1"
   spec.add_dependency "rubyzip"
 end
