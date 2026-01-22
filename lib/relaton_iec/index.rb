@@ -122,9 +122,11 @@ module RelatonIec
     # @return [Hash] index content
     #
     def get_index_from_gh # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-      resp = Zip::InputStream.new URI("#{Hit::GHURL}index.zip").open
-      zip = resp.get_next_entry
-      yaml = zip.get_input_stream.read
+      url = "#{Hit::GHURL}index.zip"
+      resp = Mechanize.new.get(url)
+      zip = Zip::InputStream.new(StringIO.new(resp.body))
+      entry = zip.get_next_entry
+      yaml = entry.get_input_stream.read
       index = RelatonBib.parse_yaml yaml, [Symbol]
       File.write path, index.to_yaml, encoding: "UTF-8"
       index
