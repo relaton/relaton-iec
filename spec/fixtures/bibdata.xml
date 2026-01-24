@@ -1,4 +1,4 @@
-<bibdata type="standard" schema-version="v1.2.9">
+<bibdata type="standard" schema-version="v1.4.1">
   <fetched>2020-04-24</fetched>
   <title language="en" script="Latn" type="title-intro">Switches for appliances</title>
   <title language="en" script="Latn" type="title-main">Part 2-4: Particular requirements for independently mounted switches</title>
@@ -26,9 +26,9 @@ appliances and other equipment for household and similar purposes,
 with a rated voltage not exceeding 440 V and a rated current not
 exceeding 63 A.
 
-This consolidated version consists of the first edition (1995)   
+This consolidated version consists of the first edition (1995)
 and its amendment 1 (2003). Therefore, no need to order amendment in
-addition to this publication.                                   
+addition to this publication.
 </abstract>
   <status>
     <stage>60</stage>
