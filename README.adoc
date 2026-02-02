@@ -1,4 +1,4 @@
-= RelatonIec: retrieve IEC Standards for bibliographic use using the BibliographicItem model
+= Relaton::Iec: retrieve IEC Standards for bibliographic use using the BibliographicItem model
 
 image:https://img.shields.io/gem/v/relaton-iec.svg["Gem Version", link="https://rubygems.org/gems/relaton-iec"]
 image:https://github.com/relaton/relaton-iec/workflows/macos/badge.svg["Build Status (macOS)", link="https://github.com/relaton/relaton-iec/actions?workflow=macos"]
@@ -8,9 +8,9 @@ image:https://codeclimate.com/github/relaton/relaton-iec/badges/gpa.svg["Code Cl
 image:https://img.shields.io/github/issues-pr-raw/relaton/relaton-iec.svg["Pull Requests", link="https://github.com/relaton/relaton-iec/pulls"]
 image:https://img.shields.io/github/commits-since/relaton/relaton-iec/latest.svg["Commits since latest",link="https://github.com/relaton/relaton-iec/releases"]
 
-RelatonIec is a Ruby gem that implements the https://github.com/metanorma/metanorma-model-iso#iso-bibliographic-item[IsoBibliographicItem model].
+Relaton:Iec is a Ruby gem that implements the https://github.com/metanorma/metanorma-model-iso#iso-bibliographic-item[IsoBibliographicItem model].
 
-You can use it to retrieve metadata of IEC Standards from https://www.iec.ch, and access such metadata through the `IecBibliographicItem` object.
+You can use it to retrieve metadata of IEC Standards from https://www.iec.ch, and access such metadata through the `Relaton::Iec::ItemData` object.
 
 == Installation
 
@@ -33,43 +33,45 @@ Or install it yourself as:
 
 === Search for a standard using keywords
 
-`RelatonIec::IecBibliography.search(ref, year)` method returns hits collection. Each hit can be used to fetch a document.
+`Relaton::Iec::Bibliography.search(ref, year)` method returns hits collection. Each hit can be used to fetch a document.
 
 - `ref` - a reference to search document
 - `year` - filter by year (optional)
 
 [source,ruby]
 ----
-require 'relaton_iec'
+require 'relaton/iec'
 => true
 
-hit_collection = RelatonIec::IecBibliography.search("60050")
-=> <RelatonIec::HitCollection:0x007fe0d7126f28 @ref=60050 @fetched=false>
+hit_collection = Relaton::Iec::Bibliography.search("IEC 60050")
+=> <Relaton::Iec::HitCollection:0x00000000005650 @ref=IEC 60050 @fetched=false>
 
 hit_collection.first
-=> <RelatonIec::Hit:0x000000000003e8 @text="60050" @fetched="false" @fullIdentifier="" @title="IEC 60050-05:1935">
+=> <Relaton::Iec::Hit:0x00000000006260 @reference="IEC 60050" @fetched="false" @docidentifier="IEC 60050-05:1935">
 
-item = hit_collection[2].fetch
-=> #<RelatonIec::IecBibliographicItem:0x007fe1171a06f8
+item = hit_collection[2].item
+=> #<Relaton::Iec::ItemData:0x000000012cbc72a8
 ...
 
-item.docidentifier
-=> [#<RelatonBib::DocumentIdentifier:0x00007ff1b52a2b60 @id="IEC 60050-07:1956", @language=nil, @primary=true, @scope=nil, @script=nil, @type="IEC">,
- #<RelatonBib::DocumentIdentifier:0x00007ff1b52a2a98
-  @id="urn:iec:std:iec:60050-07:1956-01:::",
-  @language=nil,
-  @primary=nil,
-  @scope=nil,
-  @script=nil,
-  @type="URN">]
+item.docidentifier[0].type
+=> "IEC"
 
-item.docidentifier.detect { |di| di.type == "URN" }.id
+item.docidentifier[0].primary
+=> true
+
+item.docidentifier[0].content
+=> "IEC 60050-07:1956"
+
+item.docidentifier[1].type
+=> "URN"
+
+item.docidentifier[1].content
 => "urn:iec:std:iec:60050-07:1956-01:::"
 ----
 
 === Fetch document by keywords
 
-`RelatonIec::IecBibliography.get(ref, year, opts)` method returns the document.
+`Relaton::Iec::Bibliography.get(ref, year, opts)` method returns the document.
 
 - `ref` - a reference to search document
 - `year` - filter by year (optional)
@@ -77,28 +79,28 @@ item.docidentifier.detect { |di| di.type == "URN" }.id
 
 [source,ruby]
 ----
-item = RelatonIec::IecBibliography.get("IEC 60050-112:2010")
-[relaton-iec] (IEC 60050-112:2010) Fetching from Relaton repository ...
-[relaton-iec] (IEC 60050-112:2010) Found: `IEC 60050-112:2010`
-=> #<RelatonIec::IecBibliographicItem:0x00007f876525e8d0
+item = Relaton::Iec::Bibliography.get("IEC 60050-112:2010")
+[relaton-iec] INFO: (IEC 60050-112:2010) Fetching from Relaton repsitory ...
+[relaton-iec] INFO: (IEC 60050-112:2010) Found: `IEC 60050-112:2010`
+=> #<Relaton::Iec::ItemData:0x000000012e5c6410
 ...
 
-item = RelatonIec::IecBibliography.get("IEC 60050-112", "2010", all_parts: true)
-[relaton-iec] (IEC 60050-112) Fetching from Relaton repository ...
-[relaton-iec] (IEC 60050-112) Found: `IEC 60050 (all parts)`
-=> #<RelatonIec::IecBibliographicItem:0x00007f87851888f0
+item = Relaton::Iec::Bibliography.get("IEC 60050-112", "2010", all_parts: true)
+[relaton-iec] INFO: (IEC 60050-112:2010) Fetching from Relaton repsitory ...
+[relaton-iec] INFO: (IEC 60050-112:2010) Found: `IEC 60050 (all parts)`
+=> #<Relaton::Iec::ItemData:0x000000012e1ebb88
 ...
 
-item.docidentifier.first
-=> #<RelatonBib::DocumentIdentifier:0x00007f878518eea8 @id="IEC 60050 (all parts)", @language=nil, @primary=true, @scope=nil, @script=nil, @type="IEC">
+item.docidentifier.first.content
+=> "IEC 60050 (all parts)"
 
-item = RelatonIec::IecBibliography.get("IEC 60050-112", "2010")
-[relaton-iec] (IEC 60050-112) Fetching from Relaton repository ...
-[relaton-iec] (IEC 60050-112) Found: `IEC 60050-112:2010`
-=> #<RelatonIec::IecBibliographicItem:0x007fa69f296da8
+item = Relaton::Iec::Bibliography.get("IEC 60050-112", "2010")
+[relaton-iec] INFO: (IEC 60050-112:2010) Fetching from Relaton repsitory ...
+[relaton-iec] INFO: (IEC 60050-112:2010) Found: `IEC 60050-112:2010`
+=> #<Relaton::Iec::ItemData:0x000000012f0c6b80
 
-item.docidentifier.first
-=> #<RelatonBib::DocumentIdentifier:0x00007f876530c2c8 @id="IEC 60050-112:2010", @language=nil, @primary=true, @scope=nil, @script=nil, @type="IEC">
+item.docidentifier.first.content
+=> "IEC 60050-112:2010"
 ----
 
 === Search for ISO/IEC Directives
@@ -120,23 +122,40 @@ Possible options:
 [source,ruby]
 ----
 item.to_xml
-=> "<bibitem id="IEC60050-112-2010" type="standard" schema-version="v1.2.1">
-      <fetched>2023-03-01</fetched>
-      <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) - Part 112: Quantities and units</title>
-      <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV) - Partie 112: Grandeurs et unités</title>
-      <title type="main" format="text/plain" language="es" script="Latn">Versión Oficial En español - Vocabulario Electrotécnico Internacional. Parte 112: Magnitudes y unidades.</title>
+=> "<bibitem id="IEC600501122010" type="standard" schema-version="v1.4.1">
+      <fetched>2026-02-02</fetched>
+      <title language="en" script="Latn" type="title-main">International Electrotechnical Vocabulary (IEV)</title>
+      <title language="en" script="Latn" type="title-part">Part 112: Quantities and units</title>
+      <title language="en" script="Latn" type="main">International Electrotechnical Vocabulary (IEV) - Part 112: Quantities and units</title>
+      <title language="fr" script="Latn" type="title-main">Vocabulaire Electrotechnique International (IEV)</title>
+      <title language="fr" script="Latn" type="title-part">Partie 112: Grandeurs et unités</title>
+      <title language="fr" script="Latn" type="main">Vocabulaire Electrotechnique International (IEV) - Partie 112: Grandeurs et unités</title>
+      <title language="es" script="Latn" type="title-intro">Versión Oficial En español</title>
+      <title language="es" script="Latn" type="title-main">Vocabulario Electrotécnico Internacional. Parte 112: Magnitudes y unidades.</title>
+      <title language="es" script="Latn" type="main">Versión Oficial En español - Vocabulario Electrotécnico Internacional. Parte 112: Magnitudes y unidades.</title>
       <uri type="src">https://webstore.iec.ch/publication/162</uri>
+      <uri type="obp">https://webstore.iec.ch/preview/info_iec60050-112{ed1.0}b.pdf</uri>
+      <docidentifier type="IEC" primary="true">IEC 60050-112:2010</docidentifier>
+      <docidentifier type="URN">urn:iec:std:iec:60050-112:2010-01:::</docidentifier>
       ...
     </bibitem>"
 
 item.to_xml bibdata: true
-=> "<bibdata type="standard" schema-version="v1.2.1">
-      <fetched>2023-03-01</fetched>
-      <title type="main" format="text/plain" language="en" script="Latn">International Electrotechnical Vocabulary (IEV) - Part 112: Quantities and units</title>
-      <title type="main" format="text/plain" language="fr" script="Latn">Vocabulaire Electrotechnique International (IEV) - Partie 112: Grandeurs et unités</title>
-      <title type="main" format="text/plain" language="es" script="Latn">Versión Oficial En español - Vocabulario Electrotécnico Internacional. Parte 112: Magnitudes y unidades.</title>
+=> "<bibdata type="standard" schema-version="v1.4.1">
+      <fetched>2026-02-02</fetched>
+      <title language="en" script="Latn" type="title-main">International Electrotechnical Vocabulary (IEV)</title>
+      <title language="en" script="Latn" type="title-part">Part 112: Quantities and units</title>
+      <title language="en" script="Latn" type="main">International Electrotechnical Vocabulary (IEV) - Part 112: Quantities and units</title>
+      <title language="fr" script="Latn" type="title-main">Vocabulaire Electrotechnique International (IEV)</title>
+      <title language="fr" script="Latn" type="title-part">Partie 112: Grandeurs et unités</title>
+      <title language="fr" script="Latn" type="main">Vocabulaire Electrotechnique International (IEV) - Partie 112: Grandeurs et unités</title>
+      <title language="es" script="Latn" type="title-intro">Versión Oficial En español</title>
+      <title language="es" script="Latn" type="title-main">Vocabulario Electrotécnico Internacional. Parte 112: Magnitudes y unidades.</title>
+      <title language="es" script="Latn" type="main">Versión Oficial En español - Vocabulario Electrotécnico Internacional. Parte 112: Magnitudes y unidades.</title>
       <uri type="src">https://webstore.iec.ch/publication/162</uri>
       <uri type="obp">https://webstore.iec.ch/preview/info_iec60050-112{ed1.0}b.pdf</uri>
+      <docidentifier type="IEC" primary="true">IEC 60050-112:2010</docidentifier>
+      <docidentifier type="URN">urn:iec:std:iec:60050-112:2010-01:::</docidentifier>
       ...
       <ext schema-version="v1.0.0">
         <doctype>international-standard</doctype>
@@ -144,44 +163,43 @@ item.to_xml bibdata: true
       </ext>
     </bibdata>"
 
-item.to_xml note: [{ text: "Note", type: "note" }]
-=> "<bibitem id="IEC60050-112-2010" type="standard" schema-version="v1.2.1">
+item.to_xml note: [{ content: "Note", type: "note" }]
+=> "<bibitem id="IEC600501122010" type="standard" schema-version="v1.4.1">
       ...
-      <note format="text/plain" type="note">Note</note>
+      <note type="note">Note</note>
       ...
     </bibitem>"
 ----
 
-=== Typed links
+=== Typed source links
 
-Each IEC document has `src` type link and optional `obp` type link.
-
-[source,ruby]
-----
-item.link
-=> [#<RelatonBib::TypedUri:0x00007ff1d50e9e20
-  @content=#<Addressable::URI:0x2260 URI:https://webstore.iec.ch/publication/162>,
-  @language=nil,
-  @script=nil,
-  @type="src">,
- #<RelatonBib::TypedUri:0x00007ff1d50e9498
-  @content=#<Addressable::URI:0x2274 URI:https://webstore.iec.ch/preview/info_iec60050-112{ed1.0}b.pdf>,
-  @language=nil,
-  @script=nil,
-  @type="obp">]
-----
-
-=== Create bibliographic item from Hash
+Each IEC document has `src` type link source and optional `obp` type link source.
 
 [source,ruby]
 ----
-hash = YAML.load_file "spec/examples/hit.yaml"
-=> {"schema-version"=>"v1.2.1",
- "id"=>"IEC61058-2-4-1995+AMD1-2003CSV",
+item.source[0].type
+=> "src"
+
+item.source[0].content
+=> "https://webstore.iec.ch/publication/162"
+
+item.source[1].type
+=> "obp"
+
+item.source[1].content
+=> "https://webstore.iec.ch/preview/info_iec60050-112{ed1.0}b.pdf"
+----
+
+=== Create bibliographic item from XML or YAML
+
+[source,ruby]
+----
+Relaton::Iec::Item.from_xml File.read("spec/fixtures/bibitem.xml")
+=> #<Relaton::Iec::ItemData:0x000000012e5c9d90
 ...
 
-RelatonIec::IecBibliographicItem.from_hash hash
-=> #<RelatonIec::IecBibliographicItem:0x00007fe16f032d40
+Relaton::Iec::Item.from_yaml File.read("spec/fixtures/item.yaml")
+=> #<Relaton::Iec::ItemData:0x000000012f282460
 ...
 ----
 
@@ -213,28 +231,28 @@ URN structure: +
 
 For more information see https://github.com/relaton/relaton-iec/issues/22
 
-The method `RelatonIec.code_to_urn(code, lang)` converts document identifier to URN.
+The method `Relaton::Iec.code_to_urn(code, lang)` converts document identifier to URN.
 
 * `code` is a document identifier
 * `lang` is a laguage code (optional). Examples: en, fr, en-fr etc.
 
 [source,ruby]
 ----
-RelatonIec.code_to_urn "IEC 60050-102:2007/AMD1:2017"
+Relaton::Iec.code_to_urn "IEC 60050-102:2007/AMD1:2017"
 => "urn:iec:std:iec:60050-102:2007:::::amd:1:2017"
 
-RelatonIec.code_to_urn "IEC 60034-1:1969+AMD1:1977+AMD2:1979+AMD3:1980 CSV", "en-fr"
+Relaton::Iec.code_to_urn "IEC 60034-1:1969+AMD1:1977+AMD2:1979+AMD3:1980 CSV", "en-fr"
 => "urn:iec:std:iec:60034-1:1969::csv:en-fr:plus:amd:1:1977:plus:amd:2:1979:plus:amd:3:1980"
 ----
 
-The method `RelatonIec.urn_to_code(urn)` converts URN to document identifier.
+The method `Relaton::Iec.urn_to_code(urn)` converts URN to document identifier.
 
 [source,ruby]
 ----
-RelatonIec.urn_to_code "urn:iec:std:iec:60050-102:2007:::::amd:1:2017"
+Relaton::Iec.urn_to_code "urn:iec:std:iec:60050-102:2007:::::amd:1:2017"
 => ["IEC 60050-102:2007/AMD1:2017", ""]
 
-RelatonIec.urn_to_code "urn:iec:std:iec:60034-1:1969::csv:en-fr:plus:amd:1:1977:plus:amd:2:1979:plus:amd:3:1980"
+Relaton::Iec.urn_to_code "urn:iec:std:iec:60034-1:1969::csv:en-fr:plus:amd:1:1977:plus:amd:2:1979:plus:amd:3:1980"
 => ["IEC 60034-1:1969+AMD1:1977+AMD2:1979+AMD3:1980 CSV", "en-fr"]
 ----
 
@@ -244,7 +262,7 @@ This gem uses the https://bitbucket.org/sdo-hapi/api-specifications/wiki/Guideli
 - `iec-harmonized-all` - fetches all the documents using the API
 - `iec-harmonized-latest` - fetches the latest documents using the API
 
-The method `RelatonIec::DataFetcher.new(source, output: "data", format: "yaml").fetch` fetches IEC documents from the dataset and saves them to the `./data` folder in YAML format.
+The method `Relaton::Iec::DataFetcher.fetch(source, output: "data", format: "yaml") fetches IEC documents from the dataset and saves them to the `./data` folder in YAML format.
 Arguments:
 
 - `source` - data source. Possible values: `iec-harmonized-all`, `iec-harmonized-latest` (default `iec-harmonized-latest`).
@@ -253,7 +271,7 @@ Arguments:
 
 [source,ruby]
 ----
-RelatonIec::DataFetcher.new.fetch
+Relaton::Iec::DataFetcher.fetch
 Started at: 2022-06-23 09:36:55 +0200
 Stopped at: 2022-06-23 09:36:58 +0200
 Done in: 752 sec.
@@ -262,7 +280,7 @@ Done in: 752 sec.
 
 === Logging
 
-RelatonIec uses the relaton-logger gem for logging. By default, it logs to STDOUT. To change the log levels and add other loggers, read the https://github.com/relaton/relaton-logger#usage[relaton-logger] documentation.
+Relaton::Iec uses the relaton-logger gem for logging. By default, it logs to STDOUT. To change the log levels and add other loggers, read the https://github.com/relaton/relaton-logger#usage[relaton-logger] documentation.
 
 == Development
 

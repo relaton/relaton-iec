@@ -52,14 +52,15 @@ addition to this publication.
     <subdoctype>code-of-practice</subdoctype>
     <flavor>iec</flavor>
     <horizontal>false</horizontal>
+    <stagename abbreviation="CDV">Committee Draft for Vote</stagename>
+    <updates-document-type>guide</updates-document-type>
+    <fast-track>true</fast-track>
+    <price-code>pc</price-code>
     <function>emc</function>
-    <editorialgroup>
-      <agency>IEC</agency>
-      <technical-committee number="23" type="technicalCommittee" identifier="TC 23" prefix="SC">TC 23/SC 23J - Switches for appliances</technical-committee>
-      <subcommittee number="23" type="subcommittee" identifier="SC 23J" prefix="TC">TC 23/SC 23J - Switches for appliances</subcommittee>
-      <workgroup number="23" type="workgroup" identifier="WG 23J" prefix="TC">TC 23/SC 23J/WG 23J - Switches for appliances</workgroup>
-      <secretariat>IEC/TC 23/SC 23J</secretariat>
-    </editorialgroup>
+    <accessibility-color-inside>true</accessibility-color-inside>
+    <cen-processing>false</cen-processing>
+    <secretary>sec</secretary>
+    <interest-to-committees>itc</interest-to-committees>
     <ics>
       <code>29.120.40</code>
       <text>Switches</text>
@@ -68,15 +69,8 @@ addition to this publication.
       <project-number part="1" subpart="2" amendment="3" corrigendum="4" origyr="1995">61058</project-number>
       <tc-document-number>2</tc-document-number>
     </structuredidentifier>
-    <stagename abbreviation="CDV">Committee Draft for Vote</stagename>
-    <updates-document-type>guide</updates-document-type>
-    <price-code>pc</price-code>
-    <accessibility-color-inside>true</accessibility-color-inside>
-    <cen-processing>false</cen-processing>
-    <secretary>sec</secretary>
-    <interest-to-committees>itc</interest-to-committees>
-    <tc-sc-officers-note>
+    <!-- <tc-sc-officers-note>
       <p id="p22">IEC 61058-2-4:1995+AMD1:2003 CSV is a consolidated version of the first edition (1995) and its amendment 1 (2003). Therefore, no need to order amendment in addition to this publication.</p>
-    </tc-sc-officers-note>
+    </tc-sc-officers-note> -->
   </ext>
 </bibdata>

@@ -80,28 +80,6 @@ ext:
   flavor: iec
   horizontal: false
   function: emc
-  editorialgroup:
-    agency:
-    - IEC
-    technical_committee:
-    - number: 23
-      type: technicalCommittee
-      identifier: TC 23
-      prefix: SC
-      content: TC 23/SC 23J - Switches for appliances
-    subcommittee:
-    - number: 23
-      type: subcommittee
-      identifier: SC 23J
-      prefix: TC
-      content: TC 23/SC 23J - Switches for appliances
-    workgroup:
-    - number: 23
-      type: workgroup
-      identifier: WG 23J
-      prefix: TC
-      content: TC 23/SC 23J/WG 23J - Switches for appliances
-    secretariat: IEC/TC 23/SC 23J
   ics:
   - code: 29.120.40
     text: Switches

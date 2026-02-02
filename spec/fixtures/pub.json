@@ -1,0 +1,26 @@
+    {
+      "urn": "iec:pub:64772", "reference": "IEC/ISO 1234-1-2", "edition": "1",
+      "urnAlt": ["urnId"], "stdType": "IS",
+      "title": [
+        { "lang": "en", "value": "Title - Part 05" },
+        { "lang": "fr", "value": "Titre - Partie 05" }
+      ],
+      "priceInfo": { "priceCode": "PC" },
+      "committee": { "reference": "WG1" },
+      "abstract": [
+        { "lang": "en", "content": "Abstract", "format": "text/html" },
+        { "lang": "fr", "content": "Résumé", "format": "text/html" }
+      ],
+      "releaseDate": "2019-01-01", "status": "PUBLISHED",
+      "classifications": [
+        { "type": "ICS", "value": "01.040.35" },
+        { "type": "ICS", "value": "35.020" }
+      ],
+      "publicationDate": "2019-03-04", "confirmationDate": "2020-02-03",
+      "stabilityDate": "2021-12-31", "dateOfWithdrawal": "2022-11-21",
+      "releaseItems": [
+        { "type": "PREVIEW", "contentRef": { "fileName": "file.pdf" } }
+      ],
+      "project": { "urn": "iec:proj:1234" },
+      "lastChangeTimestamp": "2015-04-09T09:30:10Z"
+    }

@@ -1,0 +1,199 @@
+ACD:
+  status: Approved for CD
+  stage: '20.99'
+ACDV:
+  status: Approved for CDV
+  stage: '30.99'
+ADISSB:
+  status: Preparation of text subcontracted to CO
+  stage: '40.95'
+ADTR:
+  status: Approved for DTR
+  stage: '40.99'
+ADTS:
+  status: Approved for DTS
+  stage: '40.99'
+AFDIS:
+  status: Approved for FDIS
+  stage: '40.99'
+AMW:
+  status: Document under revision
+  stage: '92.20'
+ANW:
+  status: Registration of new project
+  stage: '20.00'
+APUB:
+  status: Approved for publication
+  stage: '50.99'
+APUBSB:
+  status: Preparation of text subcontracted to CO
+  stage: '50.95'
+BPUB:
+  status: Being published
+  stage: '60.00'
+BWG:
+  status: Return to drafting phase or redefine project
+  stage: '30.92'
+CAN:
+  status: Draft cancelled
+  stage: '20.98'
+CCDV:
+  status: Draft circulated as CDV
+  stage: '40.00'
+CD:
+  status: Draft circulated as CD
+  stage: '30.00'
+CDISH:
+  status: Draft circulated as DISH
+  stage: '50.20'
+CDM:
+  status: CD to be discussed at meeting
+  stage: '30.20'
+CDPAS:
+  status: Draft circulated as DPAS
+  stage: '50.20'
+CDTR:
+  status: Draft circulated as DTR
+  stage: '50.20'
+CDTS:
+  status: Draft circulated as DTS
+  stage: '50.20'
+CDVM:
+  status: Rejected CDV to be discussed at a meeting
+  stage: '40.93'
+CFDIS:
+  status: Draft circulated as FDIS
+  stage: '50.20'
+DECDISH:
+  status: DISH at editing check
+  stage: '40.99'
+DECFDIS:
+  status: FDIS at editing check
+  stage: '50.60'
+DECPUB:
+  status: Publication at editing check
+  stage: '60.00'
+DEL:
+  status: Deleted/abandoned
+  stage: '00.99'
+DELPUB:
+  status: Deleted publication
+  stage: '90.99'
+DREJ:
+  status: Abandon
+  stage: '30.98'
+DTRM:
+  status: Rejected DTR to be discussed at meeting
+  stage: '50.92'
+DTSM:
+  status: Rejected DTS to be discussed at meeting
+  stage: '50.92'
+MERGED:
+  status: Fragment merged
+  stage: '30.97'
+NADIS:
+  status: Repeat enquiry
+  stage: '40.93'
+NCDV:
+  status: CDV rejected
+  stage: '40.98'
+NDTR:
+  status: DTR rejected
+  stage: '50.98'
+NDTS:
+  status: DTS rejected
+  stage: '50.98'
+NFDIS:
+  status: FDIS rejected
+  stage: '50.98'
+PCC:
+  status: Preparation of CC
+  stage: '30.92'
+PNW:
+  status: New work item proposal
+  stage: '10.00'
+PPUB:
+  status: Publication issued
+  stage: '60.60'
+PRVC:
+  status: Preparation of RVC
+  stage: '40.92'
+PRVD:
+  status: Preparation of RVD
+  stage: '40.92'
+PRVDISH:
+  status: Preparation of RVDISH
+  stage: '40.92' # ?
+PRVDPAS:
+  status: Preparation of RVDPAS
+  stage: '40.92'
+PRVDTR:
+  status: Preparation of RVDTR
+  stage: '40.92'
+PRVDTS:
+  status: Preparation of RVDTS
+  stage: '40.92'
+PRVN:
+  status: Preparation of RVN
+  stage: '40.92'
+PWI:
+  status: Preliminary work item
+  stage: '00.00'
+RDIS:
+  status: Registration for formal approval
+  stage: '50.00'
+RDISH:
+  status: DISH received and registered
+  stage: '50.00'
+RFDIS:
+  status: FDIS received and registered
+  stage: '50.00'
+RPUB:
+  status: Publication received and registered
+  stage: '60.60'
+SPE:
+  stage: SPE # ?
+SPLIT:
+  status: Project Fragmented
+  stage: SPLIT # ?
+SRP:
+  stage: SRP
+SUSPENDED:
+  status: Project Suspended
+  stage: SUSPENDED # ?
+TCDV:
+  status: Translation of CDV
+  stage: '50.00'
+TDISH:
+  status: Translation of DISH
+  stage: '50.00' # ?
+TDTR:
+  status: Translation of DTR
+  stage: '50.00'
+TDTS:
+  status: Translation of DTS
+  stage: '50.00'
+TFDIS:
+  status: Translation of FDIS
+  stage: '50.00'
+TPUB:
+  status: Translation of publication
+  stage: '60.00'
+WPUB:
+  status: Publication withdrawn
+  stage: '95.99'
+preCD:
+  status: Preparation of CD document
+  stage: preCD
+preCDPAS:
+  status: Preparation of DPAS
+  stage: preCDPAS
+preDISH:
+  status: Preparation of DISH
+  stage: preDISH
+preDTR:
+  status: Preparation of DTR document
+  stage: preDTR
+prePNW:
+  status: Preparation of NP document
+  stage: prePNW

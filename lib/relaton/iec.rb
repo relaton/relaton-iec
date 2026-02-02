@@ -4,14 +4,13 @@ require "nokogiri"
 require "zip"
 require "relaton/index"
 require "relaton/iso"
-# require "relaton_iec/hit"
 require_relative "iec/version"
 require_relative "iec/util"
-# require "relaton_iec/document_type"
-# require "relaton_iec/iec_bibliography"
-require_relative "iec/item"
-require_relative "iec/bibitem"
-require_relative "iec/bibdata"
+require_relative "iec/bibliography"
+require_relative "iec/item_data"
+require_relative "iec/model/item"
+require_relative "iec/model/bibitem"
+require_relative "iec/model/bibdata"
 # require "relaton_iec/xml_parser"
 # require "relaton_iec/hash_converter"
 # require "relaton_iec/index"
@@ -20,6 +19,8 @@ require_relative "iec/bibdata"
 
 module Relaton
   module Iec
+    INDEXFILE = "index-v1".freeze
+
     class << self
       # Returns hash of XML reammar
       # @return [String]
