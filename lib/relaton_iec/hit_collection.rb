@@ -14,7 +14,7 @@ module RelatonIec
     # @param year [String, nil]
     def initialize(ref, year = nil)
       super ref, year
-      @index = Relaton::Index.find_or_create :IEC, url: "#{Hit::GHURL}index1.zip" , file: INDEX_FILE
+      @index = Relaton::Index.find_or_create :iec, url: "#{Hit::GHURL}index1.zip" , file: INDEX_FILE
       @array = fetch_from_gh
     end
 

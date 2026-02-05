@@ -111,7 +111,7 @@ RSpec.describe RelatonIec do
       result = RelatonIec::IecBibliography.get("IEC 61332")
       expect(result.docidentifier.first.id).to eq "IEC 61332"
       istance = result.relation.detect { |r| r.type == "instanceOf" }
-      expect(istance.bibitem.docidentifier.first.id).to eq "IEC 61332:2016"
+      expect(istance.bibitem.docidentifier.first.id).to eq "IEC 61332:2026"
     end
 
     context "all parts" do

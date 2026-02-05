@@ -174,6 +174,39 @@ describe RelatonIec::DataFetcher do
       end
     end
 
+    context "#create_index" do
+      let(:index_old) { instance_double(Relaton::Index::Type) }
+      let(:index) { instance_double(Relaton::Index::Type) }
+      let(:yaml_content) do
+        { "docid" => [{ "id" => "IEC 60050-102:2007", "primary" => true }] }
+      end
+
+      before do
+        allow(Relaton::Index).to receive(:find_or_create)
+          .with(:iec, file: "index1.yaml").and_return(index_old)
+        allow(Relaton::Index).to receive(:find_or_create)
+          .with(:iecv1, file: "index-v1.yaml").and_return(index)
+        allow(Dir).to receive(:[]).with("{data,static}/*.yaml")
+          .and_return(["data/iec_60050-102_2007.yaml"])
+        allow(YAML).to receive(:load_file).with("data/iec_60050-102_2007.yaml")
+          .and_return(yaml_content)
+      end
+
+      it "creates and populates both indices" do
+        expect(index_old).to receive(:remove_all)
+        expect(index).to receive(:remove_all)
+        expect(index_old).to receive(:add_or_update)
+          .with("IEC 60050-102:2007", "data/iec_60050-102_2007.yaml")
+        expect(index).to receive(:add_or_update)
+          .with({ publisher: "IEC", number: "60050", part: "102", year: 2007 },
+                "data/iec_60050-102_2007.yaml")
+        expect(index_old).to receive(:save)
+        expect(index).to receive(:save)
+
+        subject.create_index
+      end
+    end
+
     context "#index_id" do
       let(:title) do
         "International Electrotechnical Vocabulary (IEV) - Part 300: Electrical and electronic " \

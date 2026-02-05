@@ -19,6 +19,8 @@ require "relaton_iec/data_fetcher"
 require "relaton_iec/data_parser"
 
 module RelatonIec
+  INDEXFILE = "index-v1".freeze
+
   class << self
     # Returns hash of XML reammar
     # @return [String]

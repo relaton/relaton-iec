@@ -57,13 +57,18 @@ module RelatonIec
     end
 
     def create_index
-      index = Relaton::Index.find_or_create :IEC, file: "index1.yaml"
+      index_old = Relaton::Index.find_or_create :iec, file: "index1.yaml"
+      index_old.remove_all
+      index = Relaton::Index.find_or_create :iecv1, file: "#{RelatonIec::INDEXFILE}.yaml"
       index.remove_all
       Dir["{#{@output},static}/*.yaml"].each do |file|
         item = YAML.load_file file
         id = item["docid"].detect { |i| i["primary"] }["id"]
-        index.add_or_update id, file
+        index_old.add_or_update id, file
+        pubid = Pubid::Iec::Identifier.parse id
+        index.add_or_update pubid.to_h, file
       end
+      index_old.save
       index.save
     end
 
