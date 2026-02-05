@@ -64,11 +64,11 @@ describe RelatonIec::DataParser do
       id = subject.docid
       expect(id).to be_instance_of Array
       expect(id.size).to eq 2
-      expect(id[0]).to be_instance_of RelatonBib::DocumentIdentifier
+      expect(id[0]).to be_instance_of RelatonIec::DocumentIdentifier
       expect(id[0].id).to eq "IEC/ISO 1234-1-2"
       expect(id[0].type).to eq "IEC"
       expect(id[0].primary).to be true
-      expect(id[1]).to be_instance_of RelatonBib::DocumentIdentifier
+      expect(id[1]).to be_instance_of RelatonIec::DocumentIdentifier
       expect(id[1].id).to eq "urn:urnId"
       expect(id[1].type).to eq "URN"
       expect(id[1].primary).to be_nil

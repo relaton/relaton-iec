@@ -53,9 +53,14 @@ module RelatonIec
     #
     def docid
       ids = []
-      ids << RelatonBib::DocumentIdentifier.new(id: @pub["reference"], type: "IEC", primary: true)
+      begin
+        pubid = Pubid::Iec::Identifier.parse(@pub["reference"])
+        ids << DocumentIdentifier.new(id: pubid, type: "IEC", primary: true)
+      rescue StandardError
+        ids << DocumentIdentifier.new(id: @pub["reference"], type: "IEC", primary: true)
+      end
       urnid = "urn:#{@pub['urnAlt'][0]}"
-      ids << RelatonBib::DocumentIdentifier.new(id: urnid, type: "URN")
+      ids << DocumentIdentifier.new(id: urnid, type: "URN")
     end
 
     #

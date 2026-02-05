@@ -8,28 +8,32 @@ module RelatonIec
   class HitCollection < RelatonBib::HitCollection
     def_delegators :@array, :detect, :map, :last, :[], :max_by
 
-    INDEX_FILE = "index1.yaml"
-
-    # @param ref [String]
-    # @param year [String, nil]
-    def initialize(ref, year = nil)
-      super ref, year
-      @index = Relaton::Index.find_or_create :iec, url: "#{Hit::GHURL}index1.zip" , file: INDEX_FILE
-      @array = fetch_from_gh
+    # @param pubid [Pubid::Iec::Identifier]
+    # @param exclude [Array<Symbol>] keys to exclude from comparison (e.g. :year, :part, :type)
+    def initialize(pubid, exclude: [:year])
+      super pubid.to_s
+      @pubid = pubid
+      @exclude = exclude
+      @index = Relaton::Index.find_or_create(
+        :iec, url: "#{Hit::GHURL}#{INDEXFILE}.zip", file: "#{INDEXFILE}",
+        pubid_class: Pubid::Iec::Identifier
+      )
+      @array = fetch_from_index
     end
 
     # @return [RelatonIec::IecBibliographicItem]
-    def to_all_parts(r_year) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-      parts = @array.select { |h| h.part && h.hit[:code].match?(/^[\s\w-]+:#{r_year}/) }
+    def to_all_parts(r_year) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+      parts = @array.select { |h| h.part && (!r_year || h.hit[:pubid].year&.to_s == r_year) }
       hit = parts.min_by { |h| h.part.to_i }
       return @array.first&.fetch unless hit
 
       bibitem = hit.fetch
       all_parts_item = bibitem.to_all_parts
-      parts.reject { |h| h.hit[:code] == hit.hit[:code] }.each do |hi|
+      parts.reject { |h| h.hit[:pubid] == hit.hit[:pubid] }.each do |hi|
+        code = hi.hit[:pubid].to_s
         isobib = RelatonIec::IecBibliographicItem.new(
-          formattedref: RelatonBib::FormattedRef.new(content: hi.hit[:code]),
-          docid: [RelatonBib::DocumentIdentifier.new(id: hi.hit[:code], type: "IEC", primary: true)],
+          formattedref: RelatonBib::FormattedRef.new(content: code),
+          docid: [DocumentIdentifier.new(id: hi.hit[:pubid], type: "IEC", primary: true)],
         )
         all_parts_item.relation << RelatonBib::DocumentRelation.new(type: "partOf", bibitem: isobib)
       end
@@ -38,16 +42,25 @@ module RelatonIec
 
     private
 
-    def fetch_from_gh
-      return [] unless text
+    def fetch_from_index
+      return [] unless @pubid
 
-      ref = year && !/:\d{4}$/.match?(text) ? "#{text}:#{year}" : text
-      reference = ref.sub(/^IEC\s(?=ISO\/IEC\sDIR)/, "")
-      @index.search do |row|
-        row[:id].include? reference
-      end.sort_by { |row| row[:id] }.map do |row|
-        # pubid = row[:pubid].is_a?(Array) ? row[:pubid][0] : row[:pubid]
-        Hit.new({ code: row[:id], file: row[:file] }, self)
+      if @exclude.include?(:type)
+        # Can't use exclude(:type) on pubid (subclass re-adds it),
+        # so compare using to_h(add_type: false) hashes
+        exclude_keys = @exclude - [:type]
+        ref_hash = @pubid.to_h(add_type: false).reject { |k, _| exclude_keys.include?(k) }
+        @index.search do |row|
+          row_hash = row[:id].to_h(add_type: false).reject { |k, _| exclude_keys.include?(k) }
+          ref_hash == row_hash
+        end
+      else
+        ref_base = @pubid.exclude(*@exclude)
+        @index.search do |row|
+          ref_base == row[:id].exclude(*@exclude)
+        end
+      end.sort_by { |row| row[:id].year.to_i }.map do |row|
+        Hit.new({ pubid: row[:id], file: row[:file] }, self)
       end
     end
   end

@@ -58,8 +58,7 @@ module RelatonIec
     # Remove index file
     #
     def remove_index_file
-      Relaton::Index.find_or_create(:iec, url: true, file: HitCollection::INDEX_FILE).remove_file
-      Relaton::Index.find_or_create(:iecv1, file: "#{RelatonIec::INDEXFILE}.yaml").remove_file
+      Relaton::Index.find_or_create(:iec, file: "#{RelatonIec::INDEXFILE}.yaml").remove_file
     end
   end
 end

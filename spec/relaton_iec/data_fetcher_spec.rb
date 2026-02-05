@@ -185,7 +185,7 @@ describe RelatonIec::DataFetcher do
         allow(Relaton::Index).to receive(:find_or_create)
           .with(:iec, file: "index1.yaml").and_return(index_old)
         allow(Relaton::Index).to receive(:find_or_create)
-          .with(:iecv1, file: "index-v1.yaml").and_return(index)
+          .with(:iec_v1, file: "index-v1.yaml").and_return(index)
         allow(Dir).to receive(:[]).with("{data,static}/*.yaml")
           .and_return(["data/iec_60050-102_2007.yaml"])
         allow(YAML).to receive(:load_file).with("data/iec_60050-102_2007.yaml")
@@ -204,6 +204,21 @@ describe RelatonIec::DataFetcher do
         expect(index).to receive(:save)
 
         subject.create_index
+      end
+    end
+
+    context "#save_last_change" do
+      it "writes last_change_max to file when not empty" do
+        subject.instance_variable_set :@last_change_max, "2023-05-15T10:30:00Z"
+        expect(File).to receive(:write)
+          .with(RelatonIec::DataFetcher::LAST_CHANGE_FILE, "2023-05-15T10:30:00Z", encoding: "UTF-8")
+        subject.save_last_change
+      end
+
+      it "does not write to file when last_change_max is empty string" do
+        subject.instance_variable_set :@last_change_max, ""
+        expect(File).not_to receive(:write)
+        subject.save_last_change
       end
     end
 
