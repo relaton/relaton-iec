@@ -58,6 +58,7 @@ describe RelatonIec::HitCollection do
 
         expect(collection.size).to eq(4)
         pubids = collection.map { |h| h.hit[:pubid].to_s }
+        # Sorted by year, then by part number (numerically)
         expect(pubids).to eq([
           "IEC 80000-6:2008",
           "IEC 80000-13:2008",

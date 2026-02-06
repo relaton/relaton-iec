@@ -42,6 +42,15 @@ module RelatonIec
 
     private
 
+    # Returns array of integers for sorting compound parts like "2-1", "2-6"
+    # @param part [String, nil] part string e.g. "1", "2-1", "2-6"
+    # @return [Array<Integer>] e.g. [2, 1] for "2-1", [6] for "6"
+    def part_sort_key(part)
+      return [] unless part
+
+      part.to_s.split("-").map(&:to_i)
+    end
+
     def fetch_from_index
       return [] unless @pubid
 
@@ -59,7 +68,7 @@ module RelatonIec
         @index.search do |row|
           ref_base == row[:id].exclude(*@exclude)
         end
-      end.sort_by { |row| row[:id].year.to_i }.map do |row|
+      end.sort_by { |row| [row[:id].year.to_i, *part_sort_key(row[:id].part)] }.map do |row|
         Hit.new({ pubid: row[:id], file: row[:file] }, self)
       end
     end
