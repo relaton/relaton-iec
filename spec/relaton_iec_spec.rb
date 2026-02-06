@@ -20,9 +20,8 @@ RSpec.describe RelatonIec do
   end
 
   it "raise access error" do
-    exception_io = double("io")
     expect(RelatonIec::HitCollection).to receive(:new).and_raise(
-      OpenURI::HTTPError.new("", exception_io),
+      SocketError.new("Connection refused"),
     )
     pubid = Pubid::Iec::Identifier.parse("IEC 60050")
     expect { RelatonIec::IecBibliography.search pubid }

@@ -15,7 +15,7 @@ module RelatonIec
       # @return [RelatonIec::HitCollection]
       def search(pubid, exclude: [:year])
         HitCollection.new pubid, exclude: exclude
-      rescue SocketError, OpenURI::HTTPError, OpenSSL::SSL::SSLError => e
+      rescue SocketError, OpenSSL::SSL::SSLError => e
         raise RelatonBib::RequestError, e.message
       end
 
