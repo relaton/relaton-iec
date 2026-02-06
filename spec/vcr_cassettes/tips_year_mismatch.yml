@@ -45,17 +45,17 @@ http_interactions:
       Accept-Ranges:
       - bytes
       Date:
-      - Thu, 05 Feb 2026 21:59:02 GMT
+      - Thu, 05 Feb 2026 21:53:36 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-pdk-kpdk2140091-PDK
+      - cache-pdk-kpdk2140083-PDK
       X-Cache:
-      - HIT
+      - MISS
       X-Cache-Hits:
-      - '1'
+      - '0'
       X-Timer:
-      - S1770328742.307213,VS0,VE1
+      - S1770328416.446062,VS0,VE104
       Vary:
       - Authorization,Accept-Encoding
       Access-Control-Allow-Origin:
@@ -63,11 +63,11 @@ http_interactions:
       Cross-Origin-Resource-Policy:
       - cross-origin
       X-Fastly-Request-Id:
-      - e51e23eca8c71588edefb5d31ae9c8b6dea99d7b
+      - 0ea2ba4c58833db9d5469779ec21c5c7699be74c
       Expires:
-      - Thu, 05 Feb 2026 22:04:02 GMT
+      - Thu, 05 Feb 2026 21:58:36 GMT
       Source-Age:
-      - '19'
+      - '0'
     body:
       encoding: ASCII-8BIT
       base64_string: |
@@ -6784,124 +6784,5 @@ http_interactions:
         yIFFXCvWeN8rmwQAwUZGAA0AGAAAAAAAAQAAAKSBAAAAAGluZGV4LXYxLnlh
         bWxVVAUAA9fBhGl1eAsAAQTpAwAABOkDAABQSwUGAAAAAAEAAQBTAAAAcpsE
         AAAA
-  recorded_at: Thu, 05 Feb 2026 21:59:02 GMT
-- request:
-    method: get
-    uri: https://raw.githubusercontent.com/relaton/relaton-data-iec/main/static/iec_61360-4_db.yaml
-    body:
-      encoding: US-ASCII
-      base64_string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Host:
-      - raw.githubusercontent.com
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '2075'
-      Cache-Control:
-      - max-age=300
-      Content-Security-Policy:
-      - default-src 'none'; style-src 'unsafe-inline'; sandbox
-      Content-Type:
-      - text/plain; charset=utf-8
-      Etag:
-      - W/"5321ddd9c71ada4a39e0a748e466a99c8db5c7b36491d297ffcf14ce614e1e13"
-      Strict-Transport-Security:
-      - max-age=31536000
-      X-Content-Type-Options:
-      - nosniff
-      X-Frame-Options:
-      - deny
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Github-Request-Id:
-      - E708:E071:1447C9:186462:698512AA
-      Accept-Ranges:
-      - bytes
-      Date:
-      - Thu, 05 Feb 2026 21:59:07 GMT
-      Via:
-      - 1.1 varnish
-      X-Served-By:
-      - cache-pdk-kpdk2140056-PDK
-      X-Cache:
-      - MISS
-      X-Cache-Hits:
-      - '0'
-      X-Timer:
-      - S1770328747.080429,VS0,VE56
-      Vary:
-      - Authorization,Accept-Encoding
-      Access-Control-Allow-Origin:
-      - "*"
-      Cross-Origin-Resource-Policy:
-      - cross-origin
-      X-Fastly-Request-Id:
-      - d3a349e43035184979297dd60ae8a41d700ee128
-      Expires:
-      - Thu, 05 Feb 2026 22:04:07 GMT
-      Source-Age:
-      - '0'
-    body:
-      encoding: ASCII-8BIT
-      base64_string: |
-        aWQ6IElFQzYxMzYwLTREQgp0aXRsZToKLSB0eXBlOiB0aXRsZS1pbnRybwog
-        IGNvbnRlbnQ6IElFQy9TQyAzRAogIGxhbmd1YWdlOgogIC0gZW4KICBzY3Jp
-        cHQ6CiAgLSBMYXRuCiAgZm9ybWF0OiB0ZXh0L3BsYWluCi0gdHlwZTogdGl0
-        bGUtbWFpbgogIGNvbnRlbnQ6IENvbW1vbiBEYXRhIERpY3Rpb25hcnkgKENE
-        RCAtIFYyLjAwMTUuMDAwMSkKICBsYW5ndWFnZToKICAtIGVuCiAgc2NyaXB0
-        OgogIC0gTGF0bgogIGZvcm1hdDogdGV4dC9wbGFpbgotIHR5cGU6IG1haW4K
-        ICBjb250ZW50OiBJRUMvU0MgM0QgLSBDb21tb24gRGF0YSBEaWN0aW9uYXJ5
-        IChDREQgLSBWMi4wMDE1LjAwMDEpCiAgbGFuZ3VhZ2U6CiAgLSBlbgogIHNj
-        cmlwdDoKICAtIExhdG4KICBmb3JtYXQ6IHRleHQvcGxhaW4KbGluazoKLSBj
-        b250ZW50OiBodHRwczovL2NkZC5pZWMuY2gKICB0eXBlOiBzcmMKdHlwZTog
-        c3RhbmRhcmQKZG9jaWQ6Ci0gaWQ6IElFQyA2MTM2MC00IERCCiAgdHlwZTog
-        SUVDCiAgcHJpbWFyeTogdHJ1ZQpjb250cmlidXRvcjoKLSBvcmdhbml6YXRp
-        b246CiAgICBuYW1lOgogICAgLSBjb250ZW50OiBJbnRlcm5hdGlvbmFsIEVs
-        ZWN0cm90ZWNobmljYWwgQ29tbWlzc2lvbgogICAgYWJicmV2aWF0aW9uOgog
-        ICAgICBjb250ZW50OiBJRUMKICAgIHVybDogd3d3LmllYy5jaAogIHJvbGU6
-        CiAgLSB0eXBlOiBwdWJsaXNoZXIKZWRpdGlvbjoKICBjb250ZW50OiBWMi4w
-        MDE1LjAwMDEKbGFuZ3VhZ2U6Ci0gZW4Kc2NyaXB0OgotIExhdG4KYWJzdHJh
-        Y3Q6Ci0gY29udGVudDogfAogICAgQnVzaW5lc3MgcHJvY2Vzc2VzIGluIGFs
-        bCBkb21haW5zIGFuZCBlc3BlY2lhbGx5IGluIGVsZWN0cmljLyBlbGVjdHJv
-        bmljIGluZHVzdHJpZXMgYXJlIGluY3JlYXNpbmdseSBiZWluZyBjb25kdWN0
-        ZWQgZWxlY3Ryb25pY2FsbHk7CiAgICBhIHNpdHVhdGlvbiB3aGljaCBhcHBs
-        aWVzIHRvIGludGVybmFsIHByb2Nlc3NlcyBhcyB3ZWxsIGFzIHRvIHRoZSBp
-        bnRlcmFjdGlvbiB3aXRoIGV4dGVybmFsIHBhcnRuZXJzLgogICAgVG8gc3Vw
-        cG9ydCB0aGUgbmVjZXNzYXJ5IGluZm9ybWF0aW9uIHRyYW5zZmVyIHRoZSB1
-        c2Ugb2YgY29tbW9uIGNvbmNlcHRzIGJhc2VkIG9uIGluZm9ybWF0aW9uL2Ns
-        YXNzaWZpY2F0aW9uIG1vZGVscyBpcyBpbmV2aXRhYmxlLgoKICAgIENvbmNl
-        cHRzIHNwZWNpZmllZCBvbiBhIGdsb2JhbCBiYXNpcyBzdXBwb3J0IGVycm9y
-        LWZyZWUgaW5mb3JtYXRpb24gc2hhcmluZy4gSW4gYWRkaXRpb24sIHRoZSBk
-        aWN0aW9uYXJpZXMgb2YgY29uY2VwdHMgbWF5IGJlIHVzZWQgYXMKICAgIHJl
-        ZmVyZW5jZSBjb2xsZWN0aW9ucyBmb3Igc2V0dGluZyB1cCBtYXN0ZXIgZGF0
-        YSByZXBvc2l0b3JpZXMgZm9yIHByb2R1Y3QgZGF0YSB0aGF0IHNlcnZlIGFz
-        IGNvbXBhbnkgaW50ZXJuYWwgaW5mb3JtYXRpb24gYmFja2JvbmVzLgogICAg
-        VGh1cywgY29zdGx5IGludGVycHJldGF0aW9uIGFuZCBjb252ZXJzaW9uIGVy
-        cm9ycyBtYXkgYmUgbWluaW1pemVkLgoKICAgIEZyb20gdGhlIG1hcmtldCBz
-        aWRlLCBwcmVzc3VyZSBpcyBpbmNyZWFzaW5nbHkgYmVpbmcgZXhlcnRlZCB0
-        byBzdXBwbHkgcHJvZHVjdCBkYXRhIGluIGVsZWN0cm9uaWMgZm9ybSB1c2lu
-        ZyBjb21tb25seSBhZ3JlZWQgY29uY2VwdHMKICAgIGFuZCBhcyB0aGlzIHBy
-        ZXNzdXJlIGdyb3dzLCBpdCB3aWxsIGhhdmUgYSBjb25zaWRlcmFibGUgaW1w
-        YWN0IG9uIGFsbCBidXNpbmVzcyBwcm9jZXNzZXMuIEZvciB0aGlzIHJlYXNv
-        biwgYSBzZWFtbGVzcyBleGNoYW5nZSBvZgogICAgcHJvZHVjdCBkYXRhLCBp
-        LmUuLCBhbiBleGNoYW5nZSB0aGF0IGlzIGZyZWUgZnJvbSBtZWRpYSBkaXNj
-        b250aW51aXRpZXMgcmVxdWlyZXMgYSB1bmlmaWVkLCBqb2ludCBhcHByb2Fj
-        aCBib3RoIGZvciBleGNoYW5naW5nIHByb2R1Y3QKICAgIGRhdGEgaW50ZXJu
-        YWxseSB3aXRoaW4gYSBjb21wYW55IG9yIGZvciBleGNoYW5naW5nIHByb2R1
-        Y3QgZGF0YSB3aXRoIHN1cHBsaWVycyBvciBjdXN0b21lcnMuCiAgbGFuZ3Vh
-        Z2U6CiAgLSBlbgogIHNjcmlwdDoKICAtIExhdG4KICBmb3JtYXQ6IHRleHQv
-        cGxhaW4=
-  recorded_at: Thu, 05 Feb 2026 21:59:07 GMT
+  recorded_at: Thu, 05 Feb 2026 21:53:36 GMT
 recorded_with: VCR 6.4.0

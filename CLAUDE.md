@@ -31,6 +31,29 @@ relaton-iec is a Ruby gem that retrieves IEC (International Electrotechnical Com
 - **Hit** ([lib/relaton_iec/hit.rb](lib/relaton_iec/hit.rb)) - Single search result; fetches full document on demand from GitHub
 - **DataFetcher** ([lib/relaton_iec/data_fetcher.rb](lib/relaton_iec/data_fetcher.rb)) - Fetches documents from IEC Harmonized API (requires credentials)
 - **Processor** ([lib/relaton_iec/processor.rb](lib/relaton_iec/processor.rb)) - Relaton framework integration
+- **DocumentIdentifier** ([lib/relaton_iec/document_identifier.rb](lib/relaton_iec/document_identifier.rb)) - Extends `RelatonBib::DocumentIdentifier` to store `Pubid::Iec::Identifier` objects for proper ID manipulation
+
+### Pubid::Iec Integration
+
+The gem uses [pubid-iec](https://github.com/metanorma/pubid-iec) for parsing and manipulating IEC document identifiers.
+
+**Key usage patterns:**
+
+- `Pubid::Iec::Identifier.parse(ref)` - Parse a reference string into a structured identifier
+- Parsed identifiers support manipulation: `.part=`, `.year=`, `.all_parts=`
+- `DocumentIdentifier` stores `Pubid::Iec::Identifier` objects in `@id` for primary identifiers
+- Falls back to string manipulation for unparseable references
+
+**Example:**
+
+```ruby
+pubid = Pubid::Iec::Identifier.parse("IEC 80000-1:2022")
+pubid.part = nil      # Remove part
+pubid.year = nil      # Remove year
+pubid.all_parts = true # Mark as all parts
+pubid.to_s            # "IEC 80000 (all parts)"
+pubid.urn.to_s        # URN representation
+```
 
 ### URN Conversion
 
@@ -45,5 +68,6 @@ The module provides `RelatonIec.code_to_urn(code, lang)` and `RelatonIec.urn_to_
 ### DataFetcher Environment Variables
 
 When fetching from IEC Harmonized API directly:
+
 - `IEC_HAPI_PROJ_PUBS_KEY` - API key
 - `IEC_HAPI_PROJ_PUBS_SECRET` - API secret

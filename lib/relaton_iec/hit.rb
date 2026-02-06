@@ -20,7 +20,7 @@ module RelatonIec
     end
 
     def part
-      @part ||= hit[:code].match(/(?<=-)[\w-]+/)&.to_s
+      @part ||= hit[:pubid]&.part&.to_s
     end
 
     def inspect
@@ -28,7 +28,7 @@ module RelatonIec
         "@text=\"#{@hit_collection&.text}\" " \
         "@fetched=\"#{!@fetch.nil?}\" " \
         "@fullIdentifier=\"#{@fetch&.shortref(nil, no_year: true)}\" " \
-        "@title=\"#{@hit[:code]}\">"
+        "@title=\"#{@hit[:pubid]}\">"
     end
   end
 end

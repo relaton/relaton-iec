@@ -56,14 +56,34 @@ module RelatonIec
       end
     end
 
+    #
+    # Create and update both the legacy IEC index and the new IEC v1 index.
+    #
+    # The legacy :iec index ("index1.yaml") stores entries keyed by the
+    # original string document identifiers and is kept for backward
+    # compatibility with existing tools and data consumers.
+    #
+    # The new :iec_v1 index ("index-v1" / RelatonIec::INDEXFILE) stores
+    # entries keyed by parsed Pubid::Iec::Identifier hashes (pubid-iec),
+    # which provides a more structured and future-proof representation.
+    #
     def create_index
-      index = Relaton::Index.find_or_create :IEC, file: "index1.yaml"
+      index_old = Relaton::Index.find_or_create :iec, file: "index1.yaml"
+      index_old.remove_all
+      index = Relaton::Index.find_or_create :iec_v1, file: "#{RelatonIec::INDEXFILE}.yaml"
       index.remove_all
       Dir["{#{@output},static}/*.yaml"].each do |file|
         item = YAML.load_file file
         id = item["docid"].detect { |i| i["primary"] }["id"]
-        index.add_or_update id, file
+        index_old.add_or_update id, file
+        begin
+          pubid = Pubid::Iec::Identifier.parse id
+          index.add_or_update pubid.to_h, file
+        rescue StandardError
+          Util.warn "Unable to parse Pubid::Iec::Identifier from `#{id}` in #{file}"
+        end
       end
+      index_old.save
       index.save
     end
 

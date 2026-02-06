@@ -174,6 +174,74 @@ describe RelatonIec::DataFetcher do
       end
     end
 
+    context "#create_index" do
+      let(:index_old) { instance_double(Relaton::Index::Type) }
+      let(:index) { instance_double(Relaton::Index::Type) }
+      let(:yaml_content) do
+        { "docid" => [{ "id" => "IEC 60050-102:2007", "primary" => true }] }
+      end
+
+      before do
+        allow(Relaton::Index).to receive(:find_or_create)
+          .with(:iec, file: "index1.yaml").and_return(index_old)
+        allow(Relaton::Index).to receive(:find_or_create)
+          .with(:iec_v1, file: "index-v1.yaml").and_return(index)
+        allow(Dir).to receive(:[]).with("{data,static}/*.yaml")
+          .and_return(["data/iec_60050-102_2007.yaml"])
+        allow(YAML).to receive(:load_file).with("data/iec_60050-102_2007.yaml")
+          .and_return(yaml_content)
+      end
+
+      it "creates and populates both indices" do
+        expect(index_old).to receive(:remove_all)
+        expect(index).to receive(:remove_all)
+        expect(index_old).to receive(:add_or_update)
+          .with("IEC 60050-102:2007", "data/iec_60050-102_2007.yaml")
+        expect(index).to receive(:add_or_update)
+          .with({ publisher: "IEC", number: "60050", part: "102", year: 2007 },
+                "data/iec_60050-102_2007.yaml")
+        expect(index_old).to receive(:save)
+        expect(index).to receive(:save)
+
+        subject.create_index
+      end
+
+      it "warns and skips new index when pubid parsing fails" do
+        malformed_content = { "docid" => [{ "id" => "INVALID ID FORMAT!!!", "primary" => true }] }
+        allow(Dir).to receive(:[]).with("{data,static}/*.yaml")
+          .and_return(["data/malformed.yaml"])
+        allow(YAML).to receive(:load_file).with("data/malformed.yaml")
+          .and_return(malformed_content)
+
+        expect(index_old).to receive(:remove_all)
+        expect(index).to receive(:remove_all)
+        expect(index_old).to receive(:add_or_update)
+          .with("INVALID ID FORMAT!!!", "data/malformed.yaml")
+        expect(index).not_to receive(:add_or_update)
+        expect(index_old).to receive(:save)
+        expect(index).to receive(:save)
+
+        expect { subject.create_index }.to output(
+          /Unable to parse Pubid::Iec::Identifier from `INVALID ID FORMAT!!!` in data\/malformed\.yaml/
+        ).to_stderr_from_any_process
+      end
+    end
+
+    context "#save_last_change" do
+      it "writes last_change_max to file when not empty" do
+        subject.instance_variable_set :@last_change_max, "2023-05-15T10:30:00Z"
+        expect(File).to receive(:write)
+          .with(RelatonIec::DataFetcher::LAST_CHANGE_FILE, "2023-05-15T10:30:00Z", encoding: "UTF-8")
+        subject.save_last_change
+      end
+
+      it "does not write to file when last_change_max is empty string" do
+        subject.instance_variable_set :@last_change_max, ""
+        expect(File).not_to receive(:write)
+        subject.save_last_change
+      end
+    end
+
     context "#index_id" do
       let(:title) do
         "International Electrotechnical Vocabulary (IEV) - Part 300: Electrical and electronic " \

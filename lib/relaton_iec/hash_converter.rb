@@ -29,5 +29,14 @@ module RelatonIec
     def create_doctype(**args)
       DocumentType.new(**args)
     end
+
+    def create_docid(**args)
+      begin
+        args[:id] = Pubid::Iec::Identifier.parse(args[:id]) if args[:id].is_a?(String) && args[:primary]
+      rescue StandardError
+        Util.warn "Unable to create a Pubid::Iec::Identifier from `#{args[:id]}`"
+      end
+      DocumentIdentifier.new(**args)
+    end
   end
 end

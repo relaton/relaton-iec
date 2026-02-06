@@ -2,14 +2,15 @@ require "digest/md5"
 require "net/http"
 require "nokogiri"
 require "zip"
-require "open-uri"
 require "mechanize"
+require "pubid/iec"
 require "relaton/index"
 require "relaton_iso_bib"
 require "relaton_iec/hit"
 require "relaton_iec/version"
 require "relaton_iec/util"
 require "relaton_iec/document_type"
+require "relaton_iec/document_identifier"
 require "relaton_iec/iec_bibliography"
 require "relaton_iec/iec_bibliographic_item"
 require "relaton_iec/xml_parser"
@@ -19,6 +20,9 @@ require "relaton_iec/data_fetcher"
 require "relaton_iec/data_parser"
 
 module RelatonIec
+  # Filename for the v1 index format using pubid-iec identifiers
+  INDEXFILE = "index-v1".freeze
+
   class << self
     # Returns hash of XML reammar
     # @return [String]
