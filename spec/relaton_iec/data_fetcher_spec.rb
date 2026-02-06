@@ -205,6 +205,26 @@ describe RelatonIec::DataFetcher do
 
         subject.create_index
       end
+
+      it "warns and skips new index when pubid parsing fails" do
+        malformed_content = { "docid" => [{ "id" => "INVALID ID FORMAT!!!", "primary" => true }] }
+        allow(Dir).to receive(:[]).with("{data,static}/*.yaml")
+          .and_return(["data/malformed.yaml"])
+        allow(YAML).to receive(:load_file).with("data/malformed.yaml")
+          .and_return(malformed_content)
+
+        expect(index_old).to receive(:remove_all)
+        expect(index).to receive(:remove_all)
+        expect(index_old).to receive(:add_or_update)
+          .with("INVALID ID FORMAT!!!", "data/malformed.yaml")
+        expect(index).not_to receive(:add_or_update)
+        expect(index_old).to receive(:save)
+        expect(index).to receive(:save)
+
+        expect { subject.create_index }.to output(
+          /Unable to parse Pubid::Iec::Identifier from `INVALID ID FORMAT!!!` in data\/malformed\.yaml/
+        ).to_stderr_from_any_process
+      end
     end
 
     context "#save_last_change" do

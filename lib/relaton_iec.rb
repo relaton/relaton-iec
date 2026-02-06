@@ -20,6 +20,7 @@ require "relaton_iec/data_fetcher"
 require "relaton_iec/data_parser"
 
 module RelatonIec
+  # Filename for the v1 index format using pubid-iec identifiers
   INDEXFILE = "index-v1".freeze
 
   class << self
