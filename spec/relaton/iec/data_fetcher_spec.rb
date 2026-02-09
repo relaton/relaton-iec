@@ -32,15 +32,84 @@ describe Relaton::Iec::DataFetcher do
       end
     end
 
-    # it "#add_static_files_to_index" do
-    #   file = "static/iec_123.yaml"
-    #   expect(Dir).to receive(:[]).with("static/*.yaml").and_return [file]
-    #   expect(File).to receive(:read).with(file, encoding: "UTF-8").and_return :yaml
-    #   pub = { "docid" => [{ "id" => "IEC 123", "primary" => true }] }
-    #   expect(RelatonBib).to receive(:parse_yaml).with(:yaml).and_return pub
-    #   subject.add_static_files_to_index
-    #   expect(index.instance_variable_get(:@index)).to eq [{ pubid: "IEC 123", file: file }]
-    # end
+    context "#rebuild_index" do
+      it "indexes YAML files from output directory" do
+        files = ["data/file1.yaml", "data/file2.yaml"]
+        expect(Dir).to receive(:glob).with("data/*.yaml").and_return files
+        expect(subject).to receive(:add_file_to_index).with("data/file1.yaml")
+        expect(subject).to receive(:add_file_to_index).with("data/file2.yaml")
+        expect(Dir).to receive(:exist?).with("static").and_return false
+        subject.send :rebuild_index
+      end
+
+      it "indexes static files when static directory exists" do
+        expect(Dir).to receive(:glob).with("data/*.yaml").and_return ["data/file1.yaml"]
+        expect(subject).to receive(:add_file_to_index).with("data/file1.yaml")
+        expect(Dir).to receive(:exist?).with("static").and_return true
+        expect(subject).to receive(:add_static_files_to_index).with(no_args)
+        subject.send :rebuild_index
+      end
+
+      it "does not index static files when static directory does not exist" do
+        expect(Dir).to receive(:glob).with("data/*.yaml").and_return []
+        expect(Dir).to receive(:exist?).with("static").and_return false
+        expect(subject).not_to receive(:add_static_files_to_index)
+        subject.send :rebuild_index
+      end
+    end
+
+    context "#add_file_to_index" do
+      let(:file) { "data/iec-61058-2-4.yaml" }
+      let(:yaml) { File.read("spec/fixtures/item.yaml", encoding: "UTF-8") }
+
+      before do
+        allow(File).to receive(:read).and_call_original
+        allow(File).to receive(:read).with(file, encoding: "UTF-8").and_return yaml
+      end
+
+      it "adds file with primary docidentifier to index" do
+        idx = double("index")
+        allow(subject).to receive(:index).and_return idx
+        expect(idx).to receive(:add_or_update).with(
+          a_kind_of(Pubid::Iec::Base), file
+        )
+        subject.send :add_file_to_index, file
+      end
+
+      it "skips file without docidentifier" do
+        item = Relaton::Iec::ItemData.new docidentifier: []
+        allow(File).to receive(:read).with(file, encoding: "UTF-8").and_return item.to_yaml
+        expect(subject).not_to receive(:index)
+        subject.send :add_file_to_index, file
+      end
+
+      it "skips index update when pubid parsing fails" do
+        docid = Relaton::Iec::Docidentifier.new content: "invalid", type: "IEC", primary: true
+        item = Relaton::Iec::ItemData.new docidentifier: [docid]
+        allow(File).to receive(:read).with(file, encoding: "UTF-8").and_return item.to_yaml
+        idx = double("index")
+        allow(subject).to receive(:index).and_return idx
+        expect(idx).not_to receive(:add_or_update)
+        expect { subject.send(:add_file_to_index, file) }.to output(
+          /Failed to parse pubid/
+        ).to_stderr_from_any_process
+      end
+
+      it "warns on error and continues" do
+        allow(File).to receive(:read).with(file, encoding: "UTF-8").and_raise "read error"
+        expect { subject.send(:add_file_to_index, file) }.to output(
+          /Failed to index file `#{file}`: read error/
+        ).to_stderr_from_any_process
+      end
+    end
+
+    it "#add_static_files_to_index" do
+      files = ["static/iec_123.yaml", "static/iec_456.yaml"]
+      expect(Dir).to receive(:glob).with("static/*.yaml").and_return files
+      expect(subject).to receive(:add_file_to_index).with("static/iec_123.yaml")
+      expect(subject).to receive(:add_file_to_index).with("static/iec_456.yaml")
+      subject.send :add_static_files_to_index
+    end
 
     shared_examples "fetch_all" do |code|
       it "#fetch_all" do
@@ -172,31 +241,51 @@ describe Relaton::Iec::DataFetcher do
       end
     end
 
-    context "#index_id" do
-      let(:title) do
-        "International Electrotechnical Vocabulary (IEV) - Part 300: Electrical and electronic " \
-          "measurements and measuring instruments - Part 311: General terms relating to measurements "\
-          "- Part 312: General terms relating to electrical measurements - Part 313: Types of electrical "\
-          "measuring instruments - Part 314: Specific terms according to the type of instrument"
+    context "#find_primary_docidentifier" do
+      it "returns docidentifier with primary flag" do
+        primary = Relaton::Iec::Docidentifier.new content: "IEC 61058-2-4:1995", type: "IEC", primary: true
+        other = Relaton::Iec::Docidentifier.new content: "urn:iec:std:iec:61058-2-4:1995", type: "URN"
+        item = Relaton::Iec::ItemData.new docidentifier: [other, primary]
+        result = subject.send(:find_primary_docidentifier, item)
+        expect(result).to eq primary
       end
 
-      it "packaged standard" do
-        pub = { "title" => [{ "value" => title }], "reference" => "IEC 60050-311:2001" }
-        id = subject.send :index_id, pub
-        expect(id).to eq [
-          "IEC 60050-300:2001", "IEC 60050-311:2001", "IEC 60050-312:2001",
-          "IEC 60050-313:2001", "IEC 60050-314:2001"
-        ]
+      it "falls back to IEC type when no primary" do
+        iec = Relaton::Iec::Docidentifier.new content: "IEC 61058-2-4:1995", type: "IEC"
+        urn = Relaton::Iec::Docidentifier.new content: "urn:iec:std:iec:61058-2-4:1995", type: "URN"
+        item = Relaton::Iec::ItemData.new docidentifier: [urn, iec]
+        result = subject.send(:find_primary_docidentifier, item)
+        expect(result).to eq iec
       end
 
-      it "not packaged standard" do
-        pub = { "title" => [{ "value" => title }], "reference" => "IEC 60050-211:2001" }
-        expect(subject.send(:index_id, pub)).to eq "IEC 60050-211:2001"
+      it "falls back to first when no primary and no IEC type" do
+        urn = Relaton::Iec::Docidentifier.new content: "urn:iec:std:iec:61058-2-4:1995", type: "URN"
+        other = Relaton::Iec::Docidentifier.new content: "other-id", type: "OTHER"
+        item = Relaton::Iec::ItemData.new docidentifier: [urn, other]
+        result = subject.send(:find_primary_docidentifier, item)
+        expect(result).to eq urn
       end
 
-      it "no part" do
-        pub = { "title" => [{ "value" => title }], "reference" => "IEC 60050:2001" }
-        expect(subject.send(:index_id, pub)).to eq "IEC 60050:2001"
+      it "returns nil when docidentifier list is empty" do
+        item = Relaton::Iec::ItemData.new docidentifier: []
+        result = subject.send(:find_primary_docidentifier, item)
+        expect(result).to be_nil
+      end
+    end
+
+    context "#parse_pubid" do
+      it "parses valid IEC identifier" do
+        pubid = subject.send(:parse_pubid, "IEC 60050-311:2001")
+        expect(pubid.to_s).to eq "IEC 60050-311:2001"
+        expect(pubid.number.to_s).to eq "60050"
+        expect(pubid.part.to_s).to eq "311"
+        expect(pubid.year).to eq 2001
+      end
+
+      it "returns nil for invalid identifier" do
+        expect { subject.send(:parse_pubid, "invalid") }.to output(/Failed to parse pubid/).to_stderr_from_any_process
+        result = subject.send(:parse_pubid, "invalid")
+        expect(result).to be_nil
       end
     end
   end

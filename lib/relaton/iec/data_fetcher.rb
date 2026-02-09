@@ -19,6 +19,7 @@ module Relaton
           FileUtils.rm_rf @output
         end
         FileUtils.mkdir_p @output
+        rebuild_index
         fetch_all
         index.save
         save_last_change
@@ -51,7 +52,45 @@ module Relaton
       end
 
       def index
-        @index ||= Relaton::Index.find_or_create :iec, file: "#{INDEXFILE}.yaml"
+        @index ||= Relaton::Index.find_or_create(
+          :iec, file: "#{INDEXFILE}.yaml", pubid_class: Pubid::Iec::Identifier
+        )
+      end
+
+      #
+      # Rebuild index from existing YAML files.
+      #
+      # @return [void]
+      #
+      def rebuild_index
+        Dir.glob(File.join(@output, "*.yaml")).each do |file|
+          add_file_to_index(file)
+        end
+        add_static_files_to_index if Dir.exist?("static")
+      end
+
+      #
+      # Add a YAML file to the index.
+      #
+      # @param [String] file path to the YAML file
+      #
+      # @return [void]
+      #
+      def add_file_to_index(file)
+        item = Item.from_yaml(File.read(file, encoding: "UTF-8"))
+        did = find_primary_docidentifier item
+        return unless did
+
+        pubid = parse_pubid(did.content)
+        index.add_or_update pubid, file if pubid
+      rescue StandardError => e
+        Util.warn "Failed to index file `#{file}`: #{e.message}"
+      end
+
+      def find_primary_docidentifier(item)
+        item.docidentifier.detect(&:primary) ||
+          item.docidentifier.detect { |id| id.type == "IEC" } ||
+          item.docidentifier.first
       end
 
       #
@@ -59,13 +98,11 @@ module Relaton
       #
       # @return [void]
       #
-      # def add_static_files_to_index
-      #   Dir["static/*.yaml"].each do |file|
-      #     pub = RelatonBib.parse_yaml File.read(file, encoding: "UTF-8")
-      #     pubid = RelatonBib.array(pub["docid"]).detect { |id| id["primary"] }["id"]
-      #     @index.add pubid, file
-      #   end
-      # end
+      def add_static_files_to_index
+        Dir.glob("static/*.yaml").each do |file|
+          add_file_to_index(file)
+        end
+      end
 
       #
       # Fetch documents from IEC API.
@@ -148,26 +185,23 @@ module Relaton
       #
       def fetch_pub(pub) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
         bib = DataParser.new(pub).parse
-        did = bib.docidentifier.detect &:primary
+        did = bib.docidentifier.detect(&:primary)
         file = output_file(did.content)
         if @files.include? file then Util.warn "File #{file} exists."
         else
           @files << file
-          index.add_or_update index_id(pub), file # , pub["lastChangeTimestamp"]
+          pubid = parse_pubid(did.content)
+          index.add_or_update pubid, file if pubid
         end
         @last_change_max = pub["lastChangeTimestamp"] if last_change_max < pub["lastChangeTimestamp"]
         File.write file, serialize(bib), encoding: "UTF-8"
       end
 
-      def index_id(pub)
-        /-(?<part>\d+)/ =~ pub["reference"]
-        title = pub.dig("title", 0, "value")
-        return pub["reference"] unless part && title
-
-        ids = title.scan(/(?<=-\sPart\s)#{part[0]}\d+(?=:)/).map do |m|
-          pub["reference"].sub(/-#{part}/, "-#{m}")
-        end
-        ids.size > 1 ? ids : pub["reference"]
+      def parse_pubid(content)
+        Pubid::Iec::Identifier.parse(content)
+      rescue StandardError => e
+        Util.warn "Failed to parse pubid `#{content}`: #{e.message}"
+        nil
       end
 
       def to_xml(bib)

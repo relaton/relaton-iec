@@ -7,6 +7,7 @@ VCR.configure do |config|
     re_record_interval: 7 * 24 * 3600,
     record: :once,
     preserve_exact_body_bytes: true,
+    allow_playback_repeats: true,
   }
   config.hook_into :webmock
   config.configure_rspec_metadata!

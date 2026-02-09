@@ -19,7 +19,7 @@ module Relaton
       end
 
       def part
-        @part ||= hit[:code].match(/(?<=-)[\w-]+/)&.to_s
+        @part ||= hit[:id]&.part&.to_s || hit[:code]&.match(/(?<=-)[\w-]+/)&.to_s
       end
     end
   end

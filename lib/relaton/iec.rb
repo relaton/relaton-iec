@@ -1,6 +1,7 @@
 require "digest/md5"
 require "net/http"
 require "nokogiri"
+require "pubid/iec"
 require "zip"
 require "relaton/index"
 require "relaton/iso"

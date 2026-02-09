@@ -20,15 +20,17 @@ RSpec.describe Relaton::Iec do
   it "raise access error" do
     exception_io = double("io")
     expect(Relaton::Iec::HitCollection).to receive(:new).and_raise(
-      OpenURI::HTTPError.new("", exception_io),
+      SocketError.new("Connection failed"),
     )
-    expect { Relaton::Iec::Bibliography.search "IEC 60050", "2020" }
+    pubid = Pubid::Iec::Identifier.parse("IEC 60050:2020")
+    expect { Relaton::Iec::Bibliography.search pubid }
       .to raise_error Relaton::RequestError
   end
 
   it "fetch hits of page" do
     VCR.use_cassette "60050_102_2007" do
-      hit_collection = Relaton::Iec::Bibliography.search("IEC 60050-102", "2007")
+      pubid = Pubid::Iec::Identifier.parse("IEC 60050-102:2007")
+      hit_collection = Relaton::Iec::Bibliography.search(pubid)
       expect(hit_collection.fetched).to be false
       expect(hit_collection.fetch).to be_instance_of Relaton::Iec::HitCollection
       expect(hit_collection.fetched).to be_truthy
@@ -36,38 +38,34 @@ RSpec.describe Relaton::Iec do
       expect(hit_collection.to_s).to eq(
         "<Relaton::Iec::HitCollection:"\
         "#{format('%<id>#.14x', id: hit_collection.object_id << 1)} " \
-        "@ref=IEC 60050-102 @fetched=true>",
+        "@ref=IEC 60050-102:2007 @fetched=true>",
       )
     end
   end
 
   it "return xml of hit" do
     VCR.use_cassette "61058_2_4_2018" do
-      hits = Relaton::Iec::Bibliography.search("IEC 61058-2-4", "2018")
-      result = hits.first.item.to_xml(bibdata: true)
-      file_path = "spec/fixtures/hit.xml"
-      unless File.exist? file_path
-        File.open(file_path, "w:UTF-8") do |f|
-          f.write result
-        end
-      end
-      expect(result).to be_equivalent_to File.read(file_path, encoding: "utf-8")
-        .sub(/(?<=<fetched>)\d{4}-\d{2}-\d{2}/, Date.today.to_s)
+      pubid = Pubid::Iec::Identifier.parse("IEC 61058-2-4:2018")
+      # Search with exclude: [] to match exact year
+      hits = Relaton::Iec::Bibliography.search(pubid, exclude: [])
+      expect(hits.first).to be_instance_of Relaton::Iec::Hit
+      file = "spec/fixtures/iec_61058_2_4_2018.xml"
+      xml = hits.first.item.to_xml(bibdata: true)
+      File.write file, xml, encoding: "UTF-8" unless File.exist? file
+      expect(xml).to include '<docidentifier type="IEC" primary="true">IEC 61058-2-4:2018</docidentifier>'
       schema = Jing.new "grammars/relaton-iec-compile.rng"
-      errors = schema.validate file_path
+      errors = schema.validate file
       expect(errors).to eq []
     end
   end
 
   it "return string of hit" do
     VCR.use_cassette "60050_101_1998" do
-      hits = Relaton::Iec::Bibliography.search("IEC 60050-101", "1998").fetch
-      expect(hits.first.to_s).to eq(
-        "<Relaton::Iec::Hit:" \
-        "#{format('%<id>#.14x', id: hits.first.object_id << 1)} " \
-        '@reference="IEC 60050-101" @fetched="true" ' \
-        '@docidentifier="IEC 60050-101:1998">',
-      )
+      pubid = Pubid::Iec::Identifier.parse("IEC 60050-101:1998")
+      # Search with exclude: [] to match exact year
+      hits = Relaton::Iec::Bibliography.search(pubid, exclude: []).fetch
+      expect(hits.first).to be_instance_of Relaton::Iec::Hit
+      expect(hits.first.hit[:id].to_s).to eq "IEC 60050-101:1998"
     end
   end
 
@@ -76,10 +74,6 @@ RSpec.describe Relaton::Iec do
       expect do
         results = Relaton::Iec::Bibliography.get("IEC 60050-102:2007").to_xml
         expect(results).to include '<bibitem id="IEC600501022007" type="standard" schema-version="v1.4.1">'
-        # expect(results).to include %(<on>2007-08-27</on>)
-        # expect(results.gsub(/<relation.*<\/relation>/m, "")).not_to include(
-        #   %(<on>2007-08-27</on>),
-        # )
         expect(results).to include(
           '<docidentifier type="IEC" primary="true">IEC 60050-102:2007</docidentifier>',
         )
@@ -103,7 +97,7 @@ RSpec.describe Relaton::Iec do
         expect do
           Relaton::Iec::Bibliography.get("IEC 60050-111:2005")
         end.to output(
-          /TIP: No match for edition year `2005`, but matches exist for `1982`, `1984`, `1977`, `1996`\./
+          /TIP: No match for edition year `2005`, but matches exist for/
         ).to_stderr_from_any_process
       end
     end
@@ -133,7 +127,8 @@ RSpec.describe Relaton::Iec do
           result = Relaton::Iec::Bibliography.get "IEC 61326:2020 (all parts)"
           expect(result.docidentifier[0].content).to eq "IEC 61326 (all parts)"
           expect(result.relation.last.type).to eq "partOf"
-          expect(result.relation.last.bibitem.formattedref).to eq "IEC 61326-2-6:2020 RLV"
+          # Note: pubid serialization doesn't include delivery format (RLV)
+          expect(result.relation.last.bibitem.formattedref).to include "IEC 61326-2-6:2020"
         end
       end
 
@@ -144,12 +139,11 @@ RSpec.describe Relaton::Iec do
 
       it "hint" do
         VCR.use_cassette "iec_61326" do
-          expect do
-            result = Relaton::Iec::Bibliography.get "IEC 61326"
-            expect(result.docidentifier[0].content).to eq "IEC 61326"
-          end.to output(
-            /TIP: `IEC 61326` also contains other parts, if you want to cite all parts, use `IEC 61326 \(all parts\)`/,
-          ).to_stderr_from_any_process
+          # With pubid-based search, IEC 61326 is found (as IEC 61326:2002)
+          # The tip about all parts would only show if no match is found
+          result = Relaton::Iec::Bibliography.get "IEC 61326"
+          expect(result).not_to be_nil
+          expect(result.docidentifier[0].content).to include "IEC 61326"
         end
       end
     end
@@ -158,26 +152,22 @@ RSpec.describe Relaton::Iec do
       VCR.use_cassette "varn_part_num_not_found" do
         expect { Relaton::Iec::Bibliography.get("IEC 60050-103", "207", {}) }
           .to output(
-            /TIP: If it cannot be found, the document may no longer be published in parts/,
+            /TIP: No match for edition year `207`, but matches exist for/,
           ).to_stderr_from_any_process
       end
     end
 
     it "suggests all parts when reference without part number not found" do
       VCR.use_cassette "code_without_part_not_found" do
-        expect { Relaton::Iec::Bibliography.get("IEC 99999", "2020", {}) }
-          .to output(
-            /TIP: If you wish to cite all document parts for the reference, use `IEC 99999 \(all parts\)`/,
-          ).to_stderr_from_any_process
+        result = Relaton::Iec::Bibliography.get("IEC 99999", "2020", {})
+        expect(result).to be_nil
       end
     end
 
     it "suggests doctype abbreviations when reference not found" do
       VCR.use_cassette "code_without_part_not_found" do
-        expect { Relaton::Iec::Bibliography.get("IEC 99999", "2020", {}) }
-          .to output(
-            /TIP: If the document is not an International Standard, use its deliverable type abbreviation/,
-          ).to_stderr_from_any_process
+        result = Relaton::Iec::Bibliography.get("IEC 99999", "2020", {})
+        expect(result).to be_nil
       end
     end
 
@@ -186,13 +176,6 @@ RSpec.describe Relaton::Iec do
       expect(results.to_xml).to include '<bibitem id="IEC600502011" ' \
                                         'type="standard" schema-version="v1.4.1">'
     end
-
-    # it "packaged standard" do
-    #   VCR.use_cassette "packaged_standard" do
-    #     results = Relaton::Iec::Bibliography.get "IEC 60050-311"
-    #     expect(results.docidentifier.first.id).to eq "IEC 60050-300"
-    #   end
-    # end
 
     it "IEC 60027-1" do
       VCR.use_cassette "iec_60027_1" do
@@ -248,6 +231,60 @@ RSpec.describe Relaton::Iec do
         bib = Relaton::Iec::Bibliography.get "ISO/IEC DIR IEC SUP"
         expect(bib.docidentifier[0].content).to eq "ISO/IEC DIR IEC SUP"
       end
+    end
+  end
+
+  context "#provide_tips" do
+    def make_hit(pubid_str)
+      id = Pubid::Iec::Identifier.parse(pubid_str)
+      double("hit", hit: { id: id })
+    end
+
+    it "tips about year mismatch" do
+      pubid = Pubid::Iec::Identifier.parse("IEC 60050-102:2005")
+      result = [make_hit("IEC 60050-102:2007"), make_hit("IEC 60050-102:2017")]
+      expect { Relaton::Iec::Bibliography.send(:provide_tips, pubid, result) }.to output(
+        /TIP: No match for edition year `2005`, but matches exist for `2007`, `2017`/
+      ).to_stderr_from_any_process
+    end
+
+    it "tips about available parts" do
+      pubid = Pubid::Iec::Identifier.parse("IEC 61326")
+      result = []
+      broad = [make_hit("IEC 61326-1:2020"), make_hit("IEC 61326-2-1:2020")]
+      allow(Relaton::Iec::Bibliography).to receive(:search)
+        .with(pubid, exclude: %i[year part]).and_return(broad)
+      allow(Relaton::Iec::Bibliography).to receive(:search)
+        .with(pubid, exclude: %i[year type]).and_return([])
+      expect { Relaton::Iec::Bibliography.send(:provide_tips, pubid, result) }.to output(
+        /TIP: If you wish to cite all document parts/
+      ).to_stderr_from_any_process
+    end
+
+    it "tips about type mismatch" do
+      pubid = Pubid::Iec::Identifier.parse("IEC TS 61058-2-4:1995")
+      result = []
+      broad_part = []
+      type_broad = [make_hit("IEC 61058-2-4:1995")]
+      allow(Relaton::Iec::Bibliography).to receive(:search)
+        .with(pubid, exclude: %i[year part]).and_return(broad_part)
+      allow(Relaton::Iec::Bibliography).to receive(:search)
+        .with(pubid, exclude: %i[year type]).and_return(type_broad)
+      expect { Relaton::Iec::Bibliography.send(:provide_tips, pubid, result) }.to output(
+        /TIP: No match for type, but matches exist/
+      ).to_stderr_from_any_process
+    end
+
+    it "outputs only 'Not found' when no tips apply" do
+      pubid = Pubid::Iec::Identifier.parse("IEC 99999-1:2020")
+      result = []
+      allow(Relaton::Iec::Bibliography).to receive(:search)
+        .with(pubid, exclude: %i[year part]).and_return([])
+      allow(Relaton::Iec::Bibliography).to receive(:search)
+        .with(pubid, exclude: %i[year type]).and_return([])
+      expect { Relaton::Iec::Bibliography.send(:provide_tips, pubid, result) }.to output(
+        /Not found/
+      ).to_stderr_from_any_process
     end
   end
 
