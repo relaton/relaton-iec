@@ -217,6 +217,95 @@ RSpec.describe RelatonIec do
       end
     end
 
+    describe "get with date filters", :skip_before do
+      let(:pubid_1998) { Pubid::Iec::Identifier.parse("IEC 61332:1998") }
+      let(:pubid_2005) { Pubid::Iec::Identifier.parse("IEC 61332:2005") }
+      let(:pubid_2020) { Pubid::Iec::Identifier.parse("IEC 61332:2020") }
+
+      let(:item_1998) do
+        RelatonIec::IecBibliographicItem.new(
+          docid: [RelatonIec::DocumentIdentifier.new(id: pubid_1998, type: "IEC", primary: true)],
+          date: [RelatonBib::BibliographicDate.new(type: "published", on: "1998-05-01")],
+        )
+      end
+      let(:item_2005) do
+        RelatonIec::IecBibliographicItem.new(
+          docid: [RelatonIec::DocumentIdentifier.new(id: pubid_2005, type: "IEC", primary: true)],
+          date: [RelatonBib::BibliographicDate.new(type: "published", on: "2005-03-15")],
+        )
+      end
+      let(:item_2020) do
+        RelatonIec::IecBibliographicItem.new(
+          docid: [RelatonIec::DocumentIdentifier.new(id: pubid_2020, type: "IEC", primary: true)],
+          date: [RelatonBib::BibliographicDate.new(type: "published", on: "2020-11-10")],
+        )
+      end
+
+      let(:hit_1998) do
+        instance_double(RelatonIec::Hit, hit: { pubid: pubid_1998 }, part: nil, fetch: item_1998)
+      end
+      let(:hit_2005) do
+        instance_double(RelatonIec::Hit, hit: { pubid: pubid_2005 }, part: nil, fetch: item_2005)
+      end
+      let(:hit_2020) do
+        instance_double(RelatonIec::Hit, hit: { pubid: pubid_2020 }, part: nil, fetch: item_2020)
+      end
+
+      let(:hits) { [hit_1998, hit_2005, hit_2020] }
+
+      before do
+        collection = instance_double(RelatonIec::HitCollection)
+        allow(collection).to receive(:detect) { |&block| hits.detect(&block) }
+        allow(collection).to receive(:select) { |&block| hits.select(&block) }
+        allow(collection).to receive(:max_by) { |&block| hits.max_by(&block) }
+        allow(collection).to receive(:any?).and_return(hits.any?)
+        allow(collection).to receive(:map) { |&block| hits.map(&block) }
+        allow(RelatonIec::HitCollection).to receive(:new).and_return(collection)
+      end
+
+      it "returns most recent edition before the given date" do
+        result = RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_before: "2006")
+        expect(result.docidentifier.first.id).to eq "IEC 61332:2005"
+      end
+
+      it "returns most recent edition on or after the given date" do
+        result = RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_after: "2006")
+        expect(result.docidentifier.first.id).to eq "IEC 61332:2020"
+      end
+
+      it "filters with combined before and after" do
+        result = RelatonIec::IecBibliography.get(
+          "IEC 61332", nil,
+          publication_date_after: "2000", publication_date_before: "2010",
+        )
+        expect(result.docidentifier.first.id).to eq "IEC 61332:2005"
+      end
+
+      it "returns nil when no editions match the date filter" do
+        expect do
+          expect(RelatonIec::IecBibliography.get(
+            "IEC 61332", nil, publication_date_before: "1990",
+          )).to be_nil
+        end.to output(/Not found/).to_stderr_from_any_process
+      end
+
+      it "returns nil when year matches but exact date fails filter" do
+        expect do
+          expect(RelatonIec::IecBibliography.get(
+            "IEC 61332:2005", nil, publication_date_before: "2005-01-01",
+          )).to be_nil
+        end.to output(/Not found/).to_stderr_from_any_process
+      end
+
+      it "respects >= semantics for publication_date_after" do
+        result = RelatonIec::IecBibliography.get(
+          "IEC 61332", nil,
+          publication_date_after: "2005-03-15", publication_date_before: "2006",
+        )
+        expect(result.docidentifier.first.id).to eq "IEC 61332:2005"
+      end
+    end
+
     describe "provide_tips" do
       it "tips about year mismatch when year is wrong" do
         VCR.use_cassette "tips_year_mismatch" do

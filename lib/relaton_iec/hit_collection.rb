@@ -6,7 +6,7 @@ require "addressable/uri"
 module RelatonIec
   # Page of hit collection.
   class HitCollection < RelatonBib::HitCollection
-    def_delegators :@array, :detect, :map, :last, :[], :max_by
+    def_delegators :@array, :detect, :map, :last, :[], :max_by, :sort_by
 
     # @param pubid [Pubid::Iec::Identifier]
     # @param exclude [Array<Symbol>] keys to exclude from comparison (e.g. :year, :part, :type)
@@ -21,9 +21,14 @@ module RelatonIec
       @array = fetch_from_index
     end
 
+    # @param r_year [String, nil]
+    # @param opts [Hash]
     # @return [RelatonIec::IecBibliographicItem]
-    def to_all_parts(r_year) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+    def to_all_parts(r_year, opts = {}) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
       parts = @array.select { |h| h.part && (!r_year || h.hit[:pubid].year&.to_s == r_year) }
+      if opts[:publication_date_before] || opts[:publication_date_after]
+        parts = parts.select { |h| IecBibliography.send(:year_in_range?, h.hit[:pubid].year.to_i, opts) }
+      end
       hit = parts.min_by { |h| h.part.to_i }
       return @array.first&.fetch unless hit
 
