@@ -129,7 +129,7 @@ item = RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_after:
 => #<RelatonIec::IecBibliographicItem:0x000000013285f790
 ...
 
-irb(main):007> item.date.find { it.type == "published" }.on
+item.date.find { it.type == "published" }.on
 => "2026-01-23"
 
 # Combine both filters for a date range
@@ -139,7 +139,7 @@ item = RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_after:
 => #<RelatonIec::IecBibliographicItem:0x000000013285f010
 ...
 
-tem.date.find { it.type == "published" }.on
+item.date.find { it.type == "published" }.on
 => "2005-09-23"
 ----
 
