@@ -129,8 +129,16 @@ module RelatonIec
 
       # Parse a date filter string ("2008", "2008-02", or "2008-02-02") into a Date.
       def parse_date_filter(str)
-        parts = str.to_s.split("-").map(&:to_i)
+        unless str.is_a?(String) && str.match?(/\A\d{4}(-\d{2}(-\d{2})?)?\z/)
+          raise ArgumentError,
+            "Invalid date filter: #{str.inspect}. Expected YYYY, YYYY-MM, or YYYY-MM-DD."
+        end
+
+        parts = str.split("-").map(&:to_i)
         Date.new(*parts.concat([1] * (3 - parts.size)))
+      rescue Date::Error
+        raise ArgumentError,
+          "Invalid date filter: #{str.inspect}. Date components are out of range."
       end
 
       # Quick pre-filter using pubid year only.

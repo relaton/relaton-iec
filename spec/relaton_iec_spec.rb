@@ -304,6 +304,32 @@ RSpec.describe RelatonIec do
         )
         expect(result.docidentifier.first.id).to eq "IEC 61332:2005"
       end
+
+      context "with invalid date filter input" do
+        it "raises ArgumentError for blank string" do
+          expect do
+            RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_before: "")
+          end.to raise_error(ArgumentError, /Invalid date filter: ""/)
+        end
+
+        it "raises ArgumentError for integer" do
+          expect do
+            RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_after: 2008)
+          end.to raise_error(ArgumentError, /Invalid date filter: 2008/)
+        end
+
+        it "raises ArgumentError for non-numeric string" do
+          expect do
+            RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_before: "not-a-date")
+          end.to raise_error(ArgumentError, /Invalid date filter: "not-a-date"/)
+        end
+
+        it "raises ArgumentError for out-of-range month" do
+          expect do
+            RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_before: "2008-13")
+          end.to raise_error(ArgumentError, /Invalid date filter: "2008-13"/)
+        end
+      end
     end
 
     describe "provide_tips" do
