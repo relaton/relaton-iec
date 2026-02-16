@@ -79,7 +79,7 @@ module RelatonIec
       # @param opts [Hash]
       # @return [RelatonIec::IecBibliographicItem, nil]
       def iecbib_get(pubid, opts) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-        Util.info "Fetching from Relaton repsitory ...", key: pubid.to_s
+        Util.info "Fetching from Relaton repository ...", key: pubid.to_s
         exclude = opts[:all_parts] ? %i[year part] : %i[year]
         result = search(pubid, exclude: exclude) || return
 
@@ -152,7 +152,7 @@ module RelatonIec
 
         ret = hit.fetch
         unless publication_date_in_range?(ret, opts)
-          Util.info "Not found.", key: pubid.to_s
+          Util.info "Publication found but excluded by date filter.", key: pubid.to_s
           return nil
         end
         Util.info "Found: `#{ret.docidentifier.first.id}`", key: pubid.to_s
