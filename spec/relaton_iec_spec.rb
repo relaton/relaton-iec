@@ -88,7 +88,7 @@ RSpec.describe RelatonIec do
           '<docidentifier type="IEC" primary="true">IEC 60050</docidentifier>',
         )
       end.to output(
-        /\[relaton-iec\] INFO: \(IEC 60050-102:2007\) Fetching from Relaton repsitory .../,
+        /\[relaton-iec\] INFO: \(IEC 60050-102:2007\) Fetching from Relaton repository .../,
       ).to_stderr_from_any_process
     end
 
@@ -214,6 +214,179 @@ RSpec.describe RelatonIec do
       VCR.use_cassette "iso_iec_dir_iec_sup" do
         bib = RelatonIec::IecBibliography.get "ISO/IEC DIR IEC SUP"
         expect(bib.docidentifier[0].id).to eq "ISO/IEC DIR IEC SUP"
+      end
+    end
+
+    describe "get with date filters", :skip_before do
+      let(:pubid_1998) { Pubid::Iec::Identifier.parse("IEC 61332:1998") }
+      let(:pubid_2005) { Pubid::Iec::Identifier.parse("IEC 61332:2005") }
+      let(:pubid_2020) { Pubid::Iec::Identifier.parse("IEC 61332:2020") }
+
+      let(:item_1998) do
+        RelatonIec::IecBibliographicItem.new(
+          docid: [RelatonIec::DocumentIdentifier.new(id: pubid_1998, type: "IEC", primary: true)],
+          date: [RelatonBib::BibliographicDate.new(type: "published", on: "1998-05-01")],
+        )
+      end
+      let(:item_2005) do
+        RelatonIec::IecBibliographicItem.new(
+          docid: [RelatonIec::DocumentIdentifier.new(id: pubid_2005, type: "IEC", primary: true)],
+          date: [RelatonBib::BibliographicDate.new(type: "published", on: "2005-03-15")],
+        )
+      end
+      let(:item_2020) do
+        RelatonIec::IecBibliographicItem.new(
+          docid: [RelatonIec::DocumentIdentifier.new(id: pubid_2020, type: "IEC", primary: true)],
+          date: [RelatonBib::BibliographicDate.new(type: "published", on: "2020-11-10")],
+        )
+      end
+
+      let(:hit_1998) do
+        instance_double(RelatonIec::Hit, hit: { pubid: pubid_1998 }, part: nil, fetch: item_1998)
+      end
+      let(:hit_2005) do
+        instance_double(RelatonIec::Hit, hit: { pubid: pubid_2005 }, part: nil, fetch: item_2005)
+      end
+      let(:hit_2020) do
+        instance_double(RelatonIec::Hit, hit: { pubid: pubid_2020 }, part: nil, fetch: item_2020)
+      end
+
+      let(:hits) { [hit_1998, hit_2005, hit_2020] }
+
+      before do
+        collection = instance_double(RelatonIec::HitCollection)
+        allow(collection).to receive(:detect) { |&block| hits.detect(&block) }
+        allow(collection).to receive(:select) { |&block| hits.select(&block) }
+        allow(collection).to receive(:max_by) { |&block| hits.max_by(&block) }
+        allow(collection).to receive(:any?).and_return(hits.any?)
+        allow(collection).to receive(:map) { |&block| hits.map(&block) }
+        allow(RelatonIec::HitCollection).to receive(:new).and_return(collection)
+      end
+
+      it "returns most recent edition before the given date" do
+        result = RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_before: Date.new(2006, 1, 1))
+        expect(result.docidentifier.first.id).to eq "IEC 61332:2005"
+      end
+
+      it "returns most recent edition on or after the given date" do
+        result = RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_after: Date.new(2006, 1, 1))
+        expect(result.docidentifier.first.id).to eq "IEC 61332:2020"
+      end
+
+      it "filters with combined before and after" do
+        result = RelatonIec::IecBibliography.get(
+          "IEC 61332", nil,
+          publication_date_after: Date.new(2000, 1, 1), publication_date_before: Date.new(2010, 1, 1),
+        )
+        expect(result.docidentifier.first.id).to eq "IEC 61332:2005"
+      end
+
+      it "returns nil when no editions match the date filter" do
+        expect do
+          expect(RelatonIec::IecBibliography.get(
+            "IEC 61332", nil, publication_date_before: Date.new(1990, 1, 1),
+          )).to be_nil
+        end.to output(/Not found/).to_stderr_from_any_process
+      end
+
+      it "returns nil when year matches but exact date fails filter" do
+        expect do
+          expect(RelatonIec::IecBibliography.get(
+            "IEC 61332:2005", nil, publication_date_before: Date.new(2005, 1, 1),
+          )).to be_nil
+        end.to output(/Not found/).to_stderr_from_any_process
+      end
+
+      it "respects >= semantics for publication_date_after" do
+        result = RelatonIec::IecBibliography.get(
+          "IEC 61332", nil,
+          publication_date_after: Date.new(2005, 3, 15), publication_date_before: Date.new(2006, 1, 1),
+        )
+        expect(result.docidentifier.first.id).to eq "IEC 61332:2005"
+      end
+    end
+
+    describe "get with all_parts and date filters", :skip_before do
+      let(:pubid_1_2005) { Pubid::Iec::Identifier.parse("IEC 61332-1:2005") }
+      let(:pubid_2_2005) { Pubid::Iec::Identifier.parse("IEC 61332-2:2005") }
+      let(:pubid_1_2020) { Pubid::Iec::Identifier.parse("IEC 61332-1:2020") }
+      let(:pubid_2_2020) { Pubid::Iec::Identifier.parse("IEC 61332-2:2020") }
+
+      let(:all_parts_item) do
+        RelatonIec::IecBibliographicItem.new(
+          docid: [RelatonIec::DocumentIdentifier.new(id: "IEC 61332 (all parts)", type: "IEC", primary: true)],
+        )
+      end
+
+      let(:base_item_2005) do
+        item = RelatonIec::IecBibliographicItem.new(
+          docid: [RelatonIec::DocumentIdentifier.new(id: pubid_1_2005, type: "IEC", primary: true)],
+          date: [RelatonBib::BibliographicDate.new(type: "published", on: "2005-03-15")],
+        )
+        allow(item).to receive(:to_all_parts).and_return(all_parts_item)
+        item
+      end
+
+      let(:base_item_2020) do
+        item = RelatonIec::IecBibliographicItem.new(
+          docid: [RelatonIec::DocumentIdentifier.new(id: pubid_1_2020, type: "IEC", primary: true)],
+          date: [RelatonBib::BibliographicDate.new(type: "published", on: "2020-11-10")],
+        )
+        allow(item).to receive(:to_all_parts).and_return(all_parts_item)
+        item
+      end
+
+      let(:hit_1_2005) do
+        instance_double(RelatonIec::Hit, hit: { pubid: pubid_1_2005 }, part: "1", fetch: base_item_2005)
+      end
+      let(:hit_2_2005) do
+        instance_double(RelatonIec::Hit, hit: { pubid: pubid_2_2005 }, part: "2")
+      end
+      let(:hit_1_2020) do
+        instance_double(RelatonIec::Hit, hit: { pubid: pubid_1_2020 }, part: "1", fetch: base_item_2020)
+      end
+      let(:hit_2_2020) do
+        instance_double(RelatonIec::Hit, hit: { pubid: pubid_2_2020 }, part: "2")
+      end
+
+      before do
+        collection = RelatonIec::HitCollection.allocate
+        collection.instance_variable_set(:@array, [hit_1_2005, hit_2_2005, hit_1_2020, hit_2_2020])
+        allow(RelatonIec::HitCollection).to receive(:new).and_return(collection)
+      end
+
+      it "filters parts with publication_date_before" do
+        result = RelatonIec::IecBibliography.get(
+          "IEC 61332 (all parts)", nil, publication_date_before: Date.new(2010, 1, 1),
+        )
+        expect(result.docidentifier.first.id).to eq "IEC 61332 (all parts)"
+        expect(result.relation.select { |r| r.type == "partOf" }.size).to eq 1
+      end
+
+      it "filters parts with publication_date_after" do
+        result = RelatonIec::IecBibliography.get(
+          "IEC 61332 (all parts)", nil, publication_date_after: Date.new(2010, 1, 1),
+        )
+        expect(result.docidentifier.first.id).to eq "IEC 61332 (all parts)"
+        expect(result.relation.select { |r| r.type == "partOf" }.size).to eq 1
+      end
+
+      it "filters parts with combined before and after" do
+        result = RelatonIec::IecBibliography.get(
+          "IEC 61332 (all parts)", nil,
+          publication_date_after: Date.new(2000, 1, 1), publication_date_before: Date.new(2010, 1, 1),
+        )
+        expect(result.docidentifier.first.id).to eq "IEC 61332 (all parts)"
+        expect(result.relation.select { |r| r.type == "partOf" }.size).to eq 1
+      end
+
+      it "handles exact date boundary for year-level filtering" do
+        result = RelatonIec::IecBibliography.get(
+          "IEC 61332 (all parts)", nil,
+          publication_date_after: Date.new(2020, 11, 10), publication_date_before: Date.new(2021, 1, 1),
+        )
+        expect(result.docidentifier.first.id).to eq "IEC 61332 (all parts)"
+        expect(result.relation.select { |r| r.type == "partOf" }.size).to eq 1
       end
     end
 

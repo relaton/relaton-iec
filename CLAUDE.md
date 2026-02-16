@@ -55,6 +55,21 @@ pubid.to_s            # "IEC 80000 (all parts)"
 pubid.urn.to_s        # URN representation
 ```
 
+### Publication Date Range Filtering
+
+`IecBibliography.get` supports `:publication_date_before` and `:publication_date_after` options to filter editions by publication date. These are passed through the `opts` hash.
+
+- `publication_date_before: "X"` — return documents published **before** X (exclusive)
+- `publication_date_after: "X"` — return documents published **on or after** X (inclusive)
+- Filter values can be year-only (`"2008"`), year-month (`"2008-02"`), or full dates (`"2008-02-02"`); partial dates are zero-filled to the 1st
+
+**Implementation details:**
+
+- `find_match` in `IecBibliography` does a two-stage filter: fast year pre-filter via `year_in_range?`, then exact date verification via `publication_date_in_range?` after fetching
+- `to_most_recent_reference` is skipped when date filters are present (the caller wants a specific dated edition)
+- `HitCollection#to_all_parts` also accepts `opts` and applies year-range pre-filtering
+- Helper methods: `parse_date_filter`, `year_in_range?`, `publication_date_in_range?`, `fetch_and_check_date`
+
 ### URN Conversion
 
 The module provides `RelatonIec.code_to_urn(code, lang)` and `RelatonIec.urn_to_code(urn)` for converting between document identifiers and URN format.

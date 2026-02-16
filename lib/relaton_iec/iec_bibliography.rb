@@ -35,7 +35,8 @@ module RelatonIec
         ret = iecbib_get(pubid, opts)
         return nil if ret.nil?
 
-        ret = ret.to_most_recent_reference unless pubid.year || opts[:keep_year]
+        ret = ret.to_most_recent_reference unless pubid.year || opts[:keep_year] ||
+          opts[:publication_date_before] || opts[:publication_date_after]
         ret
       end
 
@@ -78,17 +79,17 @@ module RelatonIec
       # @param opts [Hash]
       # @return [RelatonIec::IecBibliographicItem, nil]
       def iecbib_get(pubid, opts) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-        Util.info "Fetching from Relaton repsitory ...", key: pubid.to_s
+        Util.info "Fetching from Relaton repository ...", key: pubid.to_s
         exclude = opts[:all_parts] ? %i[year part] : %i[year]
         result = search(pubid, exclude: exclude) || return
 
         if opts[:all_parts]
-          ret = result.to_all_parts(pubid.year&.to_s)
+          ret = result.to_all_parts(pubid.year&.to_s, opts)
           Util.info "Found: `#{ret&.docidentifier&.first&.id}`", key: pubid.to_s if ret
           return ret
         end
 
-        ret = find_match(result, pubid)
+        ret = find_match(result, pubid, opts)
         return ret if ret
 
         provide_tips(pubid, result)
@@ -98,16 +99,62 @@ module RelatonIec
       # Find exact match considering year. If no year, return most recent.
       # @param result [RelatonIec::HitCollection]
       # @param pubid [Pubid::Iec::Identifier]
+      # @param opts [Hash]
       # @return [RelatonIec::IecBibliographicItem, nil]
-      def find_match(result, pubid)
-        hit = if pubid.year
-                result.detect { |h| h.hit[:pubid].year == pubid.year }
-              else
-                result.max_by { |h| h.hit[:pubid].year.to_i }
-              end
+      def find_match(result, pubid, opts = {}) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
+        if pubid.year
+          hit = result.detect { |h| h.hit[:pubid].year == pubid.year }
+          return fetch_and_check_date(hit, pubid, opts)
+        end
+
+        if opts[:publication_date_before] || opts[:publication_date_after]
+          filtered = result.select { |h| year_in_range?(h.hit[:pubid].year.to_i, opts) }
+          filtered.sort_by { |h| -h.hit[:pubid].year.to_i }.each do |hit|
+            ret = hit.fetch
+            next unless publication_date_in_range?(ret, opts)
+
+            Util.info "Found: `#{ret.docidentifier.first.id}`", key: pubid.to_s
+            return ret
+          end
+          return nil
+        end
+
+        hit = result.max_by { |h| h.hit[:pubid].year.to_i }
         return unless hit
 
         ret = hit.fetch
+        Util.info "Found: `#{ret.docidentifier.first.id}`", key: pubid.to_s
+        ret
+      end
+
+      # Quick pre-filter using pubid year only.
+      def year_in_range?(year, opts)
+        return false if year.zero?
+        return false if opts[:publication_date_before] && year > opts[:publication_date_before].year
+        return false if opts[:publication_date_after] && year < opts[:publication_date_after].year
+        true
+      end
+
+      # Verify the actual publication date on a fetched item.
+      def publication_date_in_range?(item, opts)
+        pub_date = item.date(type: "published").first&.on
+        return true unless pub_date
+
+        date = pub_date.is_a?(Date) ? pub_date : RelatonBib.parse_date(pub_date.to_s, false)
+        return false if opts[:publication_date_before] && date >= opts[:publication_date_before]
+        return false if opts[:publication_date_after] && date < opts[:publication_date_after]
+        true
+      end
+
+      # Fetch a hit and verify date, return nil if date check fails.
+      def fetch_and_check_date(hit, pubid, opts)
+        return unless hit
+
+        ret = hit.fetch
+        unless publication_date_in_range?(ret, opts)
+          Util.info "Publication found but excluded by date filter.", key: pubid.to_s
+          return nil
+        end
         Util.info "Found: `#{ret.docidentifier.first.id}`", key: pubid.to_s
         ret
       end

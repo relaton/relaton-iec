@@ -73,7 +73,7 @@ item.docidentifier.detect { |di| di.type == "URN" }.id
 
 - `ref` - a reference to search document
 - `year` - filter by year (optional)
-- `opts` - hash of options (optional). Supported options are `:all_parts` (boolean), `:keep_year` (boolean).
+- `opts` - hash of options (optional). Supported options are `:all_parts` (boolean), `:keep_year` (boolean), `:publication_date_before` (string), `:publication_date_after` (string).
 
 [source,ruby]
 ----
@@ -99,6 +99,48 @@ item = RelatonIec::IecBibliography.get("IEC 60050-112", "2010")
 
 item.docidentifier.first
 => #<RelatonBib::DocumentIdentifier:0x00007f876530c2c8 @id="IEC 60050-112:2010", @language=nil, @primary=true, @scope=nil, @script=nil, @type="IEC">
+----
+
+=== Filter by publication date range
+
+The `get` method supports `:publication_date_before` and `:publication_date_after` options to select editions within a date range.
+
+- `:publication_date_before` -- returns documents published *before* the given date (exclusive)
+- `:publication_date_after` -- returns documents published *on or after* the given date (inclusive)
+
+Filter values can be year-only (`"2008"`), year-month (`"2008-02"`), or full dates (`"2008-02-02"`). Partial dates are zero-filled to the 1st of the month/year.
+
+[source,ruby]
+----
+# Get the most recent edition published before 2000
+item = RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_before: "2000")
+[relaton-iec] INFO: (IEC 61332) Fetching from Relaton repository ...
+[relaton-iec] INFO: (IEC 61332) Found: `IEC 61332:1995`
+=> #<RelatonIec::IecBibliographicItem:0x0000000124cfcd10
+...
+
+item.date.find { |d| d.type == "published" }.on
+=> "1995-10-11"
+
+# Get the most recent edition published in 2010 or later
+item = RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_after: "2010")
+[relaton-iec] INFO: (IEC 61332) Fetching from Relaton repository ...
+[relaton-iec] INFO: (IEC 61332) Found: `IEC 61332:2026`
+=> #<RelatonIec::IecBibliographicItem:0x000000013285f790
+...
+
+item.date.find { |d| d.type == "published" }.on
+=> "2026-01-23"
+
+# Combine both filters for a date range
+item = RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_after: "2000", publication_date_before: "2010")
+[relaton-iec] INFO: (IEC 61332) Fetching from Relaton repository ...
+[relaton-iec] INFO: (IEC 61332) Found: `IEC 61332:2005`
+=> #<RelatonIec::IecBibliographicItem:0x000000013285f010
+...
+
+item.date.find { |d| d.type == "published" }.on
+=> "2005-09-23"
 ----
 
 === Search for ISO/IEC Directives
