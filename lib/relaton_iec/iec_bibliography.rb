@@ -127,30 +127,11 @@ module RelatonIec
         ret
       end
 
-      # Parse a date filter string ("2008", "2008-02", or "2008-02-02") into a Date.
-      def parse_date_filter(str)
-        unless str.is_a?(String) && str.match?(/\A\d{4}(-\d{2}(-\d{2})?)?\z/)
-          raise ArgumentError,
-            "Invalid date filter: #{str.inspect}. Expected YYYY, YYYY-MM, or YYYY-MM-DD."
-        end
-
-        parts = str.split("-").map(&:to_i)
-        Date.new(*parts.concat([1] * (3 - parts.size)))
-      rescue Date::Error
-        raise ArgumentError,
-          "Invalid date filter: #{str.inspect}. Date components are out of range."
-      end
-
       # Quick pre-filter using pubid year only.
       def year_in_range?(year, opts)
         return false if year.zero?
-
-        if opts[:publication_date_before]
-          return false if year > parse_date_filter(opts[:publication_date_before]).year
-        end
-        if opts[:publication_date_after]
-          return false if year < parse_date_filter(opts[:publication_date_after]).year
-        end
+        return false if opts[:publication_date_before] && year > opts[:publication_date_before].year
+        return false if opts[:publication_date_after] && year < opts[:publication_date_after].year
         true
       end
 
@@ -160,12 +141,8 @@ module RelatonIec
         return true unless pub_date
 
         date = pub_date.is_a?(Date) ? pub_date : RelatonBib.parse_date(pub_date.to_s, false)
-        if opts[:publication_date_before]
-          return false unless date < parse_date_filter(opts[:publication_date_before])
-        end
-        if opts[:publication_date_after]
-          return false unless date >= parse_date_filter(opts[:publication_date_after])
-        end
+        return false if opts[:publication_date_before] && date >= opts[:publication_date_before]
+        return false if opts[:publication_date_after] && date < opts[:publication_date_after]
         true
       end
 

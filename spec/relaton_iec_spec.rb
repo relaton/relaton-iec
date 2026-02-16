@@ -264,19 +264,19 @@ RSpec.describe RelatonIec do
       end
 
       it "returns most recent edition before the given date" do
-        result = RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_before: "2006")
+        result = RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_before: Date.new(2006, 1, 1))
         expect(result.docidentifier.first.id).to eq "IEC 61332:2005"
       end
 
       it "returns most recent edition on or after the given date" do
-        result = RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_after: "2006")
+        result = RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_after: Date.new(2006, 1, 1))
         expect(result.docidentifier.first.id).to eq "IEC 61332:2020"
       end
 
       it "filters with combined before and after" do
         result = RelatonIec::IecBibliography.get(
           "IEC 61332", nil,
-          publication_date_after: "2000", publication_date_before: "2010",
+          publication_date_after: Date.new(2000, 1, 1), publication_date_before: Date.new(2010, 1, 1),
         )
         expect(result.docidentifier.first.id).to eq "IEC 61332:2005"
       end
@@ -284,7 +284,7 @@ RSpec.describe RelatonIec do
       it "returns nil when no editions match the date filter" do
         expect do
           expect(RelatonIec::IecBibliography.get(
-            "IEC 61332", nil, publication_date_before: "1990",
+            "IEC 61332", nil, publication_date_before: Date.new(1990, 1, 1),
           )).to be_nil
         end.to output(/Not found/).to_stderr_from_any_process
       end
@@ -292,7 +292,7 @@ RSpec.describe RelatonIec do
       it "returns nil when year matches but exact date fails filter" do
         expect do
           expect(RelatonIec::IecBibliography.get(
-            "IEC 61332:2005", nil, publication_date_before: "2005-01-01",
+            "IEC 61332:2005", nil, publication_date_before: Date.new(2005, 1, 1),
           )).to be_nil
         end.to output(/Not found/).to_stderr_from_any_process
       end
@@ -300,35 +300,9 @@ RSpec.describe RelatonIec do
       it "respects >= semantics for publication_date_after" do
         result = RelatonIec::IecBibliography.get(
           "IEC 61332", nil,
-          publication_date_after: "2005-03-15", publication_date_before: "2006",
+          publication_date_after: Date.new(2005, 3, 15), publication_date_before: Date.new(2006, 1, 1),
         )
         expect(result.docidentifier.first.id).to eq "IEC 61332:2005"
-      end
-
-      context "with invalid date filter input" do
-        it "raises ArgumentError for blank string" do
-          expect do
-            RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_before: "")
-          end.to raise_error(ArgumentError, /Invalid date filter: ""/)
-        end
-
-        it "raises ArgumentError for integer" do
-          expect do
-            RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_after: 2008)
-          end.to raise_error(ArgumentError, /Invalid date filter: 2008/)
-        end
-
-        it "raises ArgumentError for non-numeric string" do
-          expect do
-            RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_before: "not-a-date")
-          end.to raise_error(ArgumentError, /Invalid date filter: "not-a-date"/)
-        end
-
-        it "raises ArgumentError for out-of-range month" do
-          expect do
-            RelatonIec::IecBibliography.get("IEC 61332", nil, publication_date_before: "2008-13")
-          end.to raise_error(ArgumentError, /Invalid date filter: "2008-13"/)
-        end
       end
     end
 
