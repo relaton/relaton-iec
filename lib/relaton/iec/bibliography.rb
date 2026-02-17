@@ -19,7 +19,7 @@ module Relaton
         # @param exclude [Array<Symbol>] keys to exclude from comparison
         # @return [Relaton::Iec::HitCollection]
         def search(pubid, exclude: [:year])
-          HitCollection.new(pubid, exclude: exclude).search
+          HitCollection.new(pubid).search(exclude: exclude)
         rescue SocketError, OpenSSL::SSL::SSLError => e
           raise Relaton::RequestError, e.message
         end
@@ -40,7 +40,8 @@ module Relaton
           ret = iecbib_get(pubid, opts)
           return nil if ret.nil?
 
-          ret = ret.to_most_recent_reference unless pubid.year || opts[:keep_year]
+          ret = ret.to_most_recent_reference unless pubid.year || opts[:keep_year] ||
+            opts[:publication_date_before] || opts[:publication_date_after]
           ret
         end
 
@@ -88,38 +89,98 @@ module Relaton
         # @param opts [Hash]
         # @return [Relaton::Iec::ItemData, nil]
         def iecbib_get(pubid, opts) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-          Util.info "Fetching from Relaton repsitory ...", key: pubid.to_s
+          Util.info "Fetching from Relaton repository ...", key: pubid.to_s
           exclude = opts[:all_parts] ? %i[year part] : %i[year]
           result = search(pubid, exclude: exclude) || return
 
           if opts[:all_parts]
-            ret = result.to_all_parts(pubid.year&.to_s)
+            ret = result.to_all_parts(pubid.year&.to_s, opts)
             Util.info "Found: `#{ret&.docidentifier&.first&.content}`", key: pubid.to_s if ret
             return ret
           end
 
-          ret = find_match(result, pubid)
+          ret = find_match(result, pubid, opts)
           return ret if ret
 
           provide_tips(pubid, result)
           nil
         end
 
-        # Find exact match considering year. If no year, return most recent.
+        # Find exact match considering year and date filters.
         # @param result [Relaton::Iec::HitCollection]
         # @param pubid [Pubid::Iec::Identifier]
+        # @param opts [Hash]
         # @return [Relaton::Iec::ItemData, nil]
-        def find_match(result, pubid)
-          hit = if pubid.year
-                  result.detect { |h| h.hit[:id].year == pubid.year }
-                else
-                  result.max_by { |h| h.hit[:id].year.to_i }
-                end
-          return unless hit
+        def find_match(result, pubid, opts = {}) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
+          if pubid.year
+            hit = result.detect { |h| h.hit[:id].year == pubid.year }
+            return fetch_and_check_date(hit, pubid, opts) if hit
+          elsif opts[:publication_date_before] || opts[:publication_date_after]
+            candidates = result.select { |h| year_in_range?(h.hit[:id].year.to_i, opts) }
+            candidates = candidates.sort_by { |h| -h.hit[:id].year.to_i }
+            candidates.each do |h|
+              ret = fetch_and_check_date(h, pubid, opts)
+              return ret if ret
+            end
+            return nil
+          else
+            hit = result.max_by { |h| h.hit[:id].year.to_i }
+            return unless hit
 
+            ret = hit.item
+            Util.info "Found: `#{ret.docidentifier.first.content}`", key: pubid.to_s
+            return ret
+          end
+          nil
+        end
+
+        # Check if a year falls within the date filter range.
+        # @param year [Integer]
+        # @param opts [Hash]
+        # @return [Boolean]
+        def year_in_range?(year, opts)
+          return false if year.zero?
+
+          if opts[:publication_date_before]
+            return false if year > opts[:publication_date_before].year
+          end
+          if opts[:publication_date_after]
+            return false if year < opts[:publication_date_after].year
+          end
+          true
+        end
+
+        # Check if the item's published date falls within the filter range.
+        # @param item [Relaton::Iec::ItemData]
+        # @param opts [Hash]
+        # @return [Boolean]
+        def publication_date_in_range?(item, opts)
+          pub_date_entry = item.date.find { |d| d.type == "published" }
+          return true unless pub_date_entry&.at
+
+          pub_date = pub_date_entry.at.to_date
+          return true unless pub_date
+
+          if opts[:publication_date_before]
+            return false if pub_date >= opts[:publication_date_before]
+          end
+          if opts[:publication_date_after]
+            return false if pub_date < opts[:publication_date_after]
+          end
+          true
+        end
+
+        # Fetch the item for a hit and check if its publication date is in range.
+        # @param hit [Relaton::Iec::Hit]
+        # @param pubid [Pubid::Iec::Identifier]
+        # @param opts [Hash]
+        # @return [Relaton::Iec::ItemData, nil]
+        def fetch_and_check_date(hit, pubid, opts)
           ret = hit.item
-          Util.info "Found: `#{ret.docidentifier.first.content}`", key: pubid.to_s
-          ret
+          if publication_date_in_range?(ret, opts)
+            Util.info "Found: `#{ret.docidentifier.first.content}`", key: pubid.to_s
+            ret
+          end
         end
 
         # Analyze why no match was found and give helpful tips.

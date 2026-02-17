@@ -81,7 +81,7 @@ RSpec.describe Relaton::Iec do
           '<docidentifier type="IEC" primary="true">IEC 60050</docidentifier>',
         )
       end.to output(
-        /\[relaton-iec\] INFO: \(IEC 60050-102:2007\) Fetching from Relaton repsitory .../,
+        /\[relaton-iec\] INFO: \(IEC 60050-102:2007\) Fetching from Relaton repository .../,
       ).to_stderr_from_any_process
     end
 
@@ -195,6 +195,39 @@ RSpec.describe Relaton::Iec do
       VCR.use_cassette "cispr_32_2015" do
         bib = Relaton::Iec::Bibliography.get "CISPR 32:2015"
         expect(bib.docidentifier[0].content).to eq "CISPR 32:2015"
+      end
+    end
+
+    context "publication date filtering" do
+      it "publication_date_before returns most recent edition before given date", vcr: "get_last_year" do
+        result = Relaton::Iec::Bibliography.get("IEC 61332", nil, publication_date_before: Date.new(2027, 1, 1))
+        expect(result).not_to be_nil
+        expect(result.docidentifier.first.content).to eq "IEC 61332:2026"
+      end
+
+      it "publication_date_after returns most recent edition on or after given date", vcr: "get_last_year" do
+        result = Relaton::Iec::Bibliography.get("IEC 61332", nil, publication_date_after: Date.new(2026, 1, 1))
+        expect(result).not_to be_nil
+        expect(result.docidentifier.first.content).to eq "IEC 61332:2026"
+      end
+
+      it "combined date filters return edition within range", vcr: "get_last_year" do
+        result = Relaton::Iec::Bibliography.get(
+          "IEC 61332", nil, publication_date_after: Date.new(2026, 1, 1), publication_date_before: Date.new(2027, 1, 1),
+        )
+        expect(result).not_to be_nil
+        expect(result.docidentifier.first.content).to eq "IEC 61332:2026"
+      end
+
+      it "returns nil when no editions match the filter", vcr: "get_last_year" do
+        result = Relaton::Iec::Bibliography.get("IEC 61332", nil, publication_date_after: Date.new(2027, 1, 1))
+        expect(result).to be_nil
+      end
+
+      it "returns nil when year matches but exact date fails filter", vcr: "get_last_year" do
+        # IEC 61332:2026 published 2026-01-23, filtering after 2026-02 should fail
+        result = Relaton::Iec::Bibliography.get("IEC 61332", nil, publication_date_after: Date.new(2026, 2, 1))
+        expect(result).to be_nil
       end
     end
 

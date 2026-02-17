@@ -7,39 +7,20 @@ module Relaton
   module Iec
     # Page of hit collection.
     class HitCollection < Core::HitCollection
-      def_delegators :@array, :detect, :last, :max_by
+      def_delegators :@array, :detect, :last, :max_by, :sort_by
 
-      VALID_ID_KEYS = %i[
-        publisher number year type vap amendments corrigendums copublisher part base fragment edition database sheet
-    ]
-
-      # @param pubid [Pubid::Iec::Identifier, String]
       # @param exclude [Array<Symbol>] keys to exclude from comparison (e.g. :year, :part, :type)
-      def initialize(pubid, exclude: [:year])
-        pubid = Pubid::Iec::Identifier.parse(pubid.to_s.upcase) if pubid.is_a?(String)
-        super pubid.to_s
-        @pubid = pubid
-        @exclude = exclude
-      end
-
-      def search
-        @array = fetch_from_index
+      def search(exclude: [:year])
+        @array = fetch_from_index exclude
         self
       end
 
-      def index
-        @index ||= Relaton::Index.find_or_create(
-          :IEC,
-          url: "#{Hit::GHURL}#{INDEXFILE}.zip",
-          file: "#{INDEXFILE}.yaml",
-          id_keys: VALID_ID_KEYS,
-          pubid_class: Pubid::Iec::Identifier
-        )
-      end
-
       # @return [Relaton::Iec::ItemData, nil]
-      def to_all_parts(r_year) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+      def to_all_parts(r_year, opts = {}) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
         parts = @array.select { |h| h.part && (!r_year || h.hit[:id]&.year&.to_s == r_year) }
+        if opts[:publication_date_before] || opts[:publication_date_after]
+          parts = parts.select { |h| Bibliography.send(:year_in_range?, h.hit[:id].year.to_i, opts) }
+        end
         hit = parts.min_by { |h| h.part.to_i }
         return @array.first&.item unless hit
 
@@ -58,6 +39,20 @@ module Relaton
 
       private
 
+      VALID_ID_KEYS = %i[
+        publisher number year type vap amendments corrigendums copublisher part base fragment edition database sheet
+      ]
+
+      def index
+        @index ||= Relaton::Index.find_or_create(
+          :IEC,
+          url: "#{Hit::GHURL}#{INDEXFILE}.zip",
+          file: "#{INDEXFILE}.yaml",
+          id_keys: VALID_ID_KEYS,
+          pubid_class: Pubid::Iec::Identifier
+        )
+      end
+
       # Returns array of integers for sorting compound parts like "2-1", "2-6"
       # @param part [String, nil] part string e.g. "1", "2-1", "2-6"
       # @return [Array<Integer>] e.g. [2, 1] for "2-1", [6] for "6"
@@ -70,26 +65,26 @@ module Relaton
       # Compare pubids for matching, excluding specified fields
       # @param row_pubid [Pubid::Iec::Identifier] pubid from index row
       # @return [Boolean]
-      def pubid_matches?(row_pubid)
+      def pubid_matches?(row_pubid, exclude)
         return false unless row_pubid
 
-        if @exclude.include?(:type)
+        if exclude.include?(:type)
           # Can't use exclude(:type) on pubid (subclass re-adds it),
           # so compare using to_h(add_type: false) hashes
-          exclude_keys = @exclude - [:type]
-          ref_hash = @pubid.to_h(add_type: false).reject { |k, _| exclude_keys.include?(k) }
+          exclude_keys = exclude - [:type]
+          ref_hash = @ref.to_h(add_type: false).reject { |k, _| exclude_keys.include?(k) }
           row_hash = row_pubid.to_h(add_type: false).reject { |k, _| exclude_keys.include?(k) }
           ref_hash == row_hash
         else
-          @pubid.exclude(*@exclude) == row_pubid.exclude(*@exclude)
+          @ref.exclude(*exclude) == row_pubid.exclude(*exclude)
         end
       end
 
-      def fetch_from_index # rubocop:disable Metrics/MethodLength
-        return [] unless @pubid
+      def fetch_from_index(exclude) # rubocop:disable Metrics/MethodLength
+        return [] unless @ref
 
-        index.search(@pubid) do |row|
-          pubid_matches?(row[:id])
+        index.search(@ref) do |row|
+          pubid_matches?(row[:id], exclude)
         end.sort_by do |row|
           [row[:id].year.to_i, *part_sort_key(row[:id].part)]
         end.map do |row|

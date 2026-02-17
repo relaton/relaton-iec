@@ -41,21 +41,21 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 624E:D0F01:145E5:1AD0C:698825E5
+      - 1964:2A7E15:F6673:11FE95:6994A0C0
       Accept-Ranges:
       - bytes
       Date:
-      - Sun, 08 Feb 2026 06:01:31 GMT
+      - Tue, 17 Feb 2026 17:09:47 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-pdk-kpdk2140025-PDK
+      - cache-pdk-kpdk2140075-PDK
       X-Cache:
       - HIT
       X-Cache-Hits:
-      - '1'
+      - '2'
       X-Timer:
-      - S1770530491.254092,VS0,VE2
+      - S1771348187.216766,VS0,VE0
       Vary:
       - Authorization,Accept-Encoding
       Access-Control-Allow-Origin:
@@ -63,11 +63,11 @@ http_interactions:
       Cross-Origin-Resource-Policy:
       - cross-origin
       X-Fastly-Request-Id:
-      - e4fe44eb37ff25fc1c86e197cd895b3dcdbacd21
+      - 0c3518479688b4076dc325b5d851ffcf7f6be450
       Expires:
-      - Sun, 08 Feb 2026 06:06:31 GMT
+      - Tue, 17 Feb 2026 17:14:47 GMT
       Source-Age:
-      - '214'
+      - '27'
     body:
       encoding: ASCII-8BIT
       base64_string: |
@@ -6839,7 +6839,7 @@ http_interactions:
         VytxsWv/H1BLAQIeAxQAAAAIAEpzR1yLvuiE6aQEANYRRgANABgAAAAAAAEA
         AACkgQAAAABpbmRleC12MS55YW1sVVQFAAPckYdpdXgLAAEE9QEAAAQUAAAA
         UEsFBgAAAAABAAEAUwAAADClBAAAAA==
-  recorded_at: Sun, 08 Feb 2026 06:01:31 GMT
+  recorded_at: Tue, 17 Feb 2026 17:09:47 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-iec/refs/heads/data-v2/data/iec-60050-102-2007-amd1-2017.yaml
@@ -6881,21 +6881,21 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 742D:283FA1:BF24C:EF4A7:698826BE
+      - E3DF:115115:CF95E:F7B3F:6994A0DC
       Accept-Ranges:
       - bytes
       Date:
-      - Sun, 08 Feb 2026 06:01:34 GMT
+      - Tue, 17 Feb 2026 17:09:48 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-pdk-kpdk2140062-PDK
+      - cache-pdk-kpdk2140024-PDK
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1770530494.177479,VS0,VE134
+      - S1771348189.770682,VS0,VE77
       Vary:
       - Authorization,Accept-Encoding
       Access-Control-Allow-Origin:
@@ -6903,9 +6903,9 @@ http_interactions:
       Cross-Origin-Resource-Policy:
       - cross-origin
       X-Fastly-Request-Id:
-      - 4b80d3fe380acf04b53e88642165fb1ae80725dd
+      - e2623ef3047c946ac69c5d9300d87d0ac53e139c
       Expires:
-      - Sun, 08 Feb 2026 06:06:34 GMT
+      - Tue, 17 Feb 2026 17:14:48 GMT
       Source-Age:
       - '0'
     body:
@@ -6974,5 +6974,5 @@ http_interactions:
         dGhlbWF0aWNzCiAgc3RydWN0dXJlZGlkZW50aWZpZXI6CiAgICB0eXBlOiBJ
         RUMKICAgIHByb2plY3RfbnVtYmVyOgogICAgICBjb250ZW50OiAnMTAxMjM5
         JwogIHByaWNlX2NvZGU6IGllYzpDCg==
-  recorded_at: Sun, 08 Feb 2026 06:01:34 GMT
+  recorded_at: Tue, 17 Feb 2026 17:09:48 GMT
 recorded_with: VCR 6.4.0
