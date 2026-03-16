@@ -41,21 +41,21 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 1964:2A7E15:F6673:11FE95:6994A0C0
+      - A7AC:2B702F:A96BE:CFD29:69B340FB
       Accept-Ranges:
       - bytes
       Date:
-      - Tue, 17 Feb 2026 17:09:47 GMT
+      - Thu, 12 Mar 2026 22:41:48 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-pdk-kpdk2140075-PDK
+      - cache-iad-kcgs7200029-IAD
       X-Cache:
       - HIT
       X-Cache-Hits:
-      - '2'
+      - '1'
       X-Timer:
-      - S1771348187.216766,VS0,VE0
+      - S1773355309.683002,VS0,VE3
       Vary:
       - Authorization,Accept-Encoding
       Access-Control-Allow-Origin:
@@ -63,11 +63,11 @@ http_interactions:
       Cross-Origin-Resource-Policy:
       - cross-origin
       X-Fastly-Request-Id:
-      - 0c3518479688b4076dc325b5d851ffcf7f6be450
+      - 89b55b05cff730c8362bda4aaf31453e7c8a9f53
       Expires:
-      - Tue, 17 Feb 2026 17:14:47 GMT
+      - Thu, 12 Mar 2026 22:46:48 GMT
       Source-Age:
-      - '27'
+      - '48'
     body:
       encoding: ASCII-8BIT
       base64_string: |
@@ -6839,7 +6839,7 @@ http_interactions:
         VytxsWv/H1BLAQIeAxQAAAAIAEpzR1yLvuiE6aQEANYRRgANABgAAAAAAAEA
         AACkgQAAAABpbmRleC12MS55YW1sVVQFAAPckYdpdXgLAAEE9QEAAAQUAAAA
         UEsFBgAAAAABAAEAUwAAADClBAAAAA==
-  recorded_at: Tue, 17 Feb 2026 17:09:47 GMT
+  recorded_at: Thu, 12 Mar 2026 22:41:48 GMT
 - request:
     method: get
     uri: https://raw.githubusercontent.com/relaton/relaton-data-iec/refs/heads/data-v2/data/iec-60050-102-2007-amd1-2017.yaml
@@ -6881,21 +6881,21 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - E3DF:115115:CF95E:F7B3F:6994A0DC
+      - BE30:2C371C:AEC9B:D6759:69B3412E
       Accept-Ranges:
       - bytes
       Date:
-      - Tue, 17 Feb 2026 17:09:48 GMT
+      - Thu, 12 Mar 2026 22:41:51 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-pdk-kpdk2140024-PDK
+      - cache-iad-kcgs7200067-IAD
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1771348189.770682,VS0,VE77
+      - S1773355312.605388,VS0,VE59
       Vary:
       - Authorization,Accept-Encoding
       Access-Control-Allow-Origin:
@@ -6903,9 +6903,9 @@ http_interactions:
       Cross-Origin-Resource-Policy:
       - cross-origin
       X-Fastly-Request-Id:
-      - e2623ef3047c946ac69c5d9300d87d0ac53e139c
+      - aca65bb721a7e98c03ae99348b30e49ceb47b902
       Expires:
-      - Tue, 17 Feb 2026 17:14:48 GMT
+      - Thu, 12 Mar 2026 22:46:51 GMT
       Source-Age:
       - '0'
     body:
@@ -6974,5 +6974,5 @@ http_interactions:
         dGhlbWF0aWNzCiAgc3RydWN0dXJlZGlkZW50aWZpZXI6CiAgICB0eXBlOiBJ
         RUMKICAgIHByb2plY3RfbnVtYmVyOgogICAgICBjb250ZW50OiAnMTAxMjM5
         JwogIHByaWNlX2NvZGU6IGllYzpDCg==
-  recorded_at: Tue, 17 Feb 2026 17:09:48 GMT
+  recorded_at: Thu, 12 Mar 2026 22:41:51 GMT
 recorded_with: VCR 6.4.0
