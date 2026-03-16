@@ -204,13 +204,11 @@ module Relaton
         nil
       end
 
-      def to_xml(bib)
-        bib.to_xml bibdata: true
-      end
+      def to_xml(bib) = bib.to_xml bibdata: true
 
-      def to_yaml(bib)
-        bib.to_yaml
-      end
+      def to_yaml(bib) = bib.to_yaml
+
+      def to_bibxml(bib) = bib.to_rfcxml
     end
   end
 end

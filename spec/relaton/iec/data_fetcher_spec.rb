@@ -202,11 +202,10 @@ describe Relaton::Iec::DataFetcher do
         subject.send :fetch_pub, pub
       end
 
-      xit "and save BibXML" do
+      it "and save BibXML" do
         subject.instance_variable_set :@format, "bibxml"
         subject.instance_variable_set :@ext, "xml"
-        expect(bib).to receive(:to_bibxml).with(no_args).and_return "<id='id'/>"
-        expect(File).to receive(:write).with("data/cispr_11_2009_amd1_2010.xml", "<id='id'/>", encoding: "UTF-8")
+        expect(File).to receive(:write).with("data/iec-iso-1234-1-2.xml", /<reference/, encoding: "UTF-8")
         subject.send :fetch_pub, pub
       end
 
