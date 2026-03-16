@@ -1,5 +1,4 @@
-require "relaton/core"
-require_relative "../iec"
+require "relaton/core/processor"
 module Relaton
   module Iec
     class Processor < Core::Processor
@@ -16,6 +15,7 @@ module Relaton
       # @param opts [Hash]
       # @return [Relaton::Iec::ItemData, nil]
       def get(code, date, opts)
+        require_relative "../iec"
         Bibliography.get(code, date, opts)
       end
 
@@ -35,24 +35,28 @@ module Relaton
       # @param xml [String]
       # @return [Relaton::Iec::ItemData]
       def from_xml(xml)
+        require_relative "../iec"
         Item.from_xml xml
       end
 
       # @param yaml [String]
       # @return [Relaton::Iec::ItemData]
       def from_yaml(yaml)
+        require_relative "../iec"
         Item.from_yaml yaml
       end
 
       # Returns hash of XML grammar
       # @return [String]
       def grammar_hash
+        require_relative "../iec"
         @grammar_hash ||= ::Relaton::Iec.grammar_hash
       end
 
       # @param code [String]
       # @return [String, nil]
       def urn_to_code(code)
+        require_relative "../iec"
         Relaton::Iec.urn_to_code code
       end
 
@@ -60,6 +64,7 @@ module Relaton
       # Remove index file
       #
       def remove_index_file
+        require_relative "../iec"
         Relaton::Index.find_or_create(:iec, url: true, file: "#{INDEXFILE}.yaml").remove_file
       end
     end
