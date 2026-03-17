@@ -1,4 +1,5 @@
 require "relaton/core/processor"
+
 module Relaton
   module Iec
     class Processor < Core::Processor
