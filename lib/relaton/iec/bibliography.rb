@@ -179,8 +179,61 @@ module Relaton
           ret = hit.item
           if publication_date_in_range?(ret, opts)
             Util.info "Found: `#{ret.docidentifier.first.content}`", key: pubid.to_s
-            ret
+            freeze_item(ret, opts)
           end
+        end
+
+        # Freeze a document in time by filtering out relations, dates, and status
+        # that fall outside the specified date range.
+        def freeze_item(item, opts) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+          return item unless opts[:publication_date_before] || opts[:publication_date_after]
+
+          item.relation = item.relation.select { |r| relation_in_range?(r, opts) }
+
+          had_obsoleted = item.date.any? { |d| d.type == "obsoleted" }
+          item.date = item.date.select { |d| date_entry_in_range?(d, opts) }
+          lost_obsoleted = had_obsoleted && item.date.none? { |d| d.type == "obsoleted" }
+
+          if lost_obsoleted && item.status&.stage&.content == "95"
+            item.status.stage.content = "60"
+            item.status.substage&.content = "60"
+          end
+
+          item
+        end
+
+        # Check if a relation's bibitem falls within the date range.
+        def relation_in_range?(rel, opts) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+          rel.bibitem.date&.each do |d|
+            dt = (d.at || d.from)&.to_date
+            next unless dt
+
+            return false if opts[:publication_date_before] && dt >= opts[:publication_date_before]
+            return false if opts[:publication_date_after] && dt < opts[:publication_date_after]
+          end
+
+          rel.bibitem.docidentifier&.each do |did|
+            year = did.content[/:(\d{4})/, 1]&.to_i
+            next unless year&.positive?
+
+            return false if opts[:publication_date_before] && year >= opts[:publication_date_before].year
+            return false if opts[:publication_date_after] && year < opts[:publication_date_after].year
+          end
+
+          true
+        end
+
+        # Check if a date entry falls within the date range (always keeps published).
+        def date_entry_in_range?(date_entry, opts)
+          return true if date_entry.type == "published"
+
+          dt = (date_entry.at || date_entry.from)&.to_date
+          return true unless dt
+
+          return false if opts[:publication_date_before] && dt >= opts[:publication_date_before]
+          return false if opts[:publication_date_after] && dt < opts[:publication_date_after]
+
+          true
         end
 
         # Analyze why no match was found and give helpful tips.

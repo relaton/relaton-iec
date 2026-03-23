@@ -231,6 +231,94 @@ RSpec.describe Relaton::Iec do
       end
     end
 
+    context "document freezing" do
+      let(:published_date) { Relaton::Bib::Date.new(type: "published", at: "2010-05-15") }
+      let(:obsoleted_date) { Relaton::Bib::Date.new(type: "obsoleted", at: "2020-06-01") }
+      let(:confirmed_date) { Relaton::Bib::Date.new(type: "confirmed", at: "2015-03-01") }
+
+      let(:old_relation) do
+        bibitem = Relaton::Iec::ItemBase.new(
+          docidentifier: [Relaton::Iec::Docidentifier.new(content: "IEC 60050:2009", type: "IEC", primary: true)],
+        )
+        Relaton::Iec::Relation.new(type: "updates", bibitem: bibitem)
+      end
+
+      let(:future_relation) do
+        bibitem = Relaton::Iec::ItemBase.new(
+          docidentifier: [Relaton::Iec::Docidentifier.new(content: "IEC 60050:2018", type: "IEC", primary: true)],
+        )
+        Relaton::Iec::Relation.new(type: "updates", bibitem: bibitem)
+      end
+
+      let(:status_withdrawn) do
+        stage = Relaton::Bib::Status::Stage.new(content: "95")
+        substage = Relaton::Bib::Status::Stage.new(content: "99")
+        Relaton::Bib::Status.new(stage: stage, substage: substage)
+      end
+
+      let(:item) do
+        Relaton::Iec::ItemData.new(
+          docidentifier: [Relaton::Iec::Docidentifier.new(content: "IEC 60050:2005", type: "IEC", primary: true)],
+          date: [published_date, obsoleted_date, confirmed_date],
+          relation: [old_relation, future_relation],
+          status: status_withdrawn,
+        )
+      end
+
+      it "filters relations by docidentifier year" do
+        opts = { publication_date_before: Date.new(2015, 1, 1) }
+        result = Relaton::Iec::Bibliography.send(:freeze_item, item, opts)
+        expect(result.relation.size).to eq 1
+        expect(result.relation.first.bibitem.docidentifier.first.content).to eq "IEC 60050:2009"
+      end
+
+      it "filters dates after the cutoff" do
+        opts = { publication_date_before: Date.new(2016, 1, 1) }
+        result = Relaton::Iec::Bibliography.send(:freeze_item, item, opts)
+        date_types = result.date.map(&:type)
+        expect(date_types).to include("published", "confirmed")
+        expect(date_types).not_to include("obsoleted")
+      end
+
+      it "keeps published date even if within range" do
+        opts = { publication_date_before: Date.new(2016, 1, 1) }
+        result = Relaton::Iec::Bibliography.send(:freeze_item, item, opts)
+        expect(result.date.find { |d| d.type == "published" }).not_to be_nil
+      end
+
+      it "reverts withdrawn status when obsoleted date is removed" do
+        opts = { publication_date_before: Date.new(2016, 1, 1) }
+        result = Relaton::Iec::Bibliography.send(:freeze_item, item, opts)
+        expect(result.status.stage.content).to eq "60"
+        expect(result.status.substage.content).to eq "60"
+      end
+
+      it "keeps status when obsoleted date is within range" do
+        opts = { publication_date_before: Date.new(2025, 1, 1) }
+        result = Relaton::Iec::Bibliography.send(:freeze_item, item, opts)
+        expect(result.status.stage.content).to eq "95"
+      end
+
+      it "returns item unchanged when no date filters" do
+        result = Relaton::Iec::Bibliography.send(:freeze_item, item, {})
+        expect(result.relation.size).to eq 2
+        expect(result.date.size).to eq 3
+      end
+
+      it "filters relations with explicit bibitem dates" do
+        dated_bibitem = Relaton::Iec::ItemBase.new(
+          docidentifier: [Relaton::Iec::Docidentifier.new(content: "IEC 60050", type: "IEC", primary: true)],
+          date: [Relaton::Bib::Date.new(type: "circulated", at: "2019-04-29")],
+        )
+        rel = Relaton::Iec::Relation.new(type: "updates", bibitem: dated_bibitem)
+        item.relation = [old_relation, rel]
+
+        opts = { publication_date_before: Date.new(2015, 1, 1) }
+        result = Relaton::Iec::Bibliography.send(:freeze_item, item, opts)
+        expect(result.relation.size).to eq 1
+      end
+    end
+
     it "IEC TR 62547" do
       VCR.use_cassette "iec_tr_62547" do
         bib = Relaton::Iec::Bibliography.get "IEC TR 62547"
