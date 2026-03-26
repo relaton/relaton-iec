@@ -12,6 +12,14 @@ module Relaton
       #
       # Fetch data from IEC.
       #
+      def gh_issue_channel
+        ["relaton/relaton-iec", "Error fetching IEC documents"]
+      end
+
+      def log_error(msg)
+        Util.error msg
+      end
+
       def fetch(source = "iec-harmonised-latest") # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
         @all = source == "iec-harmonised-all"
 
@@ -23,6 +31,7 @@ module Relaton
         fetch_all
         index.save
         save_last_change
+        repot_errors
       rescue StandardError => e
         Util.error do
           "#{e.message}\n#{e.backtrace.join("\n")}"
@@ -184,7 +193,7 @@ module Relaton
       # @param [Hash] pub publication
       #
       def fetch_pub(pub) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-        bib = DataParser.new(pub).parse
+        bib = DataParser.new(pub, @errors).parse
         did = bib.docidentifier.detect(&:primary)
         file = output_file(did.content)
         if @files.include? file then Util.warn "File #{file} exists."

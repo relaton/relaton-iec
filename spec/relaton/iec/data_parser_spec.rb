@@ -240,6 +240,105 @@ describe Relaton::Iec::DataParser do
       end
     end
 
+    context "error guards" do
+      let(:all_error_keys) do
+        %i[docidentifier language script title status edition abstract
+           copyright date contributor source relation ext
+           structuredidentifier doctype ics]
+      end
+
+      context "when parsing succeeds" do
+        let(:errors) { all_error_keys.each_with_object({}) { |k, h| h[k] = true } }
+        subject { described_class.new(pub, errors) }
+
+        it "sets error flags to false for successfully parsed attributes" do
+          resp = double "response", body: <<~XML
+            <RES>
+              <ROW>
+                <FULL_NAME>IEC 1234-1-1:2019</FULL_NAME>
+                <STATUS>REPLACED</STATUS>
+              </ROW>
+            </RES>
+          XML
+          allow(Net::HTTP).to receive(:get_response).and_return(resp)
+          subject.parse
+
+          %i[docidentifier language script title status edition abstract
+             copyright date contributor source relation ext
+             structuredidentifier doctype ics].each do |attr|
+            expect(errors[attr]).to eq(false), "expected errors[:#{attr}] to be false, got #{errors[attr].inspect}"
+          end
+        end
+      end
+
+      context "when errors hash keys are not set" do
+        let(:errors) { {} }
+        subject { described_class.new(pub, errors) }
+
+        it "does not create error keys when they are not initialized" do
+          resp = double "response", body: "<RES></RES>"
+          allow(Net::HTTP).to receive(:get_response).and_return(resp)
+          subject.parse
+
+          all_error_keys.each do |attr|
+            expect(errors).not_to have_key(attr),
+              "expected errors not to have key :#{attr}, but it does"
+          end
+        end
+      end
+
+      context "when parsing returns empty results" do
+        let(:errors) { all_error_keys.each_with_object({}) { |k, h| h[k] = true } }
+        let(:empty_pub) do
+          {
+            "urn" => "iec:pub:1", "reference" => "IEC 1234",
+            "urnAlt" => ["urnId"], "stdType" => "IS",
+            "title" => [], "priceInfo" => { "priceCode" => "PC" },
+            "status" => "PUBLISHED", "edition" => "1",
+          }
+        end
+        subject { described_class.new(empty_pub, errors) }
+
+        it "keeps error flag true for empty title" do
+          expect(subject.send(:title)).to eq []
+          expect(errors[:title]).to be true
+        end
+
+        it "keeps error flag true for empty language" do
+          expect(subject.send(:language)).to eq []
+          expect(errors[:language]).to be true
+        end
+
+        it "keeps error flag true for empty script" do
+          expect(subject.send(:script)).to eq []
+          expect(errors[:script]).to be true
+        end
+
+        it "keeps error flag true for empty date" do
+          pub_no_dates = empty_pub.dup
+          expect(described_class.new(pub_no_dates, errors).send(:date)).to eq []
+          expect(errors[:date]).to be true
+        end
+
+        it "keeps error flag true for empty abstract" do
+          expect(subject.send(:abstract)).to eq []
+          expect(errors[:abstract]).to be true
+        end
+
+        it "keeps error flag true for empty ics" do
+          expect(subject.send(:ics)).to eq []
+          expect(errors[:ics]).to be true
+        end
+
+        it "keeps error flag true for empty relation" do
+          resp = double "response", body: "<RES></RES>"
+          allow(Net::HTTP).to receive(:get_response).and_return(resp)
+          expect(subject.send(:relation)).to eq []
+          expect(errors[:relation]).to be true
+        end
+      end
+    end
+
     context "#relation" do
       it do
         resp = double "responce", body: <<~XML

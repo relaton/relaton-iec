@@ -31,8 +31,9 @@ module Relaton
       #
       # @param [Hash] pub document data
       #
-      def initialize(pub)
+      def initialize(pub, errors = {})
         @pub = pub
+        @errors = errors
       end
 
       #
@@ -59,6 +60,8 @@ module Relaton
         ids << Docidentifier.new(content: @pub["reference"], type: "IEC", primary: true)
         urnid = "urn:#{@pub['urnAlt'][0]}"
         ids << Docidentifier.new(content: urnid, type: "URN")
+        @errors[:docidentifier] &&= ids.empty?
+        ids
       end
 
       #
@@ -67,7 +70,9 @@ module Relaton
       # @return [Array<String>] languages
       #
       def language
-        @pub["title"].map { |t| t["lang"] }.uniq
+        result = @pub["title"].map { |t| t["lang"] }.uniq
+        @errors[:language] &&= result.empty?
+        result
       end
 
       #
@@ -76,10 +81,12 @@ module Relaton
       # @return [Array<String>] scripts
       #
       def script
-        language.each_with_object([]) do |l, s|
+        result = language.each_with_object([]) do |l, s|
           scr = lang_to_script l
           s << scr if scr && !s.include?(scr)
         end
+        @errors[:script] &&= result.empty?
+        result
       end
 
       #
@@ -101,18 +108,26 @@ module Relaton
       # @return [Array<Relaton::Bib::Title>] titles
       #
       def title
-        @pub["title"].reduce([]) do |acc, t|
+        result = @pub["title"].reduce([]) do |acc, t|
           acc + Bib::Title.from_string(t["value"], t["lang"], lang_to_script(t["lang"]))
         end
+        @errors[:title] &&= result.empty?
+        result
       end
 
       def status
-        stage = Bib::Status::Stage.new content: @pub["status"]
-        Bib::Status.new stage: stage
+        result = begin
+          stage = Bib::Status::Stage.new content: @pub["status"]
+          Bib::Status.new stage: stage
+        end
+        @errors[:status] &&= result.nil?
+        result
       end
 
       def edition
-        Bib::Edition.new content: @pub["edition"]
+        result = Bib::Edition.new content: @pub["edition"]
+        @errors[:edition] &&= result.nil?
+        result
       end
 
       #
@@ -121,11 +136,13 @@ module Relaton
       # @return [Array<Relaton::Bib::LocalizedMarkedUpString>] abstract
       #
       def abstract
-        @pub["abstract"]&.map do |a|
+        result = Array(@pub["abstract"]).map do |a|
           Bib::LocalizedMarkedUpString.new(
             content: a["content"], language: a["lang"], script: lang_to_script(a["lang"]),
           )
         end
+        @errors[:abstract] &&= result.empty?
+        result
       end
 
       # @return [Array<Relaton::Bib::Copyright>] copyright
@@ -143,7 +160,9 @@ module Relaton
           org = Bib::Organization.new(name: [orgname], abbreviation: abbrev, uri: [uri])
           Bib::ContributionInfo.new(organization: org)
         end
-        [Bib::Copyright.new(owner: owner, from: from)]
+        result = [Bib::Copyright.new(owner: owner, from: from)]
+        @errors[:copyright] &&= result.empty?
+        result
       end
 
       #
@@ -152,7 +171,7 @@ module Relaton
       # @return [Array<Relaton::Bib::Date>] dates
       #
       def date
-        {
+        result = {
           "published" => "publicationDate",
           "stable-until" => "stabilityDate",
           "confirmed" => "confirmationDate",
@@ -162,6 +181,8 @@ module Relaton
 
           a << Bib::Date.new(type: k, at: @pub[v])
         end
+        @errors[:date] &&= result.empty?
+        result
       end
 
       #
@@ -179,7 +200,9 @@ module Relaton
           role = Bib::Contributor::Role.new(type: "publisher")
           Bib::Contributor.new(organization: org, role: [role])
         end
-        contribs + editorialgroup_contributors
+        result = contribs + editorialgroup_contributors
+        @errors[:contributor] &&= result.empty?
+        result
       end
 
       #
@@ -216,12 +239,14 @@ module Relaton
       def source
         url = "#{DOMAIN}/publication/#{urn_id}"
         l = [Bib::Uri.new(content: url, type: "src")]
-        array(@pub["releaseItems"]).each_with_object(l) do |r, a|
+        result = array(@pub["releaseItems"]).each_with_object(l) do |r, a|
           next unless r["type"] == "PREVIEW"
 
           url = "#{DOMAIN}/preview/#{r['contentRef']['fileName']}"
           a << Bib::Uri.new(content: url, type: "obp")
         end
+        @errors[:source] &&= result.empty?
+        result
       end
 
       #
@@ -240,7 +265,7 @@ module Relaton
       #
       def relation # rubocop:disable Metrics/MethodLength
         try = 0
-        begin
+        result = begin
           uri = URI "#{DOMAIN}/webstore/webstore.nsf/AjaxRequestXML?Openagent&url=#{urn_id}"
           resp = Net::HTTP.get_response uri
           doc = Nokogiri::XML resp.body
@@ -249,6 +274,8 @@ module Relaton
           try += 1
           try < 3 ? retry : raise(e)
         end
+        @errors[:relation] &&= result.empty?
+        result
       end
 
       #
@@ -279,13 +306,15 @@ module Relaton
       end
 
       def ext
-        Ext.new(
+        result = Ext.new(
           doctype: doctype,
           structuredidentifier: structuredidentifier,
           flavor: "iec",
           ics: ics,
-          price_code: @pub["priceInfo"]["priceCode"],
+          price_code: @pub.dig("priceInfo", "priceCode"),
         )
+        @errors[:ext] &&= result.nil?
+        result
       end
 
       #
@@ -297,8 +326,12 @@ module Relaton
         urn = @pub.dig("project", "urn")
         return unless urn
 
-        pnum = Iso::ProjectNumber.new(content: urn.split(":").last)
-        Iso::StructuredIdentifier.new(project_number: pnum, type: "IEC")
+        result = begin
+          pnum = Iso::ProjectNumber.new(content: urn.split(":").last)
+          Iso::StructuredIdentifier.new(project_number: pnum, type: "IEC")
+        end
+        @errors[:structuredidentifier] &&= result.nil?
+        result
       end
 
       #
@@ -308,7 +341,9 @@ module Relaton
       #
       def doctype
         type = DOCTYPES[@pub["stdType"]] || @pub["stdType"].downcase
-        Doctype.new content: type
+        result = Doctype.new content: type
+        @errors[:doctype] &&= result.nil?
+        result
       end
 
       #
@@ -319,9 +354,11 @@ module Relaton
       def ics
         return [] unless @pub["classifications"]
 
-        @pub["classifications"].select { |c| c["type"] == "ICS" }.map do |c|
+        result = @pub["classifications"].select { |c| c["type"] == "ICS" }.map do |c|
           Bib::ICS.new(code: c["value"])
         end
+        @errors[:ics] &&= result.empty?
+        result
       end
     end
   end
