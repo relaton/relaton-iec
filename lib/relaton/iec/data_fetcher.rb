@@ -12,10 +12,6 @@ module Relaton
       #
       # Fetch data from IEC.
       #
-      def gh_issue_channel
-        ["relaton/relaton-iec", "Error fetching IEC documents"]
-      end
-
       def log_error(msg)
         Util.error msg
       end
@@ -31,7 +27,7 @@ module Relaton
         fetch_all
         index.save
         save_last_change
-        repot_errors
+        report_errors
       rescue StandardError => e
         Util.error do
           "#{e.message}\n#{e.backtrace.join("\n")}"

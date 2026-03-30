@@ -14,6 +14,7 @@ describe Relaton::Iec::DataFetcher do
         expect_any_instance_of(Relaton::Index::Type).to receive(:save).with(no_args)
         expect_any_instance_of(described_class).to receive(:fetch_all).with(no_args)
         expect_any_instance_of(described_class).to receive(:save_last_change).with(no_args)
+        expect_any_instance_of(described_class).to receive(:report_errors)
         described_class.fetch "iec-harmonised-all"
       end
 
@@ -22,6 +23,7 @@ describe Relaton::Iec::DataFetcher do
         expect_any_instance_of(Relaton::Index::Type).to receive(:save).with(no_args)
         expect_any_instance_of(described_class).to receive(:fetch_all).with no_args
         expect_any_instance_of(described_class).to receive(:save_last_change).with no_args
+        expect_any_instance_of(described_class).to receive(:report_errors)
         described_class.fetch
       end
 
