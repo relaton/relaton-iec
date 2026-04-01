@@ -58,7 +58,7 @@ module Relaton
 
       def index
         @index ||= Relaton::Index.find_or_create(
-          :iec, file: "#{INDEXFILE}.yaml", pubid_class: Pubid::Iec::Identifier
+          :iec, file: "#{INDEXFILE}.yaml", pubid_class: ::Pubid::Iec::Identifier
         )
       end
 
@@ -86,7 +86,7 @@ module Relaton
         did = find_primary_docidentifier item
         return unless did
 
-        pubid = parse_pubid(did.content)
+        pubid = parse_pubid(did.to_s)
         index.add_or_update pubid, file if pubid
       rescue StandardError => e
         Util.warn "Failed to index file `#{file}`: #{e.message}"
@@ -191,11 +191,11 @@ module Relaton
       def fetch_pub(pub) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
         bib = DataParser.new(pub, @errors).parse
         did = bib.docidentifier.detect(&:primary)
-        file = output_file(did.content)
+        file = output_file(did.to_s)
         if @files.include? file then Util.warn "File #{file} exists."
         else
           @files << file
-          pubid = parse_pubid(did.content)
+          pubid = parse_pubid(did.to_s)
           index.add_or_update pubid, file if pubid
         end
         @last_change_max = pub["lastChangeTimestamp"] if last_change_max < pub["lastChangeTimestamp"]
@@ -203,7 +203,7 @@ module Relaton
       end
 
       def parse_pubid(content)
-        Pubid::Iec::Identifier.parse(content)
+        ::Pubid::Iec::Identifier.parse(content)
       rescue StandardError => e
         Util.warn "Failed to parse pubid `#{content}`: #{e.message}"
         nil

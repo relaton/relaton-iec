@@ -18,9 +18,9 @@ describe Relaton::Iec::DataParser do
       expect(item).to be_instance_of Relaton::Iec::ItemData
       expect(item.type).to eq "standard"
       expect(item.docidentifier.size).to eq 2
-      expect(item.docidentifier[0].content).to eq "IEC/ISO 1234-1-2"
+      expect(item.docidentifier[0].to_s).to eq "IEC/ISO 1234-1-2"
       expect(item.docidentifier[0].type).to eq "IEC"
-      expect(item.docidentifier[1].content).to eq "urn:urnId"
+      expect(item.docidentifier[1].to_s).to eq "urn:iec:std:iec-iso:1234:-1-2::::"
       expect(item.docidentifier[1].type).to eq "URN"
       expect(item.language).to eq ["en", "fr"]
       expect(item.script).to eq ["Latn"]
@@ -52,11 +52,11 @@ describe Relaton::Iec::DataParser do
       expect(id).to be_instance_of Array
       expect(id.size).to eq 2
       expect(id[0]).to be_instance_of Relaton::Iec::Docidentifier
-      expect(id[0].content).to eq "IEC/ISO 1234-1-2"
+      expect(id[0].to_s).to eq "IEC/ISO 1234-1-2"
       expect(id[0].type).to eq "IEC"
       expect(id[0].primary).to be true
       expect(id[1]).to be_instance_of Relaton::Iec::Docidentifier
-      expect(id[1].content).to eq "urn:urnId"
+      expect(id[1].to_s).to eq "urn:iec:std:iec-iso:1234:-1-2::::"
       expect(id[1].type).to eq "URN"
       expect(id[1].primary).to be_nil
     end
@@ -378,13 +378,13 @@ describe Relaton::Iec::DataParser do
         expect(rel[0]).to be_instance_of Relaton::Iec::Relation
         expect(rel[0].type).to eq "updates"
         expect(rel[0].bibitem).to be_instance_of Relaton::Iec::ItemData
-        expect(rel[0].bibitem.docidentifier[0].content).to eq "IEC 1234-1-1:2019"
+        expect(rel[0].bibitem.docidentifier[0].to_s).to eq "IEC 1234-1-1:2019"
         expect(rel[1].type).to eq "updates"
-        expect(rel[1].bibitem.docidentifier[0].content).to eq "IEC 1234-1-4:2019"
+        expect(rel[1].bibitem.docidentifier[0].to_s).to eq "IEC 1234-1-4:2019"
         expect(rel[2].type).to eq "obsoletes"
-        expect(rel[2].bibitem.docidentifier[0].content).to eq "IEC 1234-1-5:2019"
+        expect(rel[2].bibitem.docidentifier[0].to_s).to eq "IEC 1234-1-5:2019"
         expect(rel[3].type).to eq "draft"
-        expect(rel[3].bibitem.docidentifier[0].content).to eq "IEC 1234-1-6:2019"
+        expect(rel[3].bibitem.docidentifier[0].to_s).to eq "IEC 1234-1-6:2019"
       end
 
       it "retry" do

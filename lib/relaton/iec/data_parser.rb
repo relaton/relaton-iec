@@ -56,12 +56,38 @@ module Relaton
       # @return [Array<Relaton::Bib::Docidentifier>] document identifiers
       #
       def docidentifier
-        ids = []
-        ids << Docidentifier.new(content: @pub["reference"], type: "IEC", primary: true)
-        urnid = "urn:#{@pub['urnAlt'][0]}"
-        ids << Docidentifier.new(content: urnid, type: "URN")
-        @errors[:docidentifier] &&= ids.empty?
-        ids
+        result = [iec_docid, urn_docid].compact
+        @errors[:docidentifier] &&= result.empty?
+        result
+      end
+
+      def iec_docid
+        pubid = ::Pubid::Iec::Identifier.parse(@pub["reference"])
+        Docidentifier.new(content: pubid, type: "IEC", primary: true)
+      rescue StandardError => e
+        Util.warn "Failed to parse IEC identifier `#{@pub['reference']}`: #{e.message}"
+        Docidentifier.new(content: @pub["reference"], type: "IEC", primary: true)
+      end
+
+      def urn_docid
+        pubid = parse_urn_pubid
+        return unless pubid
+
+        Docidentifier.new(content: pubid, type: "URN")
+      end
+
+      def parse_urn_pubid
+        if @pub["urnAlt"]&.first
+          urnid = "urn:#{@pub['urnAlt'][0]}"
+          begin
+            return ::Pubid::Iec::Identifier.parse(urnid)
+          rescue StandardError => e
+            Util.warn "Failed to parse URN `#{urnid}`: #{e.message}"
+          end
+        end
+        ::Pubid::Iec::Identifier.parse(@pub["reference"])
+      rescue StandardError
+        nil
       end
 
       #
@@ -296,7 +322,7 @@ module Relaton
                 end
           ref = r.at("FULL_NAME").text
           docid = Docidentifier.new(content: ref, type: "IEC", primary: true)
-          bibitem = ItemData.new(formattedref: ref, docidentifier: [docid])
+          bibitem = ItemData.new(formattedref: Bib::Formattedref.new(content: ref), docidentifier: [docid])
           Relation.new type: type, bibitem: bibitem
         end
       end

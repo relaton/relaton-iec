@@ -29,7 +29,7 @@ module Relaton
         parts.reject { |h| h.hit[:id] == hit.hit[:id] }.each do |hi|
           code = hi.hit[:id].to_s
           bib = ItemData.new(
-            formattedref: code,
+            formattedref: Bib::Formattedref.new(content: code),
             docidentifier: [Docidentifier.new(content: code, type: "IEC", primary: true)],
           )
           all_parts_item.relation << Relation.new(type: "partOf", bibitem: bib)
@@ -49,7 +49,7 @@ module Relaton
           url: "#{Hit::GHURL}#{INDEXFILE}.zip",
           file: "#{INDEXFILE}.yaml",
           id_keys: VALID_ID_KEYS,
-          pubid_class: Pubid::Iec::Identifier
+          pubid_class: ::Pubid::Iec::Identifier
         )
       end
 

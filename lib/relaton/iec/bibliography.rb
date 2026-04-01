@@ -34,7 +34,7 @@ module Relaton
           ref = code.sub(/\s\(all parts\)/, "")
           return iev if ref.casecmp("IEV").zero?
 
-          pubid = Pubid::Iec::Identifier.parse ref.upcase
+          pubid = ::Pubid::Iec::Identifier.parse ref.upcase
           pubid.year = year.to_i if year
 
           ret = iecbib_get(pubid, opts)
@@ -213,7 +213,7 @@ module Relaton
           end
 
           rel.bibitem.docidentifier&.each do |did|
-            year = did.content[/:(\d{4})/, 1]&.to_i
+            year = did.to_s[/:(\d{4})/, 1]&.to_i
             next unless year&.positive?
 
             return false if opts[:publication_date_before] && year >= opts[:publication_date_before].year

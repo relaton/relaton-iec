@@ -88,7 +88,7 @@ RSpec.describe Relaton::Iec do
     it "a reference with an year in a code" do
       VCR.use_cassette "get_a_code_with_year" do
         item = Relaton::Iec::Bibliography.get("IEC 60050-102:2007")
-        expect(item.docidentifier.first.content).to eq "IEC 60050-102:2007"
+        expect(item.docidentifier.first.to_s).to eq "IEC 60050-102:2007"
       end
     end
 
@@ -104,28 +104,32 @@ RSpec.describe Relaton::Iec do
 
     it "latest year when year is not specified", vcr: "get_last_year" do
       result = Relaton::Iec::Bibliography.get("IEC 61332")
-      expect(result.docidentifier.first.content).to eq "IEC 61332"
+      expect(result.docidentifier.first.to_s).to eq "IEC 61332"
       istance = result.relation.detect { |r| r.type == "instanceOf" }
-      expect(istance.bibitem.docidentifier.first.content).to eq "IEC 61332:2026"
+      expect(istance.bibitem.docidentifier.first.to_s).to eq "IEC 61332:2026"
     end
 
     context "all parts" do
       it "by reference", vcr: "iec_80000_all_parts" do
         results = Relaton::Iec::Bibliography.get "IEC 80000 (all parts)"
-        expect(results.docidentifier.first.content).to eq "IEC 80000 (all parts)"
-        expect(results.docidentifier.last.content).to eq "urn:iec:std:iec:80000:::ser"
+        iec = results.docidentifier.detect { |d| d.type == "IEC" }
+        urn = results.docidentifier.detect { |d| d.type == "URN" }
+        expect(iec.to_s).to eq "IEC 80000 (all parts)"
+        expect(urn.to_s).to eq "urn:iec:std:iec:80000:::ser"
       end
 
       it "by options", vcr: "iec_80000_all_parts" do
         results = Relaton::Iec::Bibliography.get("IEC 80000", nil, { all_parts: true })
-        expect(results.docidentifier.first.content).to eq "IEC 80000 (all parts)"
-        expect(results.docidentifier.last.content).to eq "urn:iec:std:iec:80000:::ser"
+        iec = results.docidentifier.detect { |d| d.type == "IEC" }
+        urn = results.docidentifier.detect { |d| d.type == "URN" }
+        expect(iec.to_s).to eq "IEC 80000 (all parts)"
+        expect(urn.to_s).to eq "urn:iec:std:iec:80000:::ser"
       end
 
       it "IEC 61326:2020" do
         VCR.use_cassette "iec_61326_2020_all_parts" do
           result = Relaton::Iec::Bibliography.get "IEC 61326:2020 (all parts)"
-          expect(result.docidentifier[0].content).to eq "IEC 61326 (all parts)"
+          expect(result.docidentifier[0].to_s).to eq "IEC 61326 (all parts)"
           expect(result.relation.last.type).to eq "partOf"
           # Note: pubid serialization doesn't include delivery format (RLV)
           expect(result.relation.last.bibitem.formattedref).to include "IEC 61326-2-6:2020"
@@ -134,7 +138,7 @@ RSpec.describe Relaton::Iec do
 
       it "reference without year", vcr: "without_year" do
         bib = Relaton::Iec::Bibliography.get "IEC PAS 62596"
-        expect(bib.docidentifier.first.content).to eq "IEC PAS 62596"
+        expect(bib.docidentifier.first.to_s).to eq "IEC PAS 62596"
       end
 
       it "hint" do
@@ -143,7 +147,7 @@ RSpec.describe Relaton::Iec do
           # The tip about all parts would only show if no match is found
           result = Relaton::Iec::Bibliography.get "IEC 61326"
           expect(result).not_to be_nil
-          expect(result.docidentifier[0].content).to include "IEC 61326"
+          expect(result.docidentifier[0].to_s).to include "IEC 61326"
         end
       end
     end
@@ -180,21 +184,21 @@ RSpec.describe Relaton::Iec do
     it "IEC 60027-1" do
       VCR.use_cassette "iec_60027_1" do
         result = Relaton::Iec::Bibliography.get "IEC 60027-1:1992"
-        expect(result.docidentifier[0].content).to eq "IEC 60027-1:1992"
+        expect(result.docidentifier[0].to_s).to eq "IEC 60027-1:1992"
       end
     end
 
     it "gets amendment" do
       VCR.use_cassette "iec_60050_102_amd_1" do
         bib = Relaton::Iec::Bibliography.get "IEC 60050-102:2007/Amd1:2017"
-        expect(bib.docidentifier[0].content).to eq "IEC 60050-102:2007/AMD1:2017"
+        expect(bib.docidentifier[0].to_s).to eq "IEC 60050-102:2007/AMD1:2017"
       end
     end
 
     it "CISPR" do
       VCR.use_cassette "cispr_32_2015" do
         bib = Relaton::Iec::Bibliography.get "CISPR 32:2015"
-        expect(bib.docidentifier[0].content).to eq "CISPR 32:2015"
+        expect(bib.docidentifier[0].to_s).to eq "CISPR 32:2015"
       end
     end
 
@@ -202,13 +206,13 @@ RSpec.describe Relaton::Iec do
       it "publication_date_before returns most recent edition before given date", vcr: "get_last_year" do
         result = Relaton::Iec::Bibliography.get("IEC 61332", nil, publication_date_before: Date.new(2027, 1, 1))
         expect(result).not_to be_nil
-        expect(result.docidentifier.first.content).to eq "IEC 61332:2026"
+        expect(result.docidentifier.first.to_s).to eq "IEC 61332:2026"
       end
 
       it "publication_date_after returns most recent edition on or after given date", vcr: "get_last_year" do
         result = Relaton::Iec::Bibliography.get("IEC 61332", nil, publication_date_after: Date.new(2026, 1, 1))
         expect(result).not_to be_nil
-        expect(result.docidentifier.first.content).to eq "IEC 61332:2026"
+        expect(result.docidentifier.first.to_s).to eq "IEC 61332:2026"
       end
 
       it "combined date filters return edition within range", vcr: "get_last_year" do
@@ -216,7 +220,7 @@ RSpec.describe Relaton::Iec do
           "IEC 61332", nil, publication_date_after: Date.new(2026, 1, 1), publication_date_before: Date.new(2027, 1, 1),
         )
         expect(result).not_to be_nil
-        expect(result.docidentifier.first.content).to eq "IEC 61332:2026"
+        expect(result.docidentifier.first.to_s).to eq "IEC 61332:2026"
       end
 
       it "returns nil when no editions match the filter", vcr: "get_last_year" do
@@ -269,7 +273,7 @@ RSpec.describe Relaton::Iec do
         opts = { publication_date_before: Date.new(2015, 1, 1) }
         result = Relaton::Iec::Bibliography.send(:freeze_item, item, opts)
         expect(result.relation.size).to eq 1
-        expect(result.relation.first.bibitem.docidentifier.first.content).to eq "IEC 60050:2009"
+        expect(result.relation.first.bibitem.docidentifier.first.to_s).to eq "IEC 60050:2009"
       end
 
       it "filters dates after the cutoff" do
@@ -322,35 +326,35 @@ RSpec.describe Relaton::Iec do
     it "IEC TR 62547" do
       VCR.use_cassette "iec_tr_62547" do
         bib = Relaton::Iec::Bibliography.get "IEC TR 62547"
-        expect(bib.docidentifier[0].content).to eq "IEC TR 62547"
+        expect(bib.docidentifier[0].to_s).to eq "IEC TR 62547"
       end
     end
 
     it "IEC 61360-4 DB" do
       VCR.use_cassette "iec_61360_4_db" do
         bib = Relaton::Iec::Bibliography.get "IEC 61360-4 DB"
-        expect(bib.docidentifier[0].content).to eq "IEC 61360-4 DB"
+        expect(bib.docidentifier[0].to_s).to eq "IEC 61360-4 DB"
       end
     end
 
     it "ISO/IEC DIR 1 IEC SUP" do
       VCR.use_cassette "iso_iec_dir_1_sup" do
         bib = Relaton::Iec::Bibliography.get "ISO/IEC DIR 1 IEC SUP"
-        expect(bib.docidentifier[0].content).to eq "ISO/IEC DIR 1 IEC SUP"
+        expect(bib.docidentifier[0].to_s).to eq "ISO/IEC DIR 1 IEC SUP"
       end
     end
 
     it "ISO/IEC DIR 2 IEC" do
       VCR.use_cassette "iso_iec_dir_2_iec" do
         bib = Relaton::Iec::Bibliography.get "ISO/IEC DIR 2 IEC"
-        expect(bib.docidentifier[0].content).to eq "ISO/IEC DIR 2 IEC"
+        expect(bib.docidentifier[0].to_s).to eq "ISO/IEC DIR 2 IEC"
       end
     end
 
     it "ISO/IEC DIR IEC SUP" do
       VCR.use_cassette "iso_iec_dir_iec_sup" do
         bib = Relaton::Iec::Bibliography.get "ISO/IEC DIR IEC SUP"
-        expect(bib.docidentifier[0].content).to eq "ISO/IEC DIR IEC SUP"
+        expect(bib.docidentifier[0].to_s).to eq "ISO/IEC DIR IEC SUP"
       end
     end
   end

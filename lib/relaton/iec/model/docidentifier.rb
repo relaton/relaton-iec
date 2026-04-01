@@ -1,39 +1,74 @@
 module Relaton
   module Iec
+    class Pubid < Lutaml::Model::Type::Value
+      class << self
+        def cast(value)
+          value.is_a?(String) ? ::Pubid::Iec::Identifier.parse(value) : value
+        rescue StandardError
+          Util.warn "Failed to parse Pubid: #{value}"
+          value
+        end
+      end
+
+      ::Lutaml::Model::Config::AVAILABLE_FORMATS.each do |format|
+        define_method(:"to_#{format}") { value.to_s }
+      end
+
+      def to_h = value.to_h
+      def urn = value.urn
+    end
+
     class Docidentifier < Bib::Docidentifier
-      def remove_date!
-        if type == "URN"
-          # URN format: urn:iec:std:iec:60050-102:2007:::::amd:1:2017
-          # Remove the year portion (5th segment) which may include month
-          self.content = content.sub(/^(urn:iec:std:[^:]+:[^:]+):\d{4}(?:-\d{2})?/, '\1')
-        else
-          self.content = content.sub(/:\d{4}(?=\s|$)/, "")
-        end
+      attribute :content, Pubid
+
+      def content_to_xml(model, parent, doc)
+        doc.add_xml_fragment parent, model.to_s
       end
 
-      def remove_part!
-        if type == "URN"
-          # URN format: urn:iec:std:iec:60050-102:2007:::
-          # Remove the part number(s) from the document number segment (4th segment)
-          self.content = content.sub(/^(urn:iec:std:[^:]+:[^:-]+)-\d+(?:-\d+)*/, '\1')
-        else
-          self.content = content.sub(/-\d+(?:-\d+)*/, "")
-        end
-      end
-
-      def remove_stage!
-        # IEC IDs don't have stage indicators - no-op
+      def content_to_key_value(model, doc)
+        doc["content"] = model.to_s
       end
 
       def to_all_parts!
+        if content.is_a? String
+          Util.warn "Cannot convert String to all parts: #{content}"
+          return
+        end
+
         remove_part!
         remove_date!
         remove_stage!
-        if type == "URN"
-          self.content += "ser" unless content.end_with?(":ser")
-        elsif type == "IEC" && !content.include?(" (all parts)")
-          self.content += " (all parts)"
+        content.all_parts = true if content.respond_to?(:all_parts=)
+      end
+
+      def remove_stage!
+        remove_attr! :stage
+      end
+
+      def remove_part!
+        remove_attr! :part
+      end
+
+      def remove_date!
+        remove_attr! :year
+      end
+
+      def to_s
+        return content if content.is_a? String
+
+        case type
+        when "URN" then content.urn
+        else content.to_s
         end
+      end
+
+      private
+
+      def remove_attr!(attr)
+        return false if content.is_a? String
+
+        content.send(:"#{attr}=", nil)
+        true
       end
     end
   end
