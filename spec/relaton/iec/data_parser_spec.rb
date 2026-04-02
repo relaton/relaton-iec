@@ -110,11 +110,11 @@ describe Relaton::Iec::DataParser do
       abstract = subject.send :abstract
       expect(abstract).to be_instance_of Array
       expect(abstract.size).to eq 2
-      expect(abstract[0]).to be_instance_of Relaton::Bib::LocalizedMarkedUpString
+      expect(abstract[0]).to be_instance_of Relaton::Bib::Abstract
       expect(abstract[0].content).to eq "Abstract"
       expect(abstract[0].language).to eq "en"
       expect(abstract[0].script).to eq "Latn"
-      expect(abstract[1]).to be_instance_of Relaton::Bib::LocalizedMarkedUpString
+      expect(abstract[1]).to be_instance_of Relaton::Bib::Abstract
       expect(abstract[1].content).to eq "Résumé"
       expect(abstract[1].language).to eq "fr"
       expect(abstract[1].script).to eq "Latn"

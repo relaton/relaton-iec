@@ -1,5 +1,5 @@
 ---
-schema_version: v1.4.1
+schema_version: v1.5.6
 id: IEC61058241995AMD12003CSV
 title:
 - type: title-intro
@@ -73,7 +73,7 @@ place:
 - city: Geneva
 fetched: '2020-04-24'
 ext:
-  schema_version: v1.0.0
+  schema_version: v1.1.2
   doctype:
     content: international-standard
   subdoctype: code-of-practice

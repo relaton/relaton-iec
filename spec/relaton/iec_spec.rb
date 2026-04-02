@@ -73,7 +73,7 @@ RSpec.describe Relaton::Iec do
     it "a code", vcr: "get_a_code" do
       expect do
         results = Relaton::Iec::Bibliography.get("IEC 60050-102:2007").to_xml
-        expect(results).to include '<bibitem id="IEC600501022007" type="standard" schema-version="v1.4.1">'
+        expect(results).to include '<bibitem id="IEC600501022007" type="standard" schema-version="v1.5.6">'
         expect(results).to include(
           '<docidentifier type="IEC" primary="true">IEC 60050-102:2007</docidentifier>',
         )
@@ -178,7 +178,7 @@ RSpec.describe Relaton::Iec do
     it "gets a frozen reference for IEV" do
       results = Relaton::Iec::Bibliography.get("IEV", nil, {})
       expect(results.to_xml).to include '<bibitem id="IEC600502011" ' \
-                                        'type="standard" schema-version="v1.4.1">'
+                                        'type="standard" schema-version="v1.5.6">'
     end
 
     it "IEC 60027-1" do

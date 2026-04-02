@@ -163,7 +163,7 @@ module Relaton
       #
       def abstract
         result = Array(@pub["abstract"]).map do |a|
-          Bib::LocalizedMarkedUpString.new(
+          Bib::Abstract.new(
             content: a["content"], language: a["lang"], script: lang_to_script(a["lang"]),
           )
         end

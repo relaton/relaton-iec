@@ -122,7 +122,7 @@ Possible options:
 [source,ruby]
 ----
 item.to_xml
-=> "<bibitem id="IEC600501122010" type="standard" schema-version="v1.4.1">
+=> "<bibitem id="IEC600501122010" type="standard" schema-version="v1.5.6">
       <fetched>2026-02-02</fetched>
       <title language="en" script="Latn" type="title-main">International Electrotechnical Vocabulary (IEV)</title>
       <title language="en" script="Latn" type="title-part">Part 112: Quantities and units</title>
@@ -141,7 +141,7 @@ item.to_xml
     </bibitem>"
 
 item.to_xml bibdata: true
-=> "<bibdata type="standard" schema-version="v1.4.1">
+=> "<bibdata type="standard" schema-version="v1.5.6">
       <fetched>2026-02-02</fetched>
       <title language="en" script="Latn" type="title-main">International Electrotechnical Vocabulary (IEV)</title>
       <title language="en" script="Latn" type="title-part">Part 112: Quantities and units</title>
@@ -157,14 +157,14 @@ item.to_xml bibdata: true
       <docidentifier type="IEC" primary="true">IEC 60050-112:2010</docidentifier>
       <docidentifier type="URN">urn:iec:std:iec:60050-112:2010-01:::</docidentifier>
       ...
-      <ext schema-version="v1.0.0">
+      <ext schema-version="v1.1.2">
         <doctype>international-standard</doctype>
         ...
       </ext>
     </bibdata>"
 
 item.to_xml note: [{ content: "Note", type: "note" }]
-=> "<bibitem id="IEC600501122010" type="standard" schema-version="v1.4.1">
+=> "<bibitem id="IEC600501122010" type="standard" schema-version="v1.5.6">
       ...
       <note type="note">Note</note>
       ...
