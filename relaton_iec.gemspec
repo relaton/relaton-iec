@@ -26,8 +26,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "addressable"
   spec.add_dependency "base64"
   spec.add_dependency "pubid-iec", "~> 1.15.11"
-  spec.add_dependency "relaton-core", "~> 0.0.12"
+  spec.add_dependency "relaton-core", "~> 0.0.13"
   spec.add_dependency "relaton-index", "~> 0.2.20"
-  spec.add_dependency "relaton-iso", "~> 2.0.0-alpha.2"
+  spec.add_dependency "relaton-iso", "~> 2.0.0-alpha.7"
   spec.add_dependency "rubyzip"
 end
