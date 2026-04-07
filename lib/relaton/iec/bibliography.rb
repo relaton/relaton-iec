@@ -55,7 +55,7 @@ module Relaton
               content: "International Electrotechnical Vocabulary", language: "en", script: "Latn"
             )],
             source: [Bib::Uri.new(content: "http://www.electropedia.org")],
-            docidentifier: [Bib::Docidentifier.new(content: "#{code}:2011")],
+            docidentifier: [Docidentifier.new(content: "#{code}:2011", type: "IEC", primary: true)],
             date: [Bib::Date.new(type: "published", at: "2011")],
             contributor: [Bib::Contributor.new(
               role: [Bib::Contributor::Role.new(type: "publisher")],

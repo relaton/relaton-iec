@@ -179,6 +179,9 @@ RSpec.describe Relaton::Iec do
       results = Relaton::Iec::Bibliography.get("IEV", nil, {})
       expect(results.to_xml).to include '<bibitem id="IEC600502011" ' \
                                         'type="standard" schema-version="v1.5.6">'
+      expect(results.docidentifier.first).to be_a(Relaton::Iec::Docidentifier)
+      expect(results.docidentifier.first.to_s).to eq("IEC 60050:2011")
+      expect(results.to_xml).to include '<docidentifier type="IEC" primary="true">IEC 60050:2011</docidentifier>'
     end
 
     it "IEC 60027-1" do
