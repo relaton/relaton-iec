@@ -1,5 +1,5 @@
 <bibdata type="standard" schema-version="v1.2.9">
-  <fetched>2024-10-01</fetched>
+  <fetched>2026-04-08</fetched>
   <title type="title-intro" format="text/plain" language="en" script="Latn">Switches for appliances</title>
   <title type="title-main" format="text/plain" language="en" script="Latn">Part 2-4: Particular requirements for independently mounted switches</title>
   <title type="main" format="text/plain" language="en" script="Latn">Switches for appliances - Part 2-4: Particular requirements for independently mounted switches</title>
@@ -51,7 +51,9 @@ Ce document doit être utilisé conjointement avec l'IEC 61058-1:2016.</abstract
       </organization>
     </owner>
   </copyright>
-  <place>Geneva</place>
+  <place>
+    <city>Geneva</city>
+  </place>
   <ext schema-version="v1.0.0">
     <doctype>international-standard</doctype>
     <editorialgroup>
