@@ -20,7 +20,7 @@ describe Relaton::Iec::DataParser do
       expect(item.docidentifier.size).to eq 2
       expect(item.docidentifier[0].to_s).to eq "IEC/ISO 1234-1-2"
       expect(item.docidentifier[0].type).to eq "IEC"
-      expect(item.docidentifier[1].to_s).to eq "urn:iec:std:iec-iso:1234:-1-2::::"
+      expect(item.docidentifier[1].to_s).to eq "urn:iec:std:iec-iso:1234-1-2::::"
       expect(item.docidentifier[1].type).to eq "URN"
       expect(item.language).to eq ["en", "fr"]
       expect(item.script).to eq ["Latn"]
@@ -56,7 +56,7 @@ describe Relaton::Iec::DataParser do
       expect(id[0].type).to eq "IEC"
       expect(id[0].primary).to be true
       expect(id[1]).to be_instance_of Relaton::Iec::Docidentifier
-      expect(id[1].to_s).to eq "urn:iec:std:iec-iso:1234:-1-2::::"
+      expect(id[1].to_s).to eq "urn:iec:std:iec-iso:1234-1-2::::"
       expect(id[1].type).to eq "URN"
       expect(id[1].primary).to be_nil
     end
