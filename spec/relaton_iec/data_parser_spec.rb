@@ -34,30 +34,44 @@ describe RelatonIec::DataParser do
 
   context "instance methods" do
     it "#parse" do
-      expect(subject).to receive(:docid).and_return :id
-      expect(subject).to receive(:structuredidentifier).and_return :strid
-      expect(subject).to receive(:language).and_return :lang
-      expect(subject).to receive(:script).and_return :script
-      expect(subject).to receive(:title).and_return :title
-      expect(subject).to receive(:doctype).and_return :doctype
-      expect(RelatonBib::DocumentStatus).to receive(:new).with(stage: "PUBLISHED").and_return(:status)
-      expect(subject).to receive(:ics).and_return :ics
-      expect(subject).to receive(:date).and_return :date
-      expect(subject).to receive(:contributor).and_return :contributor
-      expect(subject).to receive(:editorialgroup).and_return :editorialgroup
-      expect(subject).to receive(:abstract).and_return :abstract
-      expect(subject).to receive(:copyright).and_return :copyright
-      expect(subject).to receive(:link).and_return :link
-      expect(subject).to receive(:relation).and_return :relation
-      expect(RelatonIec::IecBibliographicItem).to receive(:new).with(
-        docid: :id, structuredidentifier: :strid,
-        language: :lang, script: :script, title: :title, doctype: :doctype,
-        docstatus: :status, ics: :ics, date: :date, contributor: :contributor,
-        editorialgroup: :editorialgroup, abstract: :abstract,
-        copyright: :copyright, link: :link, relation: :relation,
-        edition: "1", price_code: "PC", place: ["Geneva"]
-      ).and_return :item
-      expect(subject.parse).to be :item
+      resp = double "response", body: <<~XML
+        <RES>
+          <ROW>
+            <FULL_NAME>IEC 1234-1-1:2019</FULL_NAME>
+            <STATUS>REPLACED</STATUS>
+          </ROW>
+          <ROW>
+            <FULL_NAME>IEC 1234-1-2:2019</FULL_NAME>
+            <STATUS>PUBLISHED</STATUS>
+          </ROW>
+        </RES>
+      XML
+      allow(Net::HTTP).to receive(:get_response).and_return(resp)
+
+      item = subject.parse
+      expect(item).to be_instance_of RelatonIec::IecBibliographicItem
+      expect(item.docidentifier[0].id).to eq "IEC/ISO 1234-1-2"
+      expect(item.docidentifier[0].type).to eq "IEC"
+      expect(item.docidentifier[0].primary).to be true
+      expect(item.docidentifier[1].type).to eq "URN"
+      expect(item.structuredidentifier.project_number).to eq "1234"
+      expect(item.language).to eq ["en", "fr"]
+      expect(item.script).to eq ["Latn"]
+      expect(item.title.size).to eq 6
+      expect(item.title[0].title.content).to eq "Title"
+      expect(item.doctype.type).to eq "international-standard"
+      expect(item.status.stage.value).to eq "PUBLISHED"
+      expect(item.ics.size).to eq 2
+      expect(item.date.size).to eq 4
+      expect(item.contributor.size).to eq 2
+      expect(item.editorialgroup.technical_committee[0].name).to eq "WG1"
+      expect(item.abstract.size).to eq 2
+      expect(item.copyright.size).to eq 1
+      expect(item.link.size).to eq 2
+      expect(item.relation.size).to eq 1
+      expect(item.edition.content).to eq "1"
+      expect(item.price_code).to eq "PC"
+      expect(item.place[0].city).to eq "Geneva"
     end
 
     it "#docid" do

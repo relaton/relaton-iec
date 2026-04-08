@@ -42,7 +42,7 @@ module RelatonIec
       args[:docstatus] = RelatonBib::DocumentStatus.new stage: @pub["status"]
       args[:edition] = @pub["edition"]
       args[:price_code] = @pub["priceInfo"]["priceCode"]
-      args[:place] = ["Geneva"]
+      args[:place] = [RelatonBib::Place.new(city: "Geneva")]
       IecBibliographicItem.new(**args)
     end
 

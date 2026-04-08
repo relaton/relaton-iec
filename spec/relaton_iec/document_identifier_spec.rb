@@ -11,7 +11,7 @@ describe RelatonIec::DocumentIdentifier do
       subject { described_class.new(id: pubid, type: "URN") }
 
       it "#id returns URN string" do
-        expect(subject.id).to eq "urn:iec:std:iec:80000:-1:2022"
+        expect(subject.id).to eq "urn:iec:std:iec:80000-1:2022:::"
       end
     end
 
@@ -39,7 +39,7 @@ describe RelatonIec::DocumentIdentifier do
       it "adds :ser suffix to URN" do
         subject.remove_part
         subject.all_parts
-        expect(subject.id).to eq "urn:iec:std:iec:80000:2022:ser"
+        expect(subject.id).to eq "urn:iec:std:iec:80000:2022::::ser"
       end
     end
   end
