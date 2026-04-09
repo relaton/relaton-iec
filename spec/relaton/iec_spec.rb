@@ -93,13 +93,11 @@ RSpec.describe Relaton::Iec do
     end
 
     it "a reference with an incorrect year" do
-      VCR.use_cassette "get_a_code_with_incorrect_year" do
-        expect do
-          Relaton::Iec::Bibliography.get("IEC 60050-111:2005")
-        end.to output(
-          /TIP: No match for edition year `2005`, but matches exist for/
-        ).to_stderr_from_any_process
-      end
+      expect do
+        Relaton::Iec::Bibliography.get("IEC 60050-111:2005")
+      end.to output(
+        /TIP: No match for edition year `2005`, but matches exist for/
+      ).to_stderr_from_any_process
     end
 
     it "latest year when year is not specified", vcr: "get_last_year" do
@@ -162,17 +160,13 @@ RSpec.describe Relaton::Iec do
     end
 
     it "suggests all parts when reference without part number not found" do
-      VCR.use_cassette "code_without_part_not_found" do
-        result = Relaton::Iec::Bibliography.get("IEC 99999", "2020", {})
-        expect(result).to be_nil
-      end
+      result = Relaton::Iec::Bibliography.get("IEC 99999", "2020", {})
+      expect(result).to be_nil
     end
 
     it "suggests doctype abbreviations when reference not found" do
-      VCR.use_cassette "code_without_part_not_found" do
-        result = Relaton::Iec::Bibliography.get("IEC 99999", "2020", {})
-        expect(result).to be_nil
-      end
+      result = Relaton::Iec::Bibliography.get("IEC 99999", "2020", {})
+      expect(result).to be_nil
     end
 
     it "gets a frozen reference for IEV" do

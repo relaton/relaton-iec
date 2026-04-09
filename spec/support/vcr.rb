@@ -14,4 +14,9 @@ VCR.configure do |config|
   config.filter_sensitive_data('<BEARER>') do
     'Bearer your_actual_token'
   end
+
+  # Index downloads are handled by pre-loaded fixtures in webmock.rb
+  config.ignore_request do |request|
+    URI(request.uri).path.end_with?("index-v1.zip")
+  end
 end
