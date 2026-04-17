@@ -1,74 +1,100 @@
 module Relaton
   module Iec
-    class Pubid < Lutaml::Model::Type::Value
-      class << self
-        def cast(value)
-          value.is_a?(String) ? ::Pubid::Iec::Identifier.parse(value) : value
-        rescue StandardError
-          Util.warn "Failed to parse Pubid: #{value}"
-          value
-        end
-      end
-
-      ::Lutaml::Model::Config::AVAILABLE_FORMATS.each do |format|
-        define_method(:"to_#{format}") { value.to_s }
-      end
-
-      def to_h = value.to_h
-      def urn = value.urn
-    end
-
     class Docidentifier < Bib::Docidentifier
-      attribute :content, Pubid
+      attribute :content, :string
 
-      def content_to_xml(model, parent, doc)
-        doc.add_xml_fragment parent, model.to_s
+      attr_reader :pubid
+
+      def initialize(arg = nil, **kwargs)
+        arg.is_a?(Hash) ? super(arg) : super(**kwargs)
+        raw = arg.is_a?(Hash) ? (arg["content"] || arg[:content]) : kwargs[:content]
+        self.content = raw if raw
       end
 
-      def content_to_key_value(model, doc)
-        doc["content"] = model.to_s
+      alias_method :original_content=, :content=
+      alias_method :original_content, :content
+
+      def content=(value)
+        @pubid = nil
+        @raw_content = nil
+
+        parsed =
+          case value
+          when ::Pubid::Iec::Base then value
+          when String
+            begin
+              ::Pubid::Iec::Identifier.parse(value)
+            rescue StandardError
+              Util.warn "Failed to parse Pubid: #{value}"
+              nil
+            end
+          end
+
+        if parsed
+          @pubid = parsed
+        elsif value.is_a?(String)
+          @raw_content = value
+        end
+
+        send(:original_content=, to_s)
+      end
+
+      def content
+        return @raw_content if @raw_content
+        return render_pubid(@pubid) if @pubid
+
+        original_content
+      end
+
+      def to_s
+        content.to_s
       end
 
       def to_all_parts!
-        if content.is_a? String
-          Util.warn "Cannot convert String to all parts: #{content}"
-          return
-        end
+        return unless @pubid
 
         remove_part!
         remove_date!
         remove_stage!
-        content.all_parts = true if content.respond_to?(:all_parts=)
+        @pubid.all_parts = true if @pubid.respond_to?(:all_parts=)
+        refresh_content!
       end
 
       def remove_stage!
-        remove_attr! :stage
+        remove_attr!(:stage)
       end
 
       def remove_part!
-        remove_attr! :part
+        remove_attr!(:part)
       end
 
       def remove_date!
-        remove_attr! :year
-      end
-
-      def to_s
-        return content if content.is_a? String
-
-        case type
-        when "URN" then content.urn
-        else content.to_s
-        end
+        remove_attr!(:year)
       end
 
       private
 
-      def remove_attr!(attr)
-        return false if content.is_a? String
+      def render_pubid(pubid)
+        case type
+        when "URN" then pubid.urn
+        else pubid.to_s
+        end
+      end
 
-        content.send(:"#{attr}=", nil)
-        true
+      def remove_attr!(attr)
+        return unless @pubid
+
+        @pubid.send("#{attr}=", nil)
+        base = @pubid.base
+        while base
+          base.send("#{attr}=", nil)
+          base = base.base
+        end
+        refresh_content!
+      end
+
+      def refresh_content!
+        send(:original_content=, to_s)
       end
     end
   end

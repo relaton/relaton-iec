@@ -1,6 +1,6 @@
 module Relaton
   module Iec
-    class Relation < Bib::Relation
+    class Relation
       attribute :bibitem, ItemBase
     end
   end
