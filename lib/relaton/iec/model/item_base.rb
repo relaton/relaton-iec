@@ -1,9 +1,12 @@
+require_relative "docidentifier"
+
 module Relaton
   module Iec
-    class ItemBase < Item
+    class ItemBase < Iso::ItemBase
       model ItemData
 
-      include Bib::ItemBaseAttributes
+      attribute :docidentifier, Docidentifier, collection: true, initialize_empty: true
+      attribute :relation, Relation, collection: true, initialize_empty: true
     end
   end
 end

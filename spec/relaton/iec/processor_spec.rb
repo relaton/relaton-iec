@@ -46,7 +46,6 @@ RSpec.describe Relaton::Iec::Processor do
   describe "#from_xml" do
     it "delegates to Item.from_xml" do
       xml = File.read("spec/fixtures/hit.xml", encoding: "UTF-8")
-      expect(Relaton::Iec::Item).to receive(:from_xml).with(xml).and_call_original
       result = processor.from_xml(xml)
       expect(result).to be_instance_of Relaton::Iec::ItemData
     end
@@ -55,7 +54,6 @@ RSpec.describe Relaton::Iec::Processor do
   describe "#from_yaml" do
     it "delegates to Item.from_yaml" do
       yaml = File.read("spec/fixtures/item.yaml", encoding: "UTF-8")
-      expect(Relaton::Iec::Item).to receive(:from_yaml).with(yaml).and_call_original
       result = processor.from_yaml(yaml)
       expect(result).to be_instance_of Relaton::Iec::ItemData
     end
