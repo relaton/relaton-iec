@@ -35,7 +35,7 @@ contributor:
     abbreviation:
       content: IEC
     uri:
-      content: www.iec.ch
+    - content: www.iec.ch
   role:
   - type:
       publisher
@@ -67,7 +67,7 @@ copyright:
       abbreviation:
         content: IEC
       uri:
-        content: www.iec.ch
+      - content: www.iec.ch
   from: '1995'
 place:
 - city: Geneva

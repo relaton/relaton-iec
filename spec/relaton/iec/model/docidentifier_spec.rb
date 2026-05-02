@@ -116,28 +116,28 @@ describe Relaton::Iec::Docidentifier do
       docid = build_docid("IEC 60027-1:1992")
       docid.to_all_parts!
       expect(docid.to_s).to eq "IEC 60027 (all parts)"
-      expect(docid.content.all_parts).to be true
+      expect(docid.pubid.all_parts).to be true
     end
 
     it "removes nested parts and date" do
       docid = build_docid("CISPR 16-1-1:2010")
       docid.to_all_parts!
       expect(docid.to_s).to eq "CISPR 16 (all parts)"
-      expect(docid.content.all_parts).to be true
+      expect(docid.pubid.all_parts).to be true
     end
 
     it "removes part and date from chapter ID" do
       docid = build_docid("IEC 60050-102:2007")
       docid.to_all_parts!
       expect(docid.to_s).to eq "IEC 60050 (all parts)"
-      expect(docid.content.all_parts).to be true
+      expect(docid.pubid.all_parts).to be true
     end
 
     it "removes part and date preserving TR prefix" do
       docid = build_docid("IEC TR 60034-16-2:1991")
       docid.to_all_parts!
       expect(docid.to_s).to eq "IEC TR 60034 (all parts)"
-      expect(docid.content.all_parts).to be true
+      expect(docid.pubid.all_parts).to be true
     end
   end
 end
