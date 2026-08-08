@@ -21,13 +21,7 @@ module Relaton
         parsed =
           case value
           when ::Pubid::Iec::Base then value
-          when String
-            begin
-              ::Pubid::Iec::Identifier.parse(value)
-            rescue StandardError
-              Util.warn "Failed to parse Pubid: #{value}"
-              nil
-            end
+          when String then parse_content(value)
           end
 
         if parsed
@@ -73,6 +67,19 @@ module Relaton
       end
 
       private
+
+      # Parse a string identifier into a Pubid object. IEC URNs use a positional
+      # format that pubid-iec cannot parse for amendments, series or
+      # consolidations. Those URNs are already in canonical ABNF form, so on a
+      # parse failure they are kept verbatim (as @raw_content) rather than warned
+      # about (relaton-iec#73, metanorma-pdfa#77); genuinely malformed non-URN
+      # identifiers still warn.
+      def parse_content(value)
+        ::Pubid::Iec::Identifier.parse(value)
+      rescue StandardError
+        Util.warn "Failed to parse Pubid: #{value}" unless value.start_with?("urn:")
+        nil
+      end
 
       def render_pubid(pubid)
         case type

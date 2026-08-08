@@ -111,6 +111,68 @@ describe Relaton::Iec::Docidentifier do
     end
   end
 
+  describe "URN content" do
+    def build_urn(content)
+      described_class.new(content: content, type: "URN")
+    end
+
+    # metanorma-pdfa#77: an amendment URN cannot be parsed by pubid-iec, but it
+    # is already canonical, so it must be kept verbatim without a parse warning.
+    it "keeps an amendment URN verbatim without warning" do
+      docid = nil
+      expect { docid = build_urn("urn:iec:std:iec:61966-2-1:1999:::::amd:1:2003") }
+        .not_to output(/Failed to parse Pubid/).to_stderr_from_any_process
+      expect(docid.to_s).to eq "urn:iec:std:iec:61966-2-1:1999:::::amd:1:2003"
+    end
+
+    it "keeps a series URN without warning" do
+      docid = nil
+      expect { docid = build_urn("urn:iec:std:iec:80000:::ser") }
+        .not_to output(/Failed to parse Pubid/).to_stderr_from_any_process
+      # Exact rendering is pubid-iec's concern and differs across versions
+      # (1.15.20 re-emits a trailing colon); the fix only guarantees no warning.
+      expect(docid.to_s).to start_with "urn:iec:std:iec:80000:::ser"
+    end
+
+    it "keeps a consolidated (CSV) URN verbatim without warning" do
+      urn = "urn:iec:std:iec:60034-1:1969::csv:en-fr:plus:amd:1:1977:plus:amd:2:1979"
+      docid = nil
+      expect { docid = build_urn(urn) }
+        .not_to output(/Failed to parse Pubid/).to_stderr_from_any_process
+      expect(docid.to_s).to eq urn
+    end
+
+    it "parses a simple URN without warning" do
+      docid = nil
+      expect { docid = build_urn("urn:iec:std:iec:61058-2-4:1995") }
+        .not_to output(/Failed to parse Pubid/).to_stderr_from_any_process
+      expect(docid.pubid).not_to be_nil
+    end
+
+    it "warns and falls back to raw content for unparseable input" do
+      docid = nil
+      expect { docid = build_urn("this is not a valid id") }
+        .to output(/Failed to parse Pubid/).to_stderr_from_any_process
+      expect(docid.to_s).to eq "this is not a valid id"
+    end
+
+    # Regression for metanorma/metanorma-pdfa#77: deserializing a fetched
+    # bibitem with an amendment URN must not emit a parse warning.
+    it "does not warn when deserialized from XML (metanorma-pdfa#77)" do
+      xml = <<~XML
+        <bibitem type="standard" id="IEC61966-2-1">
+          <docidentifier type="IEC" primary="true">IEC 61966-2-1:1999/AMD1:2003</docidentifier>
+          <docidentifier type="URN">urn:iec:std:iec:61966-2-1:1999:::::amd:1:2003</docidentifier>
+        </bibitem>
+      XML
+      item = nil
+      expect { item = Relaton::Iec::Item.from_xml(xml) }
+        .not_to output(/Failed to parse Pubid/).to_stderr_from_any_process
+      urn = item.docidentifier.detect { |d| d.type == "URN" }
+      expect(urn.to_s).to eq "urn:iec:std:iec:61966-2-1:1999:::::amd:1:2003"
+    end
+  end
+
   describe "#to_all_parts!" do
     it "removes part and date from simple ID" do
       docid = build_docid("IEC 60027-1:1992")
