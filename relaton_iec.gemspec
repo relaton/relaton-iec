@@ -29,5 +29,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "pubid-iec", "~> 1.15.4"
   spec.add_dependency "relaton-index", "~> 0.2.0"
   spec.add_dependency "relaton-iso-bib", "~> 1.20.0"
-  spec.add_dependency "rubyzip"
+  spec.add_dependency "rubyzip", "~> 3.7"
 end
